@@ -1,14 +1,13 @@
-::20260109 1.1¹öÀüv ÀÛ¼º ¿Ï·á 
-::2026 ÁÖ¿äÁ¤º¸Åë½Å±â¹Ý½Ã¼³ Ãë¾àÁ¡ Á¡°Ë Ç×¸ñÀ¸·Î º¯°æ
-::mithrajune22@ictis.kr
+REM https://github.com/mithrajuneo/jutong2026
 @echo off
 setlocal enabledelayedexpansion
 
-echo ============================================
-echo Tomcat ÇÁ·Î¼¼½º Á¤º¸
-echo ============================================
+echo ###############################################################                 
+echo #               Windows Server CheckList                      #                                     
+echo #    JeongJuneHyuck Copyright 2026. all rights reserved.      #                                        
+echo ###############################################################
 
-REM Tomcat ÇÁ·Î¼¼½ºÀÇ CommandLine Ãâ·Â
+REM Tomcat í”„ë¡œì„¸ìŠ¤ì˜ CommandLine ì¶œë ¥
 for /f "skip=1 delims=" %%i in ('
     wmic process where "name='java.exe'" get CommandLine 2^>nul
 ') do (
@@ -22,20 +21,20 @@ for /f "skip=1 delims=" %%i in ('
 
 echo ============================================
 echo.
-set /p CATALINA_HOME="Tomcat catalina base °æ·Î¸¦ ÀÔ·ÂÇÏ¼¼¿ä: "
+set /p CATALINA_HOME="Tomcat catalina base ê²½ë¡œë¥¼ ìž…ë ¥í•˜ì„¸ìš”: "
 
 if not defined CATALINA_HOME (
-    echo [ERROR] °æ·Î¸¦ ÀÔ·ÂÇÏÁö ¾Ê¾Ò½À´Ï´Ù.
+    echo [ERROR] ê²½ë¡œë¥¼ ìž…ë ¥í•˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.
     goto :EOF
 )
 
-REM µû¿ÈÇ¥ Á¦°Å
+REM ë”°ì˜´í‘œ ì œê±°
 set "CATALINA_HOME=!CATALINA_HOME:"=!"
 
-REM ³¡ÀÇ ¹é½½·¡½Ã Á¦°Å
+REM ëì˜ ë°±ìŠ¬ëž˜ì‹œ ì œê±°
 if "!CATALINA_HOME:~-1!"=="\" set "CATALINA_HOME=!CATALINA_HOME:~0,-1!"
 
-REM server.xml °æ·Î ¼³Á¤
+REM server.xml ê²½ë¡œ ì„¤ì •
 set "SERVER_XML=!CATALINA_HOME!\conf\server.xml"
 
 echo.
@@ -43,109 +42,96 @@ if exist "!SERVER_XML!" (
     echo [OK] catalina.base : !CATALINA_HOME!
     echo [OK] server.xml: !SERVER_XML!
 ) else (
-    echo [ERROR] server.xmlÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù: !SERVER_XML!
+    echo [ERROR] server.xmlì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤: !SERVER_XML!
     goto :EOF
 )
 
-REM ===========================================
-REM °á°ú ÆÄÀÏ¸í »ý¼º
-REM ===========================================
 set HOSTNAME=%COMPUTERNAME%
 set RESULT_FILE=%HOSTNAME%_tomcat.txt
 
-echo Tomcat È¨ µð·ºÅä¸® > %RESULT_FILE%
+echo Tomcat í™ˆ ë””ë ‰í† ë¦¬ > %RESULT_FILE%
 echo !CATALINA_HOME! >> %RESULT_FILE%
-echo === server.xml Ãâ·Â start === >> %RESULT_FILE%
+
+echo === server.xml ì¶œë ¥ start === >> %RESULT_FILE%
 type "!CATALINA_HOME!\conf\server.xml" >> %RESULT_FILE%
-echo === server.xml Ãâ·Â end === >> %RESULT_FILE%
+echo === server.xml ì¶œë ¥ end === >> %RESULT_FILE%
 echo. >> %RESULT_FILE%
-echo === web.xml Ãâ·Â start === >> %RESULT_FILE%
+
+echo === web.xml ì¶œë ¥ start === >> %RESULT_FILE%
 type "!CATALINA_HOME!\conf\web.xml" >> %RESULT_FILE%
-echo === web.xml Ãâ·Â end === >> %RESULT_FILE%
+echo === web.xml ì¶œë ¥ end === >> %RESULT_FILE%
 
 echo.
-echo [OK] °á°ú ÆÄÀÏ »ý¼º ¿Ï·á: %RESULT_FILE%
-
-
-:: ===========================================
-:: °á°ú ÆÄÀÏ¸í »ý¼º
-:: ===========================================
-
-set HOSTNAME=%COMPUTERNAME%
-set RESULT_FILE=%HOSTNAME%_tomcat.txt
-
-echo Tomcat È¨ µð·ºÅä¸® > %RESULT_FILE%
-echo !CATALINA_HOME! >> %RESULT_FILE%
-
-echo === server.xml Ãâ·Â start === >> %RESULT_FILE%
-type !CATALINA_HOME!\conf\server.xml >> %RESULT_FILE%
-echo === server.xml Ãâ·Â end === >> %RESULT_FILE%
-echo . >> %RESULT_FILE%
-echo === web.xml Ãâ·Â start === >> %RESULT_FILE%
-type !CATALINA_HOME!\conf\web.xml >> %RESULT_FILE%
-echo === web.xml Ãâ·Â end === >> %RESULT_FILE%
+echo [OK] ê²°ê³¼ íŒŒì¼ ìƒì„± ì™„ë£Œ: %RESULT_FILE%
 
 :: ===========================================
-:: WEB-01. Default °ü¸®ÀÚ °èÁ¤¸í º¯°æ È®ÀÎ
+:: WEB-01. Default ê´€ë¦¬ìž ê³„ì •ëª… ë³€ê²½ í™•ì¸
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-01. Default °ü¸®ÀÚ °èÁ¤¸í º¯°æ È®ÀÎ >> %RESULT_FILE%
+echo WEB-01. Default ê´€ë¦¬ìž ê³„ì •ëª… ë³€ê²½ í™•ì¸ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : °èÁ¤¸íÀÌ system, admin, administrator·Î µÇ¾îÀÖ´Â °æ¿ì Ãë¾à >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : ê³„ì •ëª…ì´ system, admin, administratorë¡œ ë˜ì–´ìžˆëŠ” ê²½ìš° ì·¨ì•½ >> %RESULT_FILE%
 
 if exist "!CATALINA_HOME!\conf\tomcat-users.xml" (
     
-	echo ===tomcat-users.xml Ãâ·Â ½ÃÀÛ=== >> %RESULT_FILE%
+	echo ===tomcat-users.xml ì¶œë ¥ ì‹œìž‘=== >> %RESULT_FILE%
 	type !CATALINA_HOME!\conf\tomcat-users.xml >> %RESULT_FILE%
-	echo ===tomcat-users.xml Ãâ·Â ³¡=== >> %RESULT_FILE%
-	findstr /i /c:'username="admin"' "!CATALINA_HOME!\conf\tomcat-users.xml" > nul
+	echo ===tomcat-users.xml ì¶œë ¥ ë=== >> %RESULT_FILE%
+	findstr /i /c:"username=""admin""" "!CATALINA_HOME!\conf\tomcat-users.xml" > nul
 
 ) else (
-    echo [INFO] tomcat-users.xml ÆÄÀÏ ¾øÀ½ >> %RESULT_FILE%
+    echo [INFO] tomcat-users.xml íŒŒì¼ ì—†ìŒ >> %RESULT_FILE%
 )
 echo . >> %RESULT_FILE%
-echo === Âü°í. webapps µð·ºÅÍ¸® Ãâ·Â === >> %RESULT_FILE%
-echo === manager, host-manager µð·ºÅÍ¸®°¡ ÀÖ´Ù¸é °ü¸®ÀÚ ÆäÀÌÁö´Â È°¼ºÈ­ »óÅÂ === >> %RESULT_FILE%
+echo === ì°¸ê³ . webapps ë””ë ‰í„°ë¦¬ ì¶œë ¥ === >> %RESULT_FILE%
+echo === manager, host-manager ë””ë ‰í„°ë¦¬ê°€ ìžˆë‹¤ë©´ ê´€ë¦¬ìž íŽ˜ì´ì§€ëŠ” í™œì„±í™” ìƒíƒœ === >> %RESULT_FILE%
 dir !CATALINA_HOME!\webapps\ >> %RESULT_FILE%
 
 
 echo [END] >> %RESULT_FILE%
 :: ===========================================
-:: WEB-02. Ãë¾àÇÑ ÆÐ½º¿öµå »ç¿ë Á¦ÇÑ
+:: WEB-02. ì·¨ì•½í•œ íŒ¨ìŠ¤ì›Œë“œ ì‚¬ìš© ì œí•œ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-02. Ãë¾àÇÑ ÆÐ½º¿öµå »ç¿ë Á¦ÇÑ >> %RESULT_FILE%
+echo WEB-02. ì·¨ì•½í•œ íŒ¨ìŠ¤ì›Œë“œ ì‚¬ìš© ì œí•œ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : ÆÐ½º¿öµå ±æÀÌ°¡ 8ÀÚ¸® ÀÌÇÏÀÏ °æ¿ì Ãë¾à >> %RESULT_FILE%
-echo Á¡°ËÇ×¸ñ 1¿¡¼­ tomcat-users.xml Âü°íÇÏ¿© ÆÇ´Ü >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : íŒ¨ìŠ¤ì›Œë“œ ê¸¸ì´ê°€ 8ìžë¦¬ ì´í•˜ì¼ ê²½ìš° ì·¨ì•½ >> %RESULT_FILE%
+echo ì ê²€í•­ëª© 1ì—ì„œ tomcat-users.xml ì°¸ê³ í•˜ì—¬ íŒë‹¨ >> %RESULT_FILE%
 echo [END] >> %RESULT_FILE%
 :: ===========================================
-:: WEB-03. ºñ¹Ð¹øÈ£ ÆÄÀÏ ±ÇÇÑ °ü¸®
+:: WEB-03. ë¹„ë°€ë²ˆí˜¸ íŒŒì¼ ê¶Œí•œ ê´€ë¦¬
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-03. ºñ¹Ð¹øÈ£ ÆÄÀÏ ±ÇÇÑ °ü¸® >> !RESULT_FILE!
+echo WEB-03. ë¹„ë°€ë²ˆí˜¸ íŒŒì¼ ê¶Œí•œ ê´€ë¦¬ >> !RESULT_FILE!
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : °ü¸®ÀÚ¸¸ tomcat-users.xml ÆÄÀÏ Á¢±Ù °¡´É½Ã ¾çÈ£ >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : ê´€ë¦¬ìžë§Œ tomcat-users.xml íŒŒì¼ ì ‘ê·¼ ê°€ëŠ¥ì‹œ ì–‘í˜¸ >> %RESULT_FILE%
 
-echo À©µµ¿ì ¼­¹ö ³» °èÁ¤ ¸®½ºÆ® Ãâ·Â >> %RESULT_FILE%
+echo ìœˆë„ìš° ì„œë²„ ë‚´ ê³„ì • ë¦¬ìŠ¤íŠ¸ ì¶œë ¥ >> %RESULT_FILE%
 powershell -Command "Get-LocalUser | Select-Object Name, Enabled, LastLogon" >> %RESULT_FILE%
 
-if exist "!CATALINA_HOME!\conf\tomcat-users.xml" (
-    echo [INFO] tomcat-users.xml Á¸ÀçÇÔ >> !RESULT_FILE!
-    echo [INFO] ÆÄÀÏ ±ÇÇÑ (icacls) >> !RESULT_FILE!
-    icacls "!CATALINA_HOME!\conf\tomcat-users.xml" >> !RESULT_FILE!
-) else (
-    echo [INFO] tomcat-users.xml ÆÄÀÏ ¾øÀ½ >> !RESULT_FILE!
+set "TOMCAT_USERS_EXIST=0"
+if exist "!CATALINA_HOME!\conf\tomcat-users.xml" set "TOMCAT_USERS_EXIST=1"
+
+if "!TOMCAT_USERS_EXIST!"=="1" (
+    echo [INFO] tomcat-users.xml ì¡´ìž¬í•¨ >> !RESULT_FILE!
+    echo [INFO] íŒŒì¼ ê¶Œí•œ >> !RESULT_FILE!
 )
+if "!TOMCAT_USERS_EXIST!"=="1" (
+    icacls "!CATALINA_HOME!\conf\tomcat-users.xml" >> !RESULT_FILE!
+)
+if "!TOMCAT_USERS_EXIST!"=="0" (
+    echo [INFO] tomcat-users.xml íŒŒì¼ ì—†ìŒ >> !RESULT_FILE!
+)
+
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-04. À¥ ¼­ºñ½º µð·ºÅÍ¸® ¸®½ºÆÃ ¹æÁö ¼³Á¤
+:: WEB-04. ì›¹ ì„œë¹„ìŠ¤ ë””ë ‰í„°ë¦¬ ë¦¬ìŠ¤íŒ… ë°©ì§€ ì„¤ì •
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-04. À¥ ¼­ºñ½º µð·ºÅÍ¸® ¸®½ºÆÃ ¹æÁö ¼³Á¤ >> %RESULT_FILE%
+echo WEB-04. ì›¹ ì„œë¹„ìŠ¤ ë””ë ‰í„°ë¦¬ ë¦¬ìŠ¤íŒ… ë°©ì§€ ì„¤ì • >> %RESULT_FILE%
 echo [START] >> !RESULT_FILE!
-echo ÆÇ´Ü ±âÁØ : µð·ºÅä¸® ¸®½ºÆÃ ¼³Á¤ÀÌ µÇ¾îÀÖÁö ¾ÊÀº °æ¿ì >> !RESULT_FILE!
+echo íŒë‹¨ ê¸°ì¤€ : ë””ë ‰í† ë¦¬ ë¦¬ìŠ¤íŒ… ì„¤ì •ì´ ë˜ì–´ìžˆì§€ ì•Šì€ ê²½ìš° >> !RESULT_FILE!
 
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\web.xml' -Pattern '<param-name>listings</param-name>' -Context 7,7" >> !RESULT_FILE!
 
@@ -154,38 +140,38 @@ if exist "!CATALINA_HOME!\conf\web.xml" (
     if !errorlevel! equ 0 (
         findstr /i /c:"<param-value>true</param-value>" "!CATALINA_HOME!\conf\web.xml" > nul
         if !errorlevel! equ 0 (
-            echo [WARN] directory listing È°¼ºÈ­µÊ >> %RESULT_FILE%
+            echo [WARN] directory listing í™œì„±í™”ë¨ >> %RESULT_FILE%
         ) else (
-            echo [OK] directory listing ºñÈ°¼ºÈ­µÊ >> %RESULT_FILE%
+            echo [OK] directory listing ë¹„í™œì„±í™”ë¨ >> %RESULT_FILE%
         )
     ) else (
-        echo [OK] listings ¼³Á¤ ¹ÌÁ¸Àç >> %RESULT_FILE%
+        echo [OK] listings ì„¤ì • ë¯¸ì¡´ìž¬ >> %RESULT_FILE%
     )
 ) else (
-    echo [INFO] web.xml ÆÄÀÏ ¾øÀ½ >> %RESULT_FILE%
+    echo [INFO] web.xml íŒŒì¼ ì—†ìŒ >> %RESULT_FILE%
 )
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-05. ÁöÁ¤ÇÏÁö ¾ÊÀº CGI/ISAPI ½ÇÇà Á¦ÇÑ
+:: WEB-05. ì§€ì •í•˜ì§€ ì•Šì€ CGI/ISAPI ì‹¤í–‰ ì œí•œ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-05. ÁöÁ¤ÇÏÁö ¾ÊÀº CGI/ISAPI ½ÇÇà Á¦ÇÑ >> %RESULT_FILE%
+echo WEB-05. ì§€ì •í•˜ì§€ ì•Šì€ CGI/ISAPI ì‹¤í–‰ ì œí•œ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : cgi ½ºÅ©¸³Æ®¸¦ »ç¿ëÇÏÁö ¾Ê°Å³ª CGI ½ºÅ©¸³Æ® ½ÇÇà°¡´ÉÇÑ µð·ºÅÍ¸®¸¦ Á¦ÇÑÇÑ °æ¿ì >> %RESULT_FILE%
-echo Âü°í : default °ªÀ¸·Î cgi ¸ÅÇÎÀÌ ÁÖ¼®Ã³¸® µÇ¾îÀÖÀ½  >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : cgi ìŠ¤í¬ë¦½íŠ¸ë¥¼ ì‚¬ìš©í•˜ì§€ ì•Šê±°ë‚˜ CGI ìŠ¤í¬ë¦½íŠ¸ ì‹¤í–‰ê°€ëŠ¥í•œ ë””ë ‰í„°ë¦¬ë¥¼ ì œí•œí•œ ê²½ìš° >> %RESULT_FILE%
+echo ì°¸ê³  : default ê°’ìœ¼ë¡œ cgi ë§¤í•‘ì´ ì£¼ì„ì²˜ë¦¬ ë˜ì–´ìžˆìŒ  >> %RESULT_FILE%
 
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\web.xml' -Pattern '<servlet-name>cgi</servlet-name>' -Context 7,7" >> !RESULT_FILE!
 
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-06. À¥ ¼­ºñ½º »óÀ§ µð·ºÅÍ¸® Á¢±Ù Á¦ÇÑ ¼³Á¤ 
+:: WEB-06. ì›¹ ì„œë¹„ìŠ¤ ìƒìœ„ ë””ë ‰í„°ë¦¬ ì ‘ê·¼ ì œí•œ ì„¤ì • 
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-06. À¥ ¼­ºñ½º »óÀ§ µð·ºÅÍ¸® Á¢±Ù Á¦ÇÑ ¼³Á¤  >> %RESULT_FILE%
+echo WEB-06. ì›¹ ì„œë¹„ìŠ¤ ìƒìœ„ ë””ë ‰í„°ë¦¬ ì ‘ê·¼ ì œí•œ ì„¤ì •  >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : »óÀ§ µð·ºÅÍ¸® Á¢±Ù ±â´É(allowLinking=true)À» Á¦°ÅÇÑ °æ¿ì >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : ìƒìœ„ ë””ë ‰í„°ë¦¬ ì ‘ê·¼ ê¸°ëŠ¥(allowLinking=true)ì„ ì œê±°í•œ ê²½ìš° >> %RESULT_FILE%
 
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\server.xml' -Pattern 'allowLinking' -Context 7,7" >> !RESULT_FILE!
 
@@ -193,68 +179,68 @@ echo [END] >> %RESULT_FILE%
 
 
 :: ===========================================
-:: WEB-07. À¥ ¼­ºñ½º °æ·Î ³» ºÒÇÊ¿äÇÑ ÆÄÀÏ Á¦°Å
+:: WEB-07. ì›¹ ì„œë¹„ìŠ¤ ê²½ë¡œ ë‚´ ë¶ˆí•„ìš”í•œ íŒŒì¼ ì œê±°
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-07. À¥ ¼­ºñ½º °æ·Î ³» ºÒÇÊ¿äÇÑ ÆÄÀÏ Á¦°Å >> %RESULT_FILE%
+echo WEB-07. ì›¹ ì„œë¹„ìŠ¤ ê²½ë¡œ ë‚´ ë¶ˆí•„ìš”í•œ íŒŒì¼ ì œê±° >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : apache ±âº»À¸·Î Á¸ÀçÇÏ´Â /webapps/docs µð·ºÅÍ¸® ³» ¿¡¼­ °ü¸®ÀÚ¿ë ¹®¼­ ÆÄÀÏÀÌ Á¸ÀçÇÔÀ¸·Î Ãë¾à >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : apache ê¸°ë³¸ìœ¼ë¡œ ì¡´ìž¬í•˜ëŠ” /webapps/docs ë””ë ‰í„°ë¦¬ ë‚´ ì—ì„œ ê´€ë¦¬ìžìš© ë¬¸ì„œ íŒŒì¼ì´ ì¡´ìž¬í•¨ìœ¼ë¡œ ì·¨ì•½ >> %RESULT_FILE%
 
 if exist "!CATALINA_HOME!\webapps\docs" (
-    echo 1^) /webapps/docs µð·ºÅä¸® Á¸Àç >> !RESULT_FILE!
-    echo [/webapps/docs ³» ÀüÃ¼ ¸ñ·Ï] >> !RESULT_FILE!
+    echo 1^) /webapps/docs ë””ë ‰í† ë¦¬ ì¡´ìž¬ >> !RESULT_FILE!
+    echo [/webapps/docs ë‚´ ì „ì²´ ëª©ë¡] >> !RESULT_FILE!
 
     for %%F in ("!CATALINA_HOME!\webapps\docs\*") do (
         echo %%~fF >> !RESULT_FILE!
     )
 ) else (
-    echo 1^) /webapps/docs µð·ºÅä¸® Á¸ÀçÇÏÁö ¾ÊÀ½ >> !RESULT_FILE!
+    echo 1^) /webapps/docs ë””ë ‰í† ë¦¬ ì¡´ìž¬í•˜ì§€ ì•ŠìŒ >> !RESULT_FILE!
 )
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-08. À¥ ¼­ºñ½º ÆÄÀÏ ¾÷·Îµå ¹× ´Ù¿î·Îµå ¿ë·® Á¦ÇÑ
+:: WEB-08. ì›¹ ì„œë¹„ìŠ¤ íŒŒì¼ ì—…ë¡œë“œ ë° ë‹¤ìš´ë¡œë“œ ìš©ëŸ‰ ì œí•œ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-08. À¥ ¼­ºñ½º ÆÄÀÏ ¾÷·Îµå ¹× ´Ù¿î·Îµå ¿ë·® Á¦ÇÑ >> %RESULT_FILE%
+echo WEB-08. ì›¹ ì„œë¹„ìŠ¤ íŒŒì¼ ì—…ë¡œë“œ ë° ë‹¤ìš´ë¡œë“œ ìš©ëŸ‰ ì œí•œ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : ÆÄÀÏ ¾÷·Îµå ¹× ´Ù¿î·Îµå ¿ë·®À» Á¦ÇÑ(max-file-size, max-request-size)ÇÑ °æ¿ì >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : íŒŒì¼ ì—…ë¡œë“œ ë° ë‹¤ìš´ë¡œë“œ ìš©ëŸ‰ì„ ì œí•œ(max-file-size, max-request-size)í•œ ê²½ìš° >> %RESULT_FILE%
 
-echo web.xml ÆÄÀÏ ³» ÆÄÀÏ ¾÷·Îµå Á¦ÇÑ(multipart/form-data)  >> %RESULT_FILE%
+echo web.xml íŒŒì¼ ë‚´ íŒŒì¼ ì—…ë¡œë“œ ì œí•œ(multipart/form-data)  >> %RESULT_FILE%
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\web.xml' -Pattern 'multipart-config' -Context 7,7" >> !RESULT_FILE!
 echo . >> %RESULT_FILE%
-echo Âü°í. server.xml ÆÄÀÏ ³» Post ¿äÃ» Å©±â Á¦ÇÑ  >> %RESULT_FILE%
+echo ì°¸ê³ . server.xml íŒŒì¼ ë‚´ Post ìš”ì²­ í¬ê¸° ì œí•œ  >> %RESULT_FILE%
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\server.xml' -Pattern 'maxPostSize' -Context 7,7" >> !RESULT_FILE!
 echo [END] >> %RESULT_FILE%
 
 
 :: ===========================================
-:: WEB-09. À¥ ¼­ºñ½º ÇÁ·Î¼¼½º ±ÇÇÑ Á¦ÇÑ
+:: WEB-09. ì›¹ ì„œë¹„ìŠ¤ í”„ë¡œì„¸ìŠ¤ ê¶Œí•œ ì œí•œ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-09. À¥ ¼­ºñ½º ÇÁ·Î¼¼½º ±ÇÇÑ Á¦ÇÑ >> %RESULT_FILE%
+echo WEB-09. ì›¹ ì„œë¹„ìŠ¤ í”„ë¡œì„¸ìŠ¤ ê¶Œí•œ ì œí•œ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : À¥ ÇÁ·Î¼¼½º(¼­ºñ½º)°¡ °ü¸®ÀÚ ±ÇÇÑÀÌ ºÎ¿©µÈ °èÁ¤ÀÌ ¾Æ´Ñ ÃÖ¼ÒÇÑÀÇ º°µµÀÇ °èÁ¤À¸·Î ±¸µ¿µÇ°í ÀÖ´Â °æ¿ì >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : ì›¹ í”„ë¡œì„¸ìŠ¤(ì„œë¹„ìŠ¤)ê°€ ê´€ë¦¬ìž ê¶Œí•œì´ ë¶€ì—¬ëœ ê³„ì •ì´ ì•„ë‹Œ ìµœì†Œí•œì˜ ë³„ë„ì˜ ê³„ì •ìœ¼ë¡œ êµ¬ë™ë˜ê³  ìžˆëŠ” ê²½ìš° >> %RESULT_FILE%
 
 
-echo tomcat 9¹öÀü ¼­ºñ½º È®ÀÎ >> %RESULT_FILE%
+echo tomcat 9ë²„ì „ ì„œë¹„ìŠ¤ í™•ì¸ >> %RESULT_FILE%
 sc qc Tomcat9 >> %RESULT_FILE%
-echo tomcat 8¹öÀü ¼­ºñ½º È®ÀÎ >> %RESULT_FILE%
+echo tomcat 8ë²„ì „ ì„œë¹„ìŠ¤ í™•ì¸ >> %RESULT_FILE%
 sc qc Tomcat8 >> %RESULT_FILE%
-echo tomcat 7¹öÀü ¼­ºñ½º È®ÀÎ >> %RESULT_FILE%
+echo tomcat 7ë²„ì „ ì„œë¹„ìŠ¤ í™•ì¸ >> %RESULT_FILE%
 sc qc Tomcat7 >> %RESULT_FILE%
 
-echo ¼­ºñ½º°¡ ¾Æ´Ñ startup.bat·Î ½ÇÇàµÈ tomcat ¼­ºñ½ºÀÏ °æ¿ì ½ÇÇàµÈ ÅÍ¹Ì³Î ±ÇÇÑ È®ÀÎ >> %RESULT_FILE%
+echo ì„œë¹„ìŠ¤ê°€ ì•„ë‹Œ startup.batë¡œ ì‹¤í–‰ëœ tomcat ì„œë¹„ìŠ¤ì¼ ê²½ìš° ì‹¤í–‰ëœ í„°ë¯¸ë„ ê¶Œí•œ í™•ì¸ >> %RESULT_FILE%
 
 
-REM 1. Tomcat ÇÁ·Î¼¼½º Á¸Àç ¿©ºÎ ¸ÕÀú È®ÀÎ
+REM 1. Tomcat í”„ë¡œì„¸ìŠ¤ ì¡´ìž¬ ì—¬ë¶€ ë¨¼ì € í™•ì¸
 tasklist /FI "IMAGENAME eq java.exe" /FO CSV /V | findstr /I "Tomcat" >nul 2>&1
 
 if %ERRORLEVEL% EQU 0 (
-    REM ÇÁ·Î¼¼½º°¡ Á¸ÀçÇÏ´Â °æ¿ì¿¡¸¸ ·Î±× ÀúÀå
+    REM í”„ë¡œì„¸ìŠ¤ê°€ ì¡´ìž¬í•˜ëŠ” ê²½ìš°ì—ë§Œ ë¡œê·¸ ì €ìž¥
     tasklist /FI "IMAGENAME eq java.exe" /FO CSV /V | findstr /I "Tomcat" >> %RESULT_FILE%
     
-    REM PID ÃßÃâ
+    REM PID ì¶”ì¶œ
     for /f "tokens=2 delims=," %%i in ('
         tasklist /FI "IMAGENAME eq java.exe" /FO CSV /V ^| findstr /I "Tomcat"
     ') do (
@@ -262,7 +248,7 @@ if %ERRORLEVEL% EQU 0 (
         set "PID=!PID_RAW:"=!"
     )
 ) else (
-    REM ÇÁ·Î¼¼½º°¡ ¾ø´Â °æ¿ì
+    REM í”„ë¡œì„¸ìŠ¤ê°€ ì—†ëŠ” ê²½ìš°
     echo [!] Tomcat java process not found. >> %RESULT_FILE%
 )
 
@@ -271,123 +257,123 @@ echo [END] >> %RESULT_FILE%
 
 
 :: ===========================================
-:: WEB-10. ºÒÇÊ¿äÇÑ ÇÁ·Ï½Ã ¼³Á¤ Á¦ÇÑ
+:: WEB-10. ë¶ˆí•„ìš”í•œ í”„ë¡ì‹œ ì„¤ì • ì œí•œ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-10. ºÒÇÊ¿äÇÑ ÇÁ·Ï½Ã ¼³Á¤ Á¦ÇÑ >> %RESULT_FILE%
+echo WEB-10. ë¶ˆí•„ìš”í•œ í”„ë¡ì‹œ ì„¤ì • ì œí•œ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : ºÒÇÊ¿äÇÑ Proxy ¼³Á¤À» Á¦ÇÑ ÇÑ °æ¿ì >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : ë¶ˆí•„ìš”í•œ Proxy ì„¤ì •ì„ ì œí•œ í•œ ê²½ìš° >> %RESULT_FILE%
 
-echo server.xml ÆÄÀÏ ³» ÇÁ·Ï½Ã ¼³Á¤ È®ÀÎ  >> %RESULT_FILE%
+echo server.xml íŒŒì¼ ë‚´ í”„ë¡ì‹œ ì„¤ì • í™•ì¸  >> %RESULT_FILE%
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\server.xml' -Pattern 'proxyName' -Context 7,7" >> !RESULT_FILE!
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-11. À¥ ¼­ºñ½º °æ·Î ¼³Á¤
+:: WEB-11. ì›¹ ì„œë¹„ìŠ¤ ê²½ë¡œ ì„¤ì •
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-11. À¥ ¼­ºñ½º °æ·Î ¼³Á¤ >> %RESULT_FILE%
+echo WEB-11. ì›¹ ì„œë¹„ìŠ¤ ê²½ë¡œ ì„¤ì • >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : À¥ ¼­¹ö¿¡ ¼³Á¤ÇÑ DocumentRoot °æ·Î°¡ ±âº» °æ·Î°¡ ºÐ¸®µÇ¾îÀÖ´ÂÁö È®ÀÎ >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : ì›¹ ì„œë²„ì— ì„¤ì •í•œ DocumentRoot ê²½ë¡œê°€ ê¸°ë³¸ ê²½ë¡œê°€ ë¶„ë¦¬ë˜ì–´ìžˆëŠ”ì§€ í™•ì¸ >> %RESULT_FILE%
 
-echo server.xml ÆÄÀÏ ³» docBase °æ·Î¸¦ º°µµ·Î ¼³Á¤µÇ¾îÀÖ´ÂÁö È®ÀÎ >> %RESULT_FILE%
+echo server.xml íŒŒì¼ ë‚´ docBase ê²½ë¡œë¥¼ ë³„ë„ë¡œ ì„¤ì •ë˜ì–´ìžˆëŠ”ì§€ í™•ì¸ >> %RESULT_FILE%
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\server.xml' -Pattern 'Host name' -Context 7,7" >> !RESULT_FILE!
 echo . >> %RESULT_FILE%
-echo context.xml ÆÄÀÏ ³» docBase °æ·Î¸¦ º¯µµ·Î ¼³Á¤µÇ¾îÀÖ´ÂÁö È®ÀÎ >> %RESULT_FILE%
+echo context.xml íŒŒì¼ ë‚´ docBase ê²½ë¡œë¥¼ ë³„ë„ë¡œ ì„¤ì •ë˜ì–´ìžˆëŠ”ì§€ í™•ì¸ >> %RESULT_FILE%
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\context.xml' -Pattern 'docBase' -Context 7,7" >> !RESULT_FILE!
 echo [END] >> %RESULT_FILE%
 
 
 :: ===========================================
-:: WEB-12. À¥ ¼­ºñ½º ¸µÅ© »ç¿ë ±ÝÁö
+:: WEB-12. ì›¹ ì„œë¹„ìŠ¤ ë§í¬ ì‚¬ìš© ê¸ˆì§€
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-12. À¥ ¼­ºñ½º ¸µÅ© »ç¿ë ±ÝÁö >> %RESULT_FILE%
+echo WEB-12. ì›¹ ì„œë¹„ìŠ¤ ë§í¬ ì‚¬ìš© ê¸ˆì§€ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : ¸µÅ© ¿É¼Ç(allowLinking)ÀÌ ºñÈ°¼ºÈ­ ¶Ç´Â ÁÖ¼®Ã³¸® µÈ °æ¿ì ¾çÈ£ >> %RESULT_FILE%
-echo server.xml ÆÄÀÏ ³» allowLinking=false  È®ÀÎ >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : ë§í¬ ì˜µì…˜(allowLinking)ì´ ë¹„í™œì„±í™” ë˜ëŠ” ì£¼ì„ì²˜ë¦¬ ëœ ê²½ìš° ì–‘í˜¸ >> %RESULT_FILE%
+echo server.xml íŒŒì¼ ë‚´ allowLinking=false  í™•ì¸ >> %RESULT_FILE%
 
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\server.xml' -Pattern 'allowLinking' -Context 7,7" >> !RESULT_FILE!
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-13. À¥ ¼­ºñ½º ¸µÅ© »ç¿ë ±ÝÁö
+:: WEB-13. ì›¹ ì„œë¹„ìŠ¤ ì„¤ì • íŒŒì¼ ë…¸ì¶œ ì œí•œ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo  WEB-13. À¥ ¼­ºñ½º ¸µÅ© »ç¿ë ±ÝÁö >> %RESULT_FILE%
+echo  WEB-13. ì›¹ ì„œë¹„ìŠ¤ ì„¤ì • íŒŒì¼ ë…¸ì¶œ ì œí•œ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : server.xml ÆÄÀÏ ³» ºÒÇÊ¿äÇÑ DB ¸®¼Ò½º°¡ Á¸ÀçÇÏ´Â °æ¿ì Ãë¾à >> %RESULT_FILE%
-echo Âü°í default·Î Á¸ÀçÇÏ´Â UserDatabase´Â ³»ºÎ »ç¿ëÀÚ °ü¸®¸¦ À§ÇÑ ¸Þ¸ð¸® ±â¹Ý ¸®¼Ò½º·Î DB¿¬°áÀÌ ¾Æ´Ï¹Ç·Î Á¡°Ë ´ë»óÀÌ ¾Æ´Ô >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : server.xml íŒŒì¼ ë‚´ ë¶ˆí•„ìš”í•œ DB ë¦¬ì†ŒìŠ¤ê°€ ì¡´ìž¬í•˜ëŠ” ê²½ìš° ì·¨ì•½ >> %RESULT_FILE%
+echo ì°¸ê³  defaultë¡œ ì¡´ìž¬í•˜ëŠ” UserDatabaseëŠ” ë‚´ë¶€ ì‚¬ìš©ìž ê´€ë¦¬ë¥¼ ìœ„í•œ ë©”ëª¨ë¦¬ ê¸°ë°˜ ë¦¬ì†ŒìŠ¤ë¡œ DBì—°ê²°ì´ ì•„ë‹ˆë¯€ë¡œ ì ê²€ ëŒ€ìƒì´ ì•„ë‹˜ >> %RESULT_FILE%
 
-echo server.xml ÆÄÀÏ ³» ¸®¼Ò½º È®ÀÎ >> %RESULT_FILE%
+echo server.xml íŒŒì¼ ë‚´ ë¦¬ì†ŒìŠ¤ í™•ì¸ >> %RESULT_FILE%
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\server.xml' -Pattern 'Resource name' -Context 7,7" >> !RESULT_FILE!
 echo . >> %RESULT_FILE%
-echo context.xml ÆÄÀÏ ³» ¸®¼Ò½º È®ÀÎ >> %RESULT_FILE%
+echo context.xml íŒŒì¼ ë‚´ ë¦¬ì†ŒìŠ¤ í™•ì¸ >> %RESULT_FILE%
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\context.xml' -Pattern 'Resource name' -Context 7,7" >> !RESULT_FILE!
 echo [END] >> %RESULT_FILE%
 
 
 :: ===========================================
-:: WEB-14. À¥ ¼­ºñ½º °æ·Î ³» ÆÄÀÏÀÇ Á¢±Ù ÅëÁ¦
+:: WEB-14. ì›¹ ì„œë¹„ìŠ¤ ê²½ë¡œ ë‚´ íŒŒì¼ì˜ ì ‘ê·¼ í†µì œ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-14. À¥ ¼­ºñ½º °æ·Î ³» ÆÄÀÏÀÇ Á¢±Ù ÅëÁ¦ >> %RESULT_FILE%
-echo "[START]" >> %RESULT_FILE%
-echo "ÆÇ´Ü ±âÁØ : web.xml ÆÄÀÏ ³»¿¡ ÀûÀýÇÑ ±ÇÇÑÀÌ ºÎ¿©µÇ¾îÀÖ´Â °æ¿ì"  >> %RESULT_FILE%
+echo WEB-14. ì›¹ ì„œë¹„ìŠ¤ ê²½ë¡œ ë‚´ íŒŒì¼ì˜ ì ‘ê·¼ í†µì œ >> %RESULT_FILE%
+echo [START] >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : web.xml íŒŒì¼ ë‚´ì— ì ì ˆí•œ ê¶Œí•œì´ ë¶€ì—¬ë˜ì–´ìžˆëŠ” ê²½ìš°  >> %RESULT_FILE%
 
 
-echo "web.xml ÆÄÀÏ ±ÇÇÑ È®ÀÎ"  >> %RESULT_FILE%
+echo web.xml íŒŒì¼ ê¶Œí•œ í™•ì¸  >> %RESULT_FILE%
 icacls "!CATALINA_HOME!\conf\web.xml" >> %RESULT_FILE%
 
-rem echo "tomcat È¨ µð·ºÅÍ¸® È®ÀÎ"  >> %RESULT_FILE%
+rem echo "tomcat í™ˆ ë””ë ‰í„°ë¦¬ í™•ì¸"  >> %RESULT_FILE%
 rem icacls !CATALINA_HOME! >> %RESULT_FILE%
-rem echo "bin µð·ºÅÍ¸® È®ÀÎ"  >> %RESULT_FILE%
+rem echo "bin ë””ë ‰í„°ë¦¬ í™•ì¸"  >> %RESULT_FILE%
 rem icacls !CATALINA_HOME!\bin >> %RESULT_FILE%
-rem echo "conf µð·ºÅÍ¸® È®ÀÎ"  >> %RESULT_FILE%
+rem echo "conf ë””ë ‰í„°ë¦¬ í™•ì¸"  >> %RESULT_FILE%
 rem icacls !CATALINA_HOME!\conf  >> %RESULT_FILE%
-rem echo "logsµð·ºÅÍ¸® È®ÀÎ"  >> %RESULT_FILE%
+rem echo "logsë””ë ‰í„°ë¦¬ í™•ì¸"  >> %RESULT_FILE%
 rem icacls !CATALINA_HOME!\logs  >> %RESULT_FILE%
-rem echo "webapps µð·ºÅÍ¸® È®ÀÎ"  >> %RESULT_FILE%
+rem echo "webapps ë””ë ‰í„°ë¦¬ í™•ì¸"  >> %RESULT_FILE%
 rem icacls !CATALINA_HOME!\webapps  >> %RESULT_FILE%
 
-echo "[END]" >> %RESULT_FILE%
+echo [END] >> %RESULT_FILE%
 
 
 :: ===========================================
-:: WEB-15. À¥ ¼­ºñ½ºÀÇ ºÒÇÊ¿äÇÑ ½ºÅ©¸³Æ® ¸ÅÇÎ Á¦°Å
+:: WEB-15. ì›¹ ì„œë¹„ìŠ¤ì˜ ë¶ˆí•„ìš”í•œ ìŠ¤í¬ë¦½íŠ¸ ë§¤í•‘ ì œê±°
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-15. À¥ ¼­ºñ½ºÀÇ ºÒÇÊ¿äÇÑ ½ºÅ©¸³Æ® ¸ÅÇÎ Á¦°Å >> %RESULT_FILE%
+echo WEB-15. ì›¹ ì„œë¹„ìŠ¤ì˜ ë¶ˆí•„ìš”í•œ ìŠ¤í¬ë¦½íŠ¸ ë§¤í•‘ ì œê±° >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : ºÒÇÊ¿äÇÑ ½ºÅ©¸³Æ® ¸ÅÇÎÀÌ Á¸ÀçÇÏÁö ¾Ê´Â °æ¿ì >> %RESULT_FILE%
-echo Âü°í : Å×½ºÆ®¿ë ¼­ºí¸´ ¸ÅÇÎ(default servlet)Àº Á¤»ó >> %RESULT_FILE%
-echo Âü°í : ¾÷¹«¿¡ »ç¿ëµÇ´Â ¼­ºí¸´ ¸ÅÇÎ(jsp, jspx)Àº Á¤»ó >> %RESULT_FILE%
-echo Âü°í : Å×½ºÆ®¿ë ¼­ºí¸´ ¸ÅÇÎ(example, test)ÀÌ Á¸ÀçÇÏ¸é Ãë¾à >> %RESULT_FILE%
-echo Âü°í : invoker servletÀÌ ÀÖÀ¸¸é Ãë¾à >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : ë¶ˆí•„ìš”í•œ ìŠ¤í¬ë¦½íŠ¸ ë§¤í•‘ì´ ì¡´ìž¬í•˜ì§€ ì•ŠëŠ” ê²½ìš° >> %RESULT_FILE%
+echo ì°¸ê³  : í…ŒìŠ¤íŠ¸ìš© ì„œë¸”ë¦¿ ë§¤í•‘(default servlet)ì€ ì •ìƒ >> %RESULT_FILE%
+echo ì°¸ê³  : ì—…ë¬´ì— ì‚¬ìš©ë˜ëŠ” ì„œë¸”ë¦¿ ë§¤í•‘(jsp, jspx)ì€ ì •ìƒ >> %RESULT_FILE%
+echo ì°¸ê³  : í…ŒìŠ¤íŠ¸ìš© ì„œë¸”ë¦¿ ë§¤í•‘(example, test)ì´ ì¡´ìž¬í•˜ë©´ ì·¨ì•½ >> %RESULT_FILE%
+echo ì°¸ê³  : invoker servletì´ ìžˆìœ¼ë©´ ì·¨ì•½ >> %RESULT_FILE%
 echo . >> %RESULT_FILE%
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\web.xml' -Pattern 'servlet' -Context 7,7" >> !RESULT_FILE!
 
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-16. À¥ ¼­ºñ½º Çì´õ Á¤º¸ ³ëÃâ Á¦ÇÑ
+:: WEB-16. ì›¹ ì„œë¹„ìŠ¤ í—¤ë” ì •ë³´ ë…¸ì¶œ ì œí•œ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-16. À¥ ¼­ºñ½º Çì´õ Á¤º¸ ³ëÃâ Á¦ÇÑ >> %RESULT_FILE%
+echo WEB-16. ì›¹ ì„œë¹„ìŠ¤ í—¤ë” ì •ë³´ ë…¸ì¶œ ì œí•œ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : server.xml ÆÄÀÏ ³» server °ªÀ» ÀÓÀÇÀÇ Á¤º¸·Î º¯°æ ¿©ºÎ È®ÀÎ >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : server.xml íŒŒì¼ ë‚´ server ê°’ì„ ìž„ì˜ì˜ ì •ë³´ë¡œ ë³€ê²½ ì—¬ë¶€ í™•ì¸ >> %RESULT_FILE%
 
-echo Âü°í : ¼­¹ö ÀÀ´ä °ª ³» server Á¤º¸°¡ ³ëÃâµÇ´Â °æ¿ì Ãë¾à >> %RESULT_FILE%
+echo ì°¸ê³  : ì„œë²„ ì‘ë‹µ ê°’ ë‚´ server ì •ë³´ê°€ ë…¸ì¶œë˜ëŠ” ê²½ìš° ì·¨ì•½ >> %RESULT_FILE%
 
-echo À¥ ¼­¹ö Á¤º¸ ³ëÃâ Á¡°Ë (Tomcat) >> %RESULT_FILE%
+echo ì›¹ ì„œë²„ ì •ë³´ ë…¸ì¶œ ì ê²€ (Tomcat) >> %RESULT_FILE%
 if exist "!CATALINA_HOME!\conf\server.xml" (
-    echo [CHECK 1] server.xml ¼³Á¤ >> %RESULT_FILE%
+    echo [CHECK 1] server.xml ì„¤ì • >> %RESULT_FILE%
     findstr /i "server=" "!CATALINA_HOME!\conf\server.xml" 2>nul | findstr /v "<!--" >> %RESULT_FILE%
     echo. >> %RESULT_FILE%
 
-    echo [CHECK 2] HTTP ÀÀ´ä Çì´õ È®ÀÎ >> %RESULT_FILE%
+    echo [CHECK 2] HTTP ì‘ë‹µ í—¤ë” í™•ì¸ >> %RESULT_FILE%
 
-    REM PowerShell·Î server.xml¿¡¼­ HTTP ConnectorÀÇ port¸¦ ÃßÃâ
+    REM PowerShellë¡œ server.xmlì—ì„œ HTTP Connectorì˜ portë¥¼ ì¶”ì¶œ
     for /f "tokens=*" %%p in ('powershell -Command "([xml](Get-Content '!CATALINA_HOME!\conf\server.xml')).Server.Service.Connector | Where-Object { $_.protocol -match 'HTTP' -or (-not $_.protocol) } | ForEach-Object { $_.port }"') do (
         set "port=%%p"
         echo --- Port !port! --- >> %RESULT_FILE%
@@ -395,19 +381,19 @@ if exist "!CATALINA_HOME!\conf\server.xml" (
         echo. >> %RESULT_FILE%
     )
 ) else (
-    echo [ERROR] server.xml ¾øÀ½ >> %RESULT_FILE%
+    echo [ERROR] server.xml ì—†ìŒ >> %RESULT_FILE%
 )
 
 echo [END] >> %RESULT_FILE%
 
 
 :: ===========================================
-:: WEB-17. À¥ ¼­ºñ½º °¡»ó µð·º·Î¸® »èÁ¦
+:: WEB-17. ì›¹ ì„œë¹„ìŠ¤ ê°€ìƒ ë””ë ‰í„°ë¦¬ ì‚­ì œ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-17. À¥ ¼­ºñ½º °¡»ó µð·ºÅÍ¸® »èÁ¦ >> %RESULT_FILE%
+echo WEB-17. ì›¹ ì„œë¹„ìŠ¤ ê°€ìƒ ë””ë ‰í„°ë¦¬ ì‚­ì œ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : ºÒÇÊ¿äÇÑ °¡»ó µð·ºÅÍ¸®°¡ Á¸ÀçÇÏ´Â °æ¿ì >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : ë¶ˆí•„ìš”í•œ ê°€ìƒ ë””ë ‰í„°ë¦¬ê°€ ì¡´ìž¬í•˜ëŠ” ê²½ìš° >> %RESULT_FILE%
 
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\server.xml' -Pattern 'Context path=' -Context 7,7" >> !RESULT_FILE!
 
@@ -415,81 +401,81 @@ echo [END] >> %RESULT_FILE%
 
 
 :: ===========================================
-:: WEB-18. À¥ ¼­ºñ½º WebDAV ºñÈ°¼ºÈ­
+:: WEB-18. ì›¹ ì„œë¹„ìŠ¤ WebDAV ë¹„í™œì„±í™”
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-18. À¥ ¼­ºñ½º WebDAV ºñÈ°¼ºÈ­ >> %RESULT_FILE%
+echo WEB-18. ì›¹ ì„œë¹„ìŠ¤ WebDAV ë¹„í™œì„±í™” >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo tomcatÀº ÇØ´ç »çÇ× ¾øÀ½ >> %RESULT_FILE%
+echo tomcatì€ í•´ë‹¹ ì‚¬í•­ ì—†ìŒ >> %RESULT_FILE%
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-19. À¥ ¼­ºñ½º SSI »ç¿ë Á¦ÇÑ
+:: WEB-19. ì›¹ ì„œë¹„ìŠ¤ SSI ì‚¬ìš© ì œí•œ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-19. À¥ ¼­ºñ½º SSI »ç¿ë Á¦ÇÑ >> %RESULT_FILE%
+echo WEB-19. ì›¹ ì„œë¹„ìŠ¤ SSI ì‚¬ìš© ì œí•œ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo "ÆÇ´Ü ±âÁØ : À¥ ¼­ºñ½º SSI »ç¿ë ¼³Á¤ÀÌ ºñÈ°¼ºÈ­ µÈ °æ¿ì" >> %RESULT_FILE%
+echo "íŒë‹¨ ê¸°ì¤€ : ì›¹ ì„œë¹„ìŠ¤ SSI ì‚¬ìš© ì„¤ì •ì´ ë¹„í™œì„±í™” ëœ ê²½ìš°" >> %RESULT_FILE%
 
-echo 1. SSI ¼­ºí¸´ È®ÀÎ >> %RESULT_FILE%
+echo 1. SSI ì„œë¸”ë¦¿ í™•ì¸ >> %RESULT_FILE%
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\web.xml' -Pattern 'SSIServlet' -Context 7,7" >> !RESULT_FILE!
 echo. >> %RESULT_FILE%
-echo 2. SSI ÇÊÅÍ È®ÀÎ >> %RESULT_FILE%
+echo 2. SSI í•„í„° í™•ì¸ >> %RESULT_FILE%
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\web.xml' -Pattern 'SSIFilter' -Context 7,7" >> !RESULT_FILE!
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-20. SSL/TLS È°¼ºÈ­
+:: WEB-20. SSL/TLS í™œì„±í™”
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-20. SSL/TLS È°¼ºÈ­ >> %RESULT_FILE%
+echo WEB-20. SSL/TLS í™œì„±í™” >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo tomcatÀº ÇØ´ç »çÇ× ¾øÀ½ >> %RESULT_FILE%
+echo tomcatì€ í•´ë‹¹ ì‚¬í•­ ì—†ìŒ >> %RESULT_FILE%
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-21. HTTP ¸®µð·º¼Ç
+:: WEB-21. HTTP ë¦¬ë””ë ‰ì…˜
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-21. HTTP ¸®µð·º¼Ç >> %RESULT_FILE%
+echo WEB-21. HTTP ë¦¬ë””ë ‰ì…˜ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo tomcatÀº ÇØ´ç »çÇ× ¾øÀ½ >> %RESULT_FILE%
+echo tomcatì€ í•´ë‹¹ ì‚¬í•­ ì—†ìŒ >> %RESULT_FILE%
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-22. ¿¡·¯ ÆäÀÌÁö °ü¸®
+:: WEB-22. ì—ëŸ¬ íŽ˜ì´ì§€ ê´€ë¦¬
 :: ===========================================
-echo WEB-22. ¿¡·¯ ÆäÀÌÁö °ü¸® >> %RESULT_FILE%
+echo WEB-22. ì—ëŸ¬ íŽ˜ì´ì§€ ê´€ë¦¬ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : À¥ ¼­ºñ½º ¿¡·¯ ÆäÀÌÁö°¡ º°µµ·Î ÁöÁ¤µÈ °æ¿ì >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : ì›¹ ì„œë¹„ìŠ¤ ì—ëŸ¬ íŽ˜ì´ì§€ê°€ ë³„ë„ë¡œ ì§€ì •ëœ ê²½ìš° >> %RESULT_FILE%
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\web.xml' -Pattern 'error-code' -Context 7,7" >> !RESULT_FILE!
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-23. LDAP ¾Ë°í¸®Áò ÀûÀýÇÏ°Ô ±¸¼º
+:: WEB-23. LDAP ì•Œê³ ë¦¬ì¦˜ ì ì ˆí•˜ê²Œ êµ¬ì„±
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-23. LDAP ¾Ë°í¸®Áò ÀûÀýÇÏ°Ô ±¸¼º >> %RESULT_FILE%
+echo WEB-23. LDAP ì•Œê³ ë¦¬ì¦˜ ì ì ˆí•˜ê²Œ êµ¬ì„± >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : LDAP ¿¬°á ÀÎÁõ½Ã ¾ÈÀüÇÑ ¾Ë°í¸®ÁòÀ» »ç¿ëÇÏ´Â °æ¿ì >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : LDAP ì—°ê²° ì¸ì¦ì‹œ ì•ˆì „í•œ ì•Œê³ ë¦¬ì¦˜ì„ ì‚¬ìš©í•˜ëŠ” ê²½ìš° >> %RESULT_FILE%
 
-echo Á¡°Ë ±âÁØ : 1. LDAP ¿¬°á »ç¿ë ¿©ºÎ È®ÀÎ >> %RESULT_FILE%
+echo ì ê²€ ê¸°ì¤€ : 1. LDAP ì—°ê²° ì‚¬ìš© ì—¬ë¶€ í™•ì¸ >> %RESULT_FILE%
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\server.xml' -Pattern 'ldap' -Context 7,7" >> !RESULT_FILE!
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\server.xml' -Pattern 'JNDIRealm' -Context 7,7" >> !RESULT_FILE!
 echo . >> %RESULT_FILE%
-echo Á¡°Ë ±âÁØ : 2. LDAP ¿¬°á½Ã¿¡¸¸ ºñ¹Ð¹øÈ£ ¾Ë°í¸®Áò Á¡°Ë >> %RESULT_FILE%
+echo ì ê²€ ê¸°ì¤€ : 2. LDAP ì—°ê²°ì‹œì—ë§Œ ë¹„ë°€ë²ˆí˜¸ ì•Œê³ ë¦¬ì¦˜ ì ê²€ >> %RESULT_FILE%
 powershell -Command "Select-String -Path '!CATALINA_HOME!\conf\server.xml' -Pattern 'digest' -Context 7,7" >> !RESULT_FILE!
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-24. º°µµÀÇ ¾÷·Îµå °æ·Î »ç¿ë ¹× ±ÇÇÑ ¼³Á¤
+:: WEB-24. ë³„ë„ì˜ ì—…ë¡œë“œ ê²½ë¡œ ì‚¬ìš© ë° ê¶Œí•œ ì„¤ì •
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-24. º°µµÀÇ ¾÷·Îµå °æ·Î »ç¿ë ¹× ±ÇÇÑ ¼³Á¤ >> %RESULT_FILE%
+echo WEB-24. ë³„ë„ì˜ ì—…ë¡œë“œ ê²½ë¡œ ì‚¬ìš© ë° ê¶Œí•œ ì„¤ì • >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : documentRoot µð·ºÅÍ¸® ³»ºÎ¿¡ ÆÄÀÏ ¾÷·Îµå °æ·Î°¡ ÀÖÀ» °æ¿ì Ãë¾à >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : documentRoot ë””ë ‰í„°ë¦¬ ë‚´ë¶€ì— íŒŒì¼ ì—…ë¡œë“œ ê²½ë¡œê°€ ìžˆì„ ê²½ìš° ì·¨ì•½ >> %RESULT_FILE%
 
-echo [Tomcat appBase Á¡°Ë] >> "%RESULT_FILE%"
+echo [Tomcat appBase ì ê²€] >> "%RESULT_FILE%"
 echo. >> "%RESULT_FILE%"
 
 powershell -NoProfile -Command ^
@@ -502,7 +488,7 @@ del "%TEMP%\appbase.tmp" >nul 2>&1
 
 echo [*] appBase value: %APPBASE% >> "%RESULT_FILE%"
 
-:: »ó´ë°æ·Î¸é CATALINA_HOME ±âÁØ, Àý´ë°æ·Î¸é ±×´ë·Î »ç¿ë
+:: ìƒëŒ€ê²½ë¡œë©´ CATALINA_HOME ê¸°ì¤€, ì ˆëŒ€ê²½ë¡œë©´ ê·¸ëŒ€ë¡œ ì‚¬ìš©
 echo %APPBASE% | findstr /R "^[A-Za-z]:" >nul
 if errorlevel 1 (
     set "WEB_ROOT=%CATALINA_HOME%\%APPBASE%"
@@ -513,13 +499,13 @@ if errorlevel 1 (
 echo [*] DocumentRoot: %WEB_ROOT% >> "%RESULT_FILE%"
 echo. >> "%RESULT_FILE%"
 
-:: µð·ºÅÍ¸® Á¸Àç È®ÀÎ
+:: ë””ë ‰í„°ë¦¬ ì¡´ìž¬ í™•ì¸
 if not exist "%WEB_ROOT%" (
-    echo [ERROR] appBase µð·ºÅÍ¸®°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù: %WEB_ROOT% >> "%RESULT_FILE%"
+    echo [ERROR] appBase ë””ë ‰í„°ë¦¬ê°€ ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤: %WEB_ROOT% >> "%RESULT_FILE%"
     goto END
 )
 echo ======================================== >> "%RESULT_FILE%"
-echo appbase µð·ºÅÍ¸® Á¡°Ë >> "%RESULT_FILE%"
+echo appbase ë””ë ‰í„°ë¦¬ ì ê²€ >> "%RESULT_FILE%"
 echo ======================================== >> "%RESULT_FILE%"
 dir "%WEB_ROOT%" /AD /B >> "%RESULT_FILE%" 2>&1
 echo. >> "%RESULT_FILE%"
@@ -529,26 +515,29 @@ echo. >> "%RESULT_FILE%"
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-25. ÁÖ±âÀû º¸¾È ÆÐÄ¡ ¹× º¥´õ ±Ç°í»çÇ× Àû¿ë
+:: WEB-25. ì£¼ê¸°ì  ë³´ì•ˆ íŒ¨ì¹˜ ë° ë²¤ë” ê¶Œê³ ì‚¬í•­ ì ìš©
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-25. ÁÖ±âÀû º¸¾È ÆÐÄ¡ ¹× º¥´õ ±Ç°í»çÇ× Àû¿ë >> %RESULT_FILE%
+echo WEB-25. ì£¼ê¸°ì  ë³´ì•ˆ íŒ¨ì¹˜ ë° ë²¤ë” ê¶Œê³ ì‚¬í•­ ì ìš© >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : Tomcat ÃÖ½Å º¸¾È ÆÐÄ¡°¡ Àû¿ëµÇ¾î ÀÖÀ¸¸ç, ÁÖ±âÀûÀÎ ÆÐÄ¡¸¦ ÇÏ´Â °æ¿ì >> %RESULT_FILE%
-echo Âü°í : Tomcat 11 ¹öÀüÀº 11.0.3  º¸´Ù ³·À¸¸é Ãë¾à(1³â ÀÌ»ó Áö³ª¸é Ãë¾à) >> %RESULT_FILE%
-echo Âü°í : Tomcat 10 ¹öÀüÀº 10.1.35 º¸´Ù ³·À¸¸é Ãë¾à(1³â ÀÌ»ó Áö³ª¸é Ãë¾à) >> %RESULT_FILE%
-echo Âü°í : Tomcat 9 ¹öÀüÀº 9.0.100  º¸´Ù ³·À¸¸é Ãë¾à(1³â ÀÌ»ó Áö³ª¸é Ãë¾à) >> %RESULT_FILE%
-echo Âü°í : Tomcat 7,8 ¹öÀüÀº EOS µÇ¾úÀ¸¹Ç·Î Ãë¾à >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : Tomcat ìµœì‹  ë³´ì•ˆ íŒ¨ì¹˜ê°€ ì ìš©ë˜ì–´ ìžˆìœ¼ë©°, ì£¼ê¸°ì ì¸ íŒ¨ì¹˜ë¥¼ í•˜ëŠ” ê²½ìš° >> %RESULT_FILE%
+echo ì°¸ê³  : Tomcat 11 ë²„ì „ì€ 11.0.3  ë³´ë‹¤ ë‚®ìœ¼ë©´ ì·¨ì•½(1ë…„ ì´ìƒ ì§€ë‚˜ë©´ ì·¨ì•½) >> %RESULT_FILE%
+echo ì°¸ê³  : Tomcat 10 ë²„ì „ì€ 10.1.35 ë³´ë‹¤ ë‚®ìœ¼ë©´ ì·¨ì•½(1ë…„ ì´ìƒ ì§€ë‚˜ë©´ ì·¨ì•½) >> %RESULT_FILE%
+echo ì°¸ê³  : Tomcat 9 ë²„ì „ì€ 9.0.100  ë³´ë‹¤ ë‚®ìœ¼ë©´ ì·¨ì•½(1ë…„ ì´ìƒ ì§€ë‚˜ë©´ ì·¨ì•½) >> %RESULT_FILE%
+echo ì°¸ê³  : Tomcat 7,8 ë²„ì „ì€ EOS ë˜ì—ˆìœ¼ë¯€ë¡œ ì·¨ì•½ >> %RESULT_FILE%
 
-echo 1.tomcat ¹öÀü È®ÀÎ >> %RESULT_FILE%
-rem type !CATALINA_HOME!\RELEASE-NOTES | findstr "Apache Tomcat Version" >> %RESULT_FILE%
+echo 1.tomcat ë²„ì „ í™•ì¸ >> %RESULT_FILE%
+set "TOMCAT_VER="
 for /f "delims=" %%L in ('findstr /i /c:"Apache Tomcat Version" "!CATALINA_HOME!\RELEASE-NOTES"') do (
-    echo %%L >> %RESULT_FILE%
-    goto :FOUND
+    if not defined TOMCAT_VER set "TOMCAT_VER=%%L"
 )
-:FOUND
+if defined TOMCAT_VER (
+    echo !TOMCAT_VER! >> %RESULT_FILE%
+) else (
+    echo [WARN] ë²„ì „ ì •ë³´ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŒ >> %RESULT_FILE%
+)
 echo . >> %RESULT_FILE%
-echo 2.tomcat ¹öÀü È®ÀÎ >> %RESULT_FILE%
+echo 2.tomcat ë²„ì „ í™•ì¸ >> %RESULT_FILE%
 call "!CATALINA_HOME!\bin\version.bat" >> %RESULT_FILE%
 echo [END] >> %RESULT_FILE%
 
@@ -556,26 +545,26 @@ echo [END] >> %RESULT_FILE%
 echo.
 
 :: ===========================================
-:: WEB-26. ·Î±× µð·ºÅÍ¸® ¹× ÆÄÀÏ ±ÇÇÑ ¼³Á¤
+:: WEB-26. ë¡œê·¸ ë””ë ‰í„°ë¦¬ ë° íŒŒì¼ ê¶Œí•œ ì„¤ì •
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-26. ·Î±× µð·ºÅÍ¸® ¹× ÆÄÀÏ ±ÇÇÑ ¼³Á¤ >> %RESULT_FILE%
+echo WEB-26. ë¡œê·¸ ë””ë ‰í„°ë¦¬ ë° íŒŒì¼ ê¶Œí•œ ì„¤ì • >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ÆÇ´Ü ±âÁØ : ·Î±× µð·ºÅÍ¸® ¹× ÆÄÀÏ¿¡ ÀÏ¹Ý »ç¿ëÀÚÀÇ Á¢±Ù ±ÇÇÑÀÌ ¾ø´Â °æ¿ì  >> %RESULT_FILE%
+echo íŒë‹¨ ê¸°ì¤€ : ë¡œê·¸ ë””ë ‰í„°ë¦¬ ë° íŒŒì¼ì— ì¼ë°˜ ì‚¬ìš©ìžì˜ ì ‘ê·¼ ê¶Œí•œì´ ì—†ëŠ” ê²½ìš°  >> %RESULT_FILE%
 
-echo 1. log µð·ºÅÍ¸® ±ÇÇÑ È®ÀÎ  >> %RESULT_FILE%
+echo 1. log ë””ë ‰í„°ë¦¬ ê¶Œí•œ í™•ì¸  >> %RESULT_FILE%
 icacls %CATALINA_HOME%\logs >> %RESULT_FILE%
 echo. >> %RESULT_FILE%
-echo 2. log µð·ºÅÍ¸® ³» ÆÄÀÏ ±ÇÇÑ È®ÀÎ  >> %RESULT_FILE%
+echo 2. log ë””ë ‰í„°ë¦¬ ë‚´ íŒŒì¼ ê¶Œí•œ í™•ì¸  >> %RESULT_FILE%
 icacls %CATALINA_HOME%\logs\*.log >> %RESULT_FILE%
 
 echo [END] >> %RESULT_FILE%
 echo.  >> %RESULT_FILE%
-echo === tomcat Ãë¾àÁ¡ Á¡°Ë Á¾·á === >> %RESULT_FILE%
+echo === tomcat ì·¨ì•½ì  ì ê²€ ì¢…ë£Œ === >> %RESULT_FILE%
 
 echo.
-echo === tomcat Ãë¾àÁ¡ Á¡°Ë Á¾·á ===
-echo tomcat ½ºÅ©¸³Æ® ÀÛ¾÷ÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.
-echo ½ºÅ©¸³Æ® °á°ú ÆÄÀÏÀ» º¸¾È´ã´çÀÚ¿¡°Ô Àü´Þ ¹Ù¶ø´Ï´Ù.
-echo °¨»çÇÕ´Ï´Ù.
+echo === tomcat ì·¨ì•½ì  ì ê²€ ì¢…ë£Œ ===
+echo tomcat ìŠ¤í¬ë¦½íŠ¸ ìž‘ì—…ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.
+echo ìŠ¤í¬ë¦½íŠ¸ ê²°ê³¼ íŒŒì¼ì„ ë³´ì•ˆë‹´ë‹¹ìžì—ê²Œ ì „ë‹¬ ë°”ëžë‹ˆë‹¤.
+echo ê°ì‚¬í•©ë‹ˆë‹¤.
 echo =============================
