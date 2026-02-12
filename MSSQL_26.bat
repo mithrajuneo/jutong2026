@@ -17,9 +17,9 @@ echo #                 MSSQL Server CheckList                      #
 echo #    JeongJuneHyuck Copyright 2026. all rights reserved.      #                                        
 echo ###############################################################
 
-rem set /P INSTANCE="ì¸ìŠ¤í„´ìŠ¤ëª…ì„ ì…ë ¥í•˜ì„¸ìš” (ex.SQLEXPRESS) : "
+rem set /P INSTANCE="ÀÎ½ºÅÏ½º¸íÀ» ÀÔ·ÂÇÏ¼¼¿ä (ex.SQLEXPRESS) : "
 
-rem set /P INSTANCE="ì¸ìŠ¤í„´ìŠ¤ëª…ì„ ì…ë ¥í•˜ì„¸ìš” (ì—†ìœ¼ë©´ Enter) : "
+rem set /P INSTANCE="ÀÎ½ºÅÏ½º¸íÀ» ÀÔ·ÂÇÏ¼¼¿ä (¾øÀ¸¸é Enter) : "
 rem if "%INSTANCE%"=="" (
 rem    set SERVERNAME=%SERVER%
 rem ) else (
@@ -27,16 +27,16 @@ rem set SERVERNAME=%SERVER%\%INSTANCE%
 rem )
 rem set SERVERNAME=%SERVER%
 echo =============================================
-echo [ SQL Server ì ‘ì† ë°©ì‹ ì„ íƒ ]
+echo [ SQL Server Á¢¼Ó ¹æ½Ä ¼±ÅÃ ]
 echo =============================================
-echo 1. í˜„ì¬ ë¡œê·¸ì¸ ëœ Windows ê³„ì •ìœ¼ë¡œ ì ‘ì†
-echo 2. SQL ë¡œê·¸ì¸ ê³„ì •(ID/PW)ìœ¼ë¡œ ì ‘ì†
+echo 1. ÇöÀç ·Î±×ÀÎ µÈ Windows °èÁ¤À¸·Î Á¢¼Ó
+echo 2. SQL ·Î±×ÀÎ °èÁ¤(ID/PW)À¸·Î Á¢¼Ó
 echo =============================================
-set /P MODE="ë²ˆí˜¸ë¥¼ ì„ íƒí•˜ì„¸ìš” (1 ë˜ëŠ” 2) : "
+set /P MODE="¹øÈ£¸¦ ¼±ÅÃÇÏ¼¼¿ä (1 ¶Ç´Â 2) : "
 
-set /P SERVER="ì„œë²„ ì£¼ì†Œë¥¼ ì…ë ¥í•˜ì„¸ìš” (ì˜ˆ: 127.0.0.1) : "
-rem set /P INSTANCE="ì¸ìŠ¤í„´ìŠ¤ëª…ì„ ì…ë ¥í•˜ì„¸ìš” (ë¹„ì›Œë‘ë©´ ê¸°ë³¸ ì¸ìŠ¤í„´ìŠ¤ ì‚¬ìš©) : "
-set /P PORT="í¬íŠ¸ ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš” (ì˜ˆ: 1433) : "
+set /P SERVER="¼­¹ö ÁÖ¼Ò¸¦ ÀÔ·ÂÇÏ¼¼¿ä (¿¹: 127.0.0.1) : "
+rem set /P INSTANCE="ÀÎ½ºÅÏ½º¸íÀ» ÀÔ·ÂÇÏ¼¼¿ä (ºñ¿öµÎ¸é ±âº» ÀÎ½ºÅÏ½º »ç¿ë) : "
+set /P PORT="Æ÷Æ® ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä (¿¹: 1433) : "
 
 if "%PORT%"=="" (
     set SERVERNAME=%SERVER%
@@ -45,16 +45,16 @@ if "%PORT%"=="" (
 )
 
 if "%MODE%"=="1" (
-    echo [Windows ì¸ì¦ ë°©ì‹ìœ¼ë¡œ ì ‘ì†í•©ë‹ˆë‹¤...]
+    echo [Windows ÀÎÁõ ¹æ½ÄÀ¸·Î Á¢¼ÓÇÕ´Ï´Ù...]
     set commonCMD=sqlcmd -S %SERVERNAME% -E   -W -w 999 -u
 ) else if "%MODE%"=="2" (
-    set /P ID="SQL ë¡œê·¸ì¸ IDë¥¼ ì…ë ¥í•˜ì„¸ìš” (ì˜ˆ: sa) : "
-    set /P PASSWD="SQL ë¡œê·¸ì¸ ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš” : "
-    echo [SQL ë¡œê·¸ì¸ ë°©ì‹ìœ¼ë¡œ ì ‘ì†í•©ë‹ˆë‹¤...]
+    set /P ID="SQL ·Î±×ÀÎ ID¸¦ ÀÔ·ÂÇÏ¼¼¿ä (¿¹: sa) : "
+    set /P PASSWD="SQL ·Î±×ÀÎ ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä : "
+    echo [SQL ·Î±×ÀÎ ¹æ½ÄÀ¸·Î Á¢¼ÓÇÕ´Ï´Ù...]
     set commonCMD=sqlcmd -S %SERVERNAME% -U !ID! -P "!PASSWD!" -W -w 999 -u
     rem echo sqlcmd -S %SERVERNAME% -U %ID% -P
 ) else (
-    echo ì˜ëª»ëœ ì„ íƒì…ë‹ˆë‹¤. ì¢…ë£Œí•©ë‹ˆë‹¤.
+    echo Àß¸øµÈ ¼±ÅÃÀÔ´Ï´Ù. Á¾·áÇÕ´Ï´Ù.
     pause
     exit /b
 )
@@ -64,7 +64,7 @@ echo ###########################################################################
 rem set commonCMD=sqlcmd -S %SERVERNAME%%INSTANCE% -w 65530 -U %ID% -P %PASSWD% -Q
 rem set commonCMD=sqlcmd -S %SERVERNAME% -U %ID% -P %PASSWD% -Q
 
-echo ########################## [[ ì‹œìŠ¤í…œ ê¸°ë³¸ ì •ë³´ ]] ################################### >> %COMPUTERNAME%_mssql.txt
+echo ########################## [[ ½Ã½ºÅÛ ±âº» Á¤º¸ ]] ################################### >> %COMPUTERNAME%_mssql.txt
 echo ##################################################################################### >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
@@ -77,133 +77,133 @@ echo ***************************************************************************
 echo. >> %COMPUTERNAME%_mssql.txt
 secedit /EXPORT /CFG local_security_policy.txt
 
-echo D-0. ë¡œê·¸ì¸ ê°€ëŠ¥í•œ ê³„ì • ë¦¬ìŠ¤íŠ¸ ì¶œë ¥ >> %COMPUTERNAME%_mssql.txt
+echo D-0. ·Î±×ÀÎ °¡´ÉÇÑ °èÁ¤ ¸®½ºÆ® Ãâ·Â >> %COMPUTERNAME%_mssql.txt
 set "query_login=SELECT sp.name AS LoginName, sp.type_desc AS AuthType, sp.is_disabled AS IsDisabled, sp.create_date AS CreateDate, sp.default_database_name AS DefaultDB, CASE WHEN sp.is_disabled = 0 THEN 'Active' ELSE 'Disabled' END AS Status, CASE WHEN spm.role_principal_id IS NOT NULL THEN 'Yes' ELSE 'No' END AS IsSysAdmin FROM sys.server_principals sp LEFT JOIN sys.server_role_members spm ON sp.principal_id = spm.member_principal_id AND spm.role_principal_id = (SELECT principal_id FROM sys.server_principals WHERE name = 'sysadmin') WHERE sp.type IN ('S','U','G') AND sp.is_disabled = 0 AND sp.name NOT LIKE '##%' ORDER BY sp.type_desc, sp.name;"
 %commonCMD% -Q "%query_login%" >> %COMPUTERNAME%_mssql.txt
 
-echo D-01. ê¸°ë³¸ ê³„ì •ì˜ íŒ¨ìŠ¤ì›Œë“œ, ì •ì±… ë“±ì„ ë³€ê²½í•˜ì—¬ ì‚¬ìš© >> %COMPUTERNAME%_mssql.txt
-echo ê²°ê³¼ê°€ NULLì´ì–´ë„ ë³€ê²½ ì•ˆí•œê²Œ ì•„ë‹˜ ë³€ê²½ ì‹œê°„ì„ ë³´ëŠ”ê²Œ ë‚˜ì„ìˆ˜ë„  >> %COMPUTERNAME%_mssql.txt
+echo D-01. ±âº» °èÁ¤ÀÇ ÆĞ½º¿öµå, Á¤Ã¥ µîÀ» º¯°æÇÏ¿© »ç¿ë >> %COMPUTERNAME%_mssql.txt
+echo °á°ú°¡ NULLÀÌ¾îµµ º¯°æ ¾ÈÇÑ°Ô ¾Æ´Ô º¯°æ ½Ã°£À» º¸´Â°Ô ³ªÀ»¼öµµ  >> %COMPUTERNAME%_mssql.txt
 echo ----------------------------------------------------------------------------------------->> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
 rem %commonCMD% "select * from syslogins" >> %COMPUTERNAME%_mssql.txt
 echo ------------------------------------------------------>> %COMPUTERNAME%_mssql.txt
 set "query1_1_1=SELECT * FROM sys.syslogins"
 set "query1_1_2=SELECT *  from sys.sql_logins WHERE name = 'sa'"
-rem sa ê³„ì •ì´ ë¹„í™œì„±í™” ë˜ì–´ìˆë‹¤ë©´ ìœˆë„ìš° ì¸ì¦ìœ¼ë¡œ ë¡œê·¸ì¸ í•œë‹¤ëŠ”ê±°ì„
-echo --------------------- êµ¬ë²„ì „ --------------------- >> %COMPUTERNAME%_mssql.txt
+rem sa °èÁ¤ÀÌ ºñÈ°¼ºÈ­ µÇ¾îÀÖ´Ù¸é À©µµ¿ì ÀÎÁõÀ¸·Î ·Î±×ÀÎ ÇÑ´Ù´Â°ÅÀÓ
+echo --------------------- ±¸¹öÀü --------------------- >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query1_1_1%" >> %COMPUTERNAME%_mssql.txt
-echo --------------------- ì‹ ë²„ì „ (sa ë¡œê·¸ì¸ ì •ë³´) --------------------- >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ½Å¹öÀü (sa ·Î±×ÀÎ Á¤º¸) --------------------- >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query1_1_2%" >> %COMPUTERNAME%_mssql.txt
-echo --------------------- ìœˆë„ìš° ê³„ì •ì˜ ë¹„ë°€ë²ˆí˜¸ ë³€ê²½ ì—¬ë¶€ í™•ì¸ --------------------- >> %COMPUTERNAME%_mssql.txt
+echo --------------------- À©µµ¿ì °èÁ¤ÀÇ ºñ¹Ğ¹øÈ£ º¯°æ ¿©ºÎ È®ÀÎ --------------------- >> %COMPUTERNAME%_mssql.txt
 powershell -Command  "Get-LocalUser | Select-Object Name, PasswordLastSet, PasswordExpires" >> %COMPUTERNAME%_mssql.txt
 
-rem is_locked_out = 1 â†’ ë¡œê·¸ì¸ ì ê¹€
-rem is_disabled = 1 â†’ ê³„ì • ì‚¬ìš© ì•ˆ í•¨
-rem is_policy_checked = 1 â†’ ë³´ì•ˆ ì •ì±…(ì ê¸ˆ/ë³µì¡ì„± ë“±)ì´ ì ìš©ë˜ëŠ” ê³„ì •
+rem is_locked_out = 1 ¡æ ·Î±×ÀÎ Àá±è
+rem is_disabled = 1 ¡æ °èÁ¤ »ç¿ë ¾È ÇÔ
+rem is_policy_checked = 1 ¡æ º¸¾È Á¤Ã¥(Àá±İ/º¹Àâ¼º µî)ÀÌ Àû¿ëµÇ´Â °èÁ¤
 
 echo ------------------------------------------------------>> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 
-echo D-02. ë°ì´í„°ë² ì´ìŠ¤ì˜ ë¶ˆí•„ìš” ê³„ì •ì„ ì œê±°í•˜ê±°ë‚˜, ì ê¸ˆ ì„¤ì • í›„ ì‚¬ìš© >> %COMPUTERNAME%_mssql.txt
-echo ì•„ë˜ ê²°ê³¼ë¥¼ ì¢…í•©ì ìœ¼ë¡œ ë¶„ì„ì„ í•´ì„œ í™œì„±í™”ëœ ê³„ì •ì— ëŒ€í•´ì„œ ì¸í„°ë·°ê°€ í•„ìš”í• ìˆ˜ë„.. >> %COMPUTERNAME%_mssql.txt
+echo D-02. µ¥ÀÌÅÍº£ÀÌ½ºÀÇ ºÒÇÊ¿ä °èÁ¤À» Á¦°ÅÇÏ°Å³ª, Àá±İ ¼³Á¤ ÈÄ »ç¿ë >> %COMPUTERNAME%_mssql.txt
+echo ¾Æ·¡ °á°ú¸¦ Á¾ÇÕÀûÀ¸·Î ºĞ¼®À» ÇØ¼­ È°¼ºÈ­µÈ °èÁ¤¿¡ ´ëÇØ¼­ ÀÎÅÍºä°¡ ÇÊ¿äÇÒ¼öµµ.. >> %COMPUTERNAME%_mssql.txt
 echo ------------------------------------------------------>> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
 set "query1_2_1=select name,status,denylogin,hasaccess from syslogins"
 set "query1_2_2=SELECT name, type_desc, is_disabled, create_date, modify_date FROM sys.sql_logins ORDER BY name"
 echo ------------------------------------------------------>> %COMPUTERNAME%_mssql.txt
-echo --------------------- êµ¬ë²„ì „ --------------------- >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ±¸¹öÀü --------------------- >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query1_2_1%" >> %COMPUTERNAME%_mssql.txt
-echo --------------------- ì‹ ë²„ì „ --------------------- >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ½Å¹öÀü --------------------- >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query1_2_2%" >> %COMPUTERNAME%_mssql.txt
 
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-03 íŒ¨ìŠ¤ì›Œë“œì˜ ì‚¬ìš©ê¸°ê°„ ë° ë³µì¡ë„ ê¸°ê´€ ì •ì±…ì— ë§ë„ë¡ ì„¤ì • >> %COMPUTERNAME%_mssql.txt
+echo D-03 ÆĞ½º¿öµåÀÇ »ç¿ë±â°£ ¹× º¹Àâµµ ±â°ü Á¤Ã¥¿¡ ¸Âµµ·Ï ¼³Á¤ >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo íŒ¨ìŠ¤ì›Œë“œ ë³µì¡ë„ ì„¤ì • í™•ì¸(is_disabledê°€ 1ì´ê³ ,type S(ì„œë²„ ì¸ì¦)ì´ê³ , is_expiration_checked(íŒ¨ìŠ¤ì›Œë“œ ë§Œë£Œê¸°ê°„) = 1, is_policy_checked(ì•”í˜¸ì •ì±…)ì´ë©´ ì–‘í˜¸) >> %COMPUTERNAME%_mssql.txt
+echo ÆĞ½º¿öµå º¹Àâµµ ¼³Á¤ È®ÀÎ(is_disabled°¡ 1ÀÌ°í,type S(¼­¹ö ÀÎÁõ)ÀÌ°í, is_expiration_checked(ÆĞ½º¿öµå ¸¸·á±â°£) = 1, is_policy_checked(¾ÏÈ£Á¤Ã¥)ÀÌ¸é ¾çÈ£) >> %COMPUTERNAME%_mssql.txt
 set "query1_3_1=select * from sys.sql_logins"
 set "query1_3_2=SELECT name, is_expiration_checked AS password_expiration_enabled, is_policy_checked AS password_policy_enforced FROM sys.sql_logins ORDER BY name"
 echo ------------------------------------------------------>> %COMPUTERNAME%_mssql.txt
-echo --------------------- êµ¬ë²„ì „ --------------------- >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ±¸¹öÀü --------------------- >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query1_3_1%" >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
-echo typeì´ Uë˜ëŠ” Gì¼ë•Œ ì•„ë˜ ì •ì±…ì— ì˜í–¥ì„ ë°›ìŒ >> %COMPUTERNAME%_mssql.txt
+echo typeÀÌ U¶Ç´Â GÀÏ¶§ ¾Æ·¡ Á¤Ã¥¿¡ ¿µÇâÀ» ¹ŞÀ½ >> %COMPUTERNAME%_mssql.txt
 echo [PasswordComplexity]>> %COMPUTERNAME%_mssql.txt
 type local_security_policy.txt | find "PasswordComplexity"  >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 echo[Maximum password age]>> %COMPUTERNAME%_mssql.txt
 type local_security_policy.txt | find "Maximum"  >> %COMPUTERNAME%_mssql.txt
 
-echo --------------------- ì‹ ë²„ì „ --------------------- >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ½Å¹öÀü --------------------- >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query1_3_2%" >> %COMPUTERNAME%_mssql.txt
-rem password_expiration_enabled: ì•”í˜¸ ë§Œë£Œ ì •ì±…ì´ í™œì„±í™”ë˜ì–´ ìˆëŠ”ì§€ë¥¼ ë‚˜íƒ€ëƒ…ë‹ˆë‹¤. 1ì€ í™œì„±í™”, 0ì€ ë¹„í™œì„±í™”
-rem password_policy_enforced: ì•”í˜¸ ì •ì±…ì´ ì ìš©ë˜ê³  ìˆëŠ”ì§€ë¥¼ ë‚˜íƒ€ëƒ…ë‹ˆë‹¤. 1ì€ ì ìš©ë¨, 0ì€ ì ìš©ë˜ì§€ ì•ŠìŒ
+rem password_expiration_enabled: ¾ÏÈ£ ¸¸·á Á¤Ã¥ÀÌ È°¼ºÈ­µÇ¾î ÀÖ´ÂÁö¸¦ ³ªÅ¸³À´Ï´Ù. 1Àº È°¼ºÈ­, 0Àº ºñÈ°¼ºÈ­
+rem password_policy_enforced: ¾ÏÈ£ Á¤Ã¥ÀÌ Àû¿ëµÇ°í ÀÖ´ÂÁö¸¦ ³ªÅ¸³À´Ï´Ù. 1Àº Àû¿ëµÊ, 0Àº Àû¿ëµÇÁö ¾ÊÀ½
 
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-04. ë°ì´í„°ë² ì´ìŠ¤ ê´€ë¦¬ì ê¶Œí•œì„ ê¼­ í•„ìš”í•œ ê³„ì • ë° ê·¸ë£¹ì— ëŒ€í•´ì„œë§Œ í—ˆìš© >> %COMPUTERNAME%_mssql.txt
+echo D-04. µ¥ÀÌÅÍº£ÀÌ½º °ü¸®ÀÚ ±ÇÇÑÀ» ²À ÇÊ¿äÇÑ °èÁ¤ ¹× ±×·ì¿¡ ´ëÇØ¼­¸¸ Çã¿ë >> %COMPUTERNAME%_mssql.txt
 echo ----------------------------------------------------------------------------------------->> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
 set "query1_4_1=select login_name = P.name, role_name = CASE R.role_principal_id WHEN 3 THEN 'sysadmin' WHEN 4 THEN 'securityadmin' WHEN 5 THEN 'serveradmin' WHEN 6 THEN 'setupadmin' WHEN 7 THEN 'processadmin' WHEN 8 THEN 'diskadmin' WHEN 9 THEN 'dbcreator' WHEN 10 THEN 'bulkadmin' END FROM sys.server_principals P INNER JOIN sys.server_role_members R ON P.principal_id = R.member_principal_id ORDER BY P.name"
 set "query1_4_2=SELECT sp.name AS login_name, sp.type_desc AS login_type, sp.is_disabled, sl.create_date, sl.modify_date FROM sys.server_role_members rm JOIN sys.server_principals sp ON rm.member_principal_id = sp.principal_id JOIN sys.sql_logins sl ON sp.name = sl.name WHERE rm.role_principal_id = SUSER_ID('sysadmin') ORDER BY sp.name"
 echo ------------------------------------------------------>> %COMPUTERNAME%_mssql.txt
-echo --------------------- êµ¬ë²„ì „ --------------------- >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ±¸¹öÀü --------------------- >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query1_4_1%" >> %COMPUTERNAME%_mssql.txt
-echo --------------------- ì‹ ë²„ì „ --------------------- >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ½Å¹öÀü --------------------- >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query1_4_2%" >> %COMPUTERNAME%_mssql.txt
-rem sysadmin ì„œë²„ ì—­í• ì— ì†í•œ ë¡œê·¸ì¸ ê³„ì •ë“¤ì˜ ì •ë³´ë¥¼ ì¡°íšŒí•˜ëŠ” ì¿¼ë¦¬
+rem sysadmin ¼­¹ö ¿ªÇÒ¿¡ ¼ÓÇÑ ·Î±×ÀÎ °èÁ¤µéÀÇ Á¤º¸¸¦ Á¶È¸ÇÏ´Â Äõ¸®
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-05. íŒ¨ìŠ¤ì›Œë“œ ì¬ì‚¬ìš©ì— ëŒ€í•œ ì œì•½ >> %COMPUTERNAME%_mssql.txt
+echo D-05. ÆĞ½º¿öµå Àç»ç¿ë¿¡ ´ëÇÑ Á¦¾à >> %COMPUTERNAME%_mssql.txt
 echo ----------------------------------------------------------------------------------------->> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo MSSQLì€ íŒ¨ìŠ¤ì›Œë“œ ì¬ì‚¬ìš©ì— ëŒ€í•œ ë³´ì•ˆ ì„¤ì •ì´ ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë¯€ë¡œ í•´ë‹¹ì‚¬í•­ ì—†ìŒ >> %COMPUTERNAME%_mssql.txt
+echo MSSQLÀº ÆĞ½º¿öµå Àç»ç¿ë¿¡ ´ëÇÑ º¸¾È ¼³Á¤ÀÌ Á¸ÀçÇÏÁö ¾ÊÀ¸¹Ç·Î ÇØ´ç»çÇ× ¾øÀ½ >> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-06. DB ì‚¬ìš©ì ê³„ì • ê°œë³„ì  ë¶€ì—¬ >> %COMPUTERNAME%_mssql.txt
+echo D-06. DB »ç¿ëÀÚ °èÁ¤ °³º°Àû ºÎ¿© >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo ê³µìš©ê³„ì •ì´ ì•„ë‹Œ ì‚¬ìš©ìë³„ ê³„ì •ì„ ì‚¬ìš©í•˜ê³  ìˆëŠ” ê²½ìš°(ê²°ê³¼ ê°’ì— ëŒ€í•œ ì¸í„°ë·° ì§„í–‰).  >> %COMPUTERNAME%_mssql.txt
-echo log.name AS [Name] : ë¡œê·¸ì¸ê³„ì •  >> %COMPUTERNAME%_mssql.txt
-echo log.type_desc : ë¡œê·¸ì¸íƒ€ì…  >> %COMPUTERNAME%_mssql.txt
-echo log.is_disabled AS [IsDisabled] : 1ì´ë©´ì‚¬ìš©í• ìˆ˜ì—†ìŒ  >> %COMPUTERNAME%_mssql.txt
-echo log.create_date AS [CreateDate] : ìƒì„±ì¼  >> %COMPUTERNAME%_mssql.txt
+echo °ø¿ë°èÁ¤ÀÌ ¾Æ´Ñ »ç¿ëÀÚº° °èÁ¤À» »ç¿ëÇÏ°í ÀÖ´Â °æ¿ì(°á°ú °ª¿¡ ´ëÇÑ ÀÎÅÍºä ÁøÇà).  >> %COMPUTERNAME%_mssql.txt
+echo log.name AS [Name] : ·Î±×ÀÎ°èÁ¤  >> %COMPUTERNAME%_mssql.txt
+echo log.type_desc : ·Î±×ÀÎÅ¸ÀÔ  >> %COMPUTERNAME%_mssql.txt
+echo log.is_disabled AS [IsDisabled] : 1ÀÌ¸é»ç¿ëÇÒ¼ö¾øÀ½  >> %COMPUTERNAME%_mssql.txt
+echo log.create_date AS [CreateDate] : »ı¼ºÀÏ  >> %COMPUTERNAME%_mssql.txt
 
 set "query1_6_1= select log.name AS [Name], log.type_desc, log.is_disabled AS [IsDisabled],log.create_date AS [CreateDate] FROM sys.server_principals AS log WHERE (log.type in ('U', 'G', 'S', 'C', 'K') AND log.principal_id not between 101 and 255 AND log.name <> N'##MS_AgentSigningCertificate##') ORDER BY [Name] ASC"
-set "query1_6_2= SELECT   loginname, starttime, hostname AS clienthostname, applicationname, servername FROM sys.fn_trace_gettable(CONVERT(VARCHAR(150), (SELECT TOP 1 value FROM sys.fn_trace_getinfo(NULL) WHERE property = 2)), DEFAULT) WHERE EventClass = 14 -- ë¡œê·¸ì¸ ì„±ê³µ ORDER BY starttime DESC"
+set "query1_6_2= SELECT   loginname, starttime, hostname AS clienthostname, applicationname, servername FROM sys.fn_trace_gettable(CONVERT(VARCHAR(150), (SELECT TOP 1 value FROM sys.fn_trace_getinfo(NULL) WHERE property = 2)), DEFAULT) WHERE EventClass = 14 -- ·Î±×ÀÎ ¼º°ø ORDER BY starttime DESC"
 echo ------------------------------------------------------>> %COMPUTERNAME%_mssql.txt
-echo --------------------- êµ¬ë²„ì „ ---------------------  >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ±¸¹öÀü ---------------------  >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query1_6_1%" >> %COMPUTERNAME%_mssql.txt
-echo --------------------- ì‹ ë²„ì „ ---------------------  >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ½Å¹öÀü ---------------------  >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query1_6_2%" >> %COMPUTERNAME%_mssql.txt
-rem ê°ì‚¬ì¿¼ë¦¬ì´ë©°, ê°™ì€ ê³„ì •ìœ¼ë¡œ ë‹¤ë¥¸ hostnameì—ì„œ ë¡œê·¸ì¸í–ˆëŠ”ì§€ í™•ì¸ í•˜ë©´ ë¨
+rem °¨»çÄõ¸®ÀÌ¸ç, °°Àº °èÁ¤À¸·Î ´Ù¸¥ hostname¿¡¼­ ·Î±×ÀÎÇß´ÂÁö È®ÀÎ ÇÏ¸é µÊ
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-07. root ê¶Œí•œìœ¼ë¡œ ì„œë¹„ìŠ¤ êµ¬ë™ ì œí•œ >> %COMPUTERNAME%_mssql.txt
+echo D-07. root ±ÇÇÑÀ¸·Î ¼­ºñ½º ±¸µ¿ Á¦ÇÑ >> %COMPUTERNAME%_mssql.txt
 echo ----------------------------------------------------------------------------------------->> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo MSSQLì€ í•´ë‹¹ì‚¬í•­ ì—†ìŒ >> %COMPUTERNAME%_mssql.txt
+echo MSSQLÀº ÇØ´ç»çÇ× ¾øÀ½ >> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-08. ì•ˆì „í•œ ì•”í˜¸í™” ì•Œê³ ë¦¬ì¦˜ ì‚¬ìš© >> %COMPUTERNAME%_mssql.txt
+echo D-08. ¾ÈÀüÇÑ ¾ÏÈ£È­ ¾Ë°í¸®Áò »ç¿ë >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo mssql 2012 ì´ìƒì—ì„œëŠ” SHA-512 í•´ì‰¬ ì•Œê³ ë¦¬ì¦˜ ì‚¬ìš© >> %COMPUTERNAME%_mssql.txt
+echo mssql 2012 ÀÌ»ó¿¡¼­´Â SHA-512 ÇØ½¬ ¾Ë°í¸®Áò »ç¿ë >> %COMPUTERNAME%_mssql.txt
 set "query3_3_1= select name, password_hash from sys.sql_logins;"
 set "query3_3_2= SELECT name AS login_name, is_policy_checked, is_expiration_checked FROM sys.sql_logins;"
 echo ------------------------------------------------------>> %COMPUTERNAME%_mssql.txt
-echo --------------------- êµ¬ë²„ì „ ---------------------  >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ±¸¹öÀü ---------------------  >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query3_3_1%" >> %COMPUTERNAME%_mssql.txt
-echo --------------------- ì‹ ë²„ì „ ---------------------  >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ½Å¹öÀü ---------------------  >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query3_3_2%" >> %COMPUTERNAME%_mssql.txt
-echo --------------------- ì‹ ë²„ì „(ìœˆë„ìš° OS ì¸ì¦ ì¼ê²½ìš° íŒ¨ìŠ¤ì›Œë“œ ë³µì¡ë„ ì •ì±… í™•ì¸ ---------------------  >> %COMPUTERNAME%_mssql.txt
-echo PasswordComplexity =1 ì´ë©´ ì–‘í˜¸ >> %COMPUTERNAME%_mssql.txt
-echo MaximumPasswordAge=90 ì´ë©´ ì–‘í˜¸ >> %COMPUTERNAME%_mssql.txt
-echo MinimumPasswordLength=8 ì´ìƒì´ë©´ ì–‘í˜¸ >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ½Å¹öÀü(À©µµ¿ì OS ÀÎÁõ ÀÏ°æ¿ì ÆĞ½º¿öµå º¹Àâµµ Á¤Ã¥ È®ÀÎ ---------------------  >> %COMPUTERNAME%_mssql.txt
+echo PasswordComplexity =1 ÀÌ¸é ¾çÈ£ >> %COMPUTERNAME%_mssql.txt
+echo MaximumPasswordAge=90 ÀÌ¸é ¾çÈ£ >> %COMPUTERNAME%_mssql.txt
+echo MinimumPasswordLength=8 ÀÌ»óÀÌ¸é ¾çÈ£ >> %COMPUTERNAME%_mssql.txt
 secedit /export /cfg password_policy.cfg
 type password_policy.cfg | findstr PasswordComplexity  >> %COMPUTERNAME%_mssql.txt
 type password_policy.cfg | findstr Maximum  >> %COMPUTERNAME%_mssql.txt
@@ -211,28 +211,28 @@ type password_policy.cfg | findstr Minimum  >> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-09 ì¼ì • íšŸìˆ˜ì˜ ë¡œê·¸ì¸ ì‹¤íŒ¨ ì‹œ ì ê¸ˆ ì •ì±… ì„¤ì • >> %COMPUTERNAME%_mssql.txt
+echo D-09 ÀÏÁ¤ È½¼öÀÇ ·Î±×ÀÎ ½ÇÆĞ ½Ã Àá±İ Á¤Ã¥ ¼³Á¤ >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo MSSQLì€ í•´ë‹¹ì‚¬í•­ ì—†ìŒ >> %COMPUTERNAME%_mssql.txt
+echo MSSQLÀº ÇØ´ç»çÇ× ¾øÀ½ >> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-10. ì›ê²©ì—ì„œ DB ì„œë²„ë¡œì˜ ì ‘ì† ì œí•œ >> %COMPUTERNAME%_mssql.txt
+echo D-10. ¿ø°İ¿¡¼­ DB ¼­¹ö·ÎÀÇ Á¢¼Ó Á¦ÇÑ >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo [ì¶”ê°€ì¸í„°ë·°í•„ìš”]  >> %COMPUTERNAME%_mssql.txt
-echo ì°¸ê³  : mssql í¬íŠ¸ê°€ ì•„ë‹Œ mstsc ì›ê²© ì ‘ì† í¬íŠ¸ì„  >> %COMPUTERNAME%_mssql.txt
-echo config_value = 0 (ë¡œì»¬ì—°ê²°), config_value = 1 (ì›ê²© ì—°ê²°), íŠ¹ì • IPì—ì„œë§Œ ì ‘ì† ê°€ëŠ¥í•˜ë„ë¡ ë°©í™”ë²½ ë˜ëŠ” DBì ‘ê·¼ì œì–´ ì†”ë£¨ì…˜ í™•ì¸  >> %COMPUTERNAME%_mssql.txt
+echo [Ãß°¡ÀÎÅÍºäÇÊ¿ä]  >> %COMPUTERNAME%_mssql.txt
+echo Âü°í : mssql Æ÷Æ®°¡ ¾Æ´Ñ mstsc ¿ø°İ Á¢¼Ó Æ÷Æ®ÀÓ  >> %COMPUTERNAME%_mssql.txt
+echo config_value = 0 (·ÎÄÃ¿¬°á), config_value = 1 (¿ø°İ ¿¬°á), Æ¯Á¤ IP¿¡¼­¸¸ Á¢¼Ó °¡´ÉÇÏµµ·Ï ¹æÈ­º® ¶Ç´Â DBÁ¢±ÙÁ¦¾î ¼Ö·ç¼Ç È®ÀÎ  >> %COMPUTERNAME%_mssql.txt
 echo ----------------------------------------------------------------------------------------->> %COMPUTERNAME%_mssql.txt
 set "query2_1_1= sp_configure 'remote admin connections'"
 echo ------------------------------------------------------>> %COMPUTERNAME%_mssql.txt
-echo --------------------- êµ¬ë²„ì „ ---------------------  >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ±¸¹öÀü ---------------------  >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query2_1_1%" >> %COMPUTERNAME%_mssql.txt
-echo --------------------- ì‹ ë²„ì „ (ë°©í™”ë²½ ì •ì±… í™•ì¸)---------------------  >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ½Å¹öÀü (¹æÈ­º® Á¤Ã¥ È®ÀÎ)---------------------  >> %COMPUTERNAME%_mssql.txt
 for /f "tokens=3" %%A in ('
     reg query "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v PortNumber ^| find "PortNumber" 
 ') do set HEX_PORT=%%A
 
-REM 16ì§„ìˆ˜ â†’ 10ì§„ìˆ˜ ë³€í™˜
+REM 16Áø¼ö ¡æ 10Áø¼ö º¯È¯
 set /a RDP_PORT=%HEX_PORT%
 echo RDP Port (Decimal) = %RDP_PORT% >> %COMPUTERNAME%_mssql.txt
 
@@ -241,48 +241,48 @@ echo ---------------------------------------------------------------------------
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-11. DBA ì´ì™¸ì˜ ì¸ê°€ë˜ì§€ ì•Šì€ ì‚¬ìš©ìê°€ ì‹œìŠ¤í…œ í…Œì´ë¸”ì— ì ‘ê·¼í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì • >> %COMPUTERNAME%_mssql.txt
+echo D-11. DBA ÀÌ¿ÜÀÇ ÀÎ°¡µÇÁö ¾ÊÀº »ç¿ëÀÚ°¡ ½Ã½ºÅÛ Å×ÀÌºí¿¡ Á¢±ÙÇÒ ¼ö ¾øµµ·Ï ¼³Á¤ >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo ì•„ë˜ ì¿¼ë¦¬ì—ì„œ ê²°ê³¼ê°€ ë‚˜ì˜¤ë©´ ì·¨ì•½ (ì„¤ëª…_sys.database_principalsì´ public ì´ë©´ì„œ sys.all_objectsê°€ Systemì´ë©´ ì·¨ì•½)  >> %COMPUTERNAME%_mssql.txt
+echo ¾Æ·¡ Äõ¸®¿¡¼­ °á°ú°¡ ³ª¿À¸é Ãë¾à (¼³¸í_sys.database_principalsÀÌ public ÀÌ¸é¼­ sys.all_objects°¡ SystemÀÌ¸é Ãë¾à)  >> %COMPUTERNAME%_mssql.txt
 echo ----------------------------------------------------------------------------------------->> %COMPUTERNAME%_mssql.txt
 set "query2_2_1= select su.name as principal_name, dp.type_desc as principal_type_desc, ao.type_desc, ao.name as object_name, p.permission_name, p.state_desc as permission_state_desc from sys.database_permissions p, sys.database_principals dp, sys.all_objects ao, sys.sysusers su where ao.object_id=p.major_id and p.grantee_principal_id=dp.principal_id and p.grantee_principal_id=su.uid and dp.name='public' and ao.type='S'"
 set "query2_2_2=SELECT OBJECT_NAME(major_id) AS TableName, USER_NAME(grantee_principal_id) AS UserName, permission_name AS Permission FROM master.sys.database_permissions WHERE class = 1 AND major_id IN (SELECT object_id FROM master.sys.objects WHERE type = 'S') AND USER_NAME(grantee_principal_id) IN ('public', 'guest');"
 echo ------------------------------------------------------>> %COMPUTERNAME%_mssql.txt
-echo --------------------- êµ¬ë²„ì „ ---------------------  >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ±¸¹öÀü ---------------------  >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query2_2_1%" >> %COMPUTERNAME%_mssql.txt
-echo --------------------- ì‹ ë²„ì „ ---------------------  >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ½Å¹öÀü ---------------------  >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query2_2_2%" >> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-12. ì•ˆì „í•œ ë¦¬ìŠ¤ë„ˆ ë¹„ë°€ë²ˆí˜¸ ì„¤ì • ë° ì‚¬ìš© >> %COMPUTERNAME%_mssql.txt
+echo D-12. ¾ÈÀüÇÑ ¸®½º³Ê ºñ¹Ğ¹øÈ£ ¼³Á¤ ¹× »ç¿ë >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo MSSQLì€ í•´ë‹¹ì‚¬í•­ ì—†ìŒ >> %COMPUTERNAME%_mssql.txt
+echo MSSQLÀº ÇØ´ç»çÇ× ¾øÀ½ >> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-13. ë¶ˆí•„ìš”í•œ ODBC/OLE-DB ë°ì´í„° ì†ŒìŠ¤ì™€ ë“œë¼ì´ë¸Œë¥¼ ì œê±°í•˜ì—¬ ì‚¬ìš© >> %COMPUTERNAME%_mssql.txt
+echo D-13. ºÒÇÊ¿äÇÑ ODBC/OLE-DB µ¥ÀÌÅÍ ¼Ò½º¿Í µå¶óÀÌºê¸¦ Á¦°ÅÇÏ¿© »ç¿ë >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo í•´ë‹¹ ì ê²€ í•­ëª©ì€ ìœˆë„ìš° ì„œë²„ ì ê²€ í•­ëª©ìœ¼ë¡œ ì ê²€ì´ ë˜ê³  ìˆìœ¼ë¯€ë¡œ ì˜ˆì™¸ì²˜ë¦¬í•¨ >> %COMPUTERNAME%_mssql.txt
+echo ÇØ´ç Á¡°Ë Ç×¸ñÀº À©µµ¿ì ¼­¹ö Á¡°Ë Ç×¸ñÀ¸·Î Á¡°ËÀÌ µÇ°í ÀÖÀ¸¹Ç·Î ¿¹¿ÜÃ³¸®ÇÔ >> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-14. ë°ì´í„°ë² ì´ìŠ¤ì˜ ì£¼ìš” ì„¤ì • íŒŒì¼, ë¹„ë°€ë²ˆí˜¸ íŒŒì¼ ë“±ê³¼ ì£¼ìš” íŒŒì¼ë“¤ì˜ ì ‘ê·¼ ê¶Œí•œì´ ì ì ˆí•˜ê²Œ ì„¤ì • >> %COMPUTERNAME%_mssql.txt
+echo D-14. µ¥ÀÌÅÍº£ÀÌ½ºÀÇ ÁÖ¿ä ¼³Á¤ ÆÄÀÏ, ºñ¹Ğ¹øÈ£ ÆÄÀÏ µî°ú ÁÖ¿ä ÆÄÀÏµéÀÇ Á¢±Ù ±ÇÇÑÀÌ ÀûÀıÇÏ°Ô ¼³Á¤ >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo Unix ì ê²€í•­ëª©ìœ¼ë¡œ í•´ë‹¹ì‚¬í•­ ì—†ìŒ   >> %COMPUTERNAME%_mssql.txt
+echo Unix Á¡°ËÇ×¸ñÀ¸·Î ÇØ´ç»çÇ× ¾øÀ½   >> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-15. ê´€ë¦¬ì ì´ì™¸ì˜ ì‚¬ìš©ìê°€ ì˜¤ë¼í´ ë¦¬ìŠ¤ë„ˆì˜ ì ‘ì†ì„ í†µí•´ ë¦¬ìŠ¤ë„ˆ ë¡œê·¸ ë° trace íŒŒì¼ì— ëŒ€í•œ ë³€ê²½ ì œí•œ >> %COMPUTERNAME%_mssql.txt
+echo D-15. °ü¸®ÀÚ ÀÌ¿ÜÀÇ »ç¿ëÀÚ°¡ ¿À¶óÅ¬ ¸®½º³ÊÀÇ Á¢¼ÓÀ» ÅëÇØ ¸®½º³Ê ·Î±× ¹× trace ÆÄÀÏ¿¡ ´ëÇÑ º¯°æ Á¦ÇÑ >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo MSSQLì€ í•´ë‹¹ì‚¬í•­ ì—†ìŒ   >> %COMPUTERNAME%_mssql.txt
+echo MSSQLÀº ÇØ´ç»çÇ× ¾øÀ½   >> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-16. Windows ì¸ì¦ ëª¨ë“œ ì‚¬ìš© >> %COMPUTERNAME%_mssql.txt
+echo D-16. Windows ÀÎÁõ ¸ğµå »ç¿ë >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo sa ê³„ì • ë¹„í™œì„±í™” ë° Windows ì¸ì¦ ëª¨ë“œ ì‚¬ìš©í•˜ëŠ” ê²½ìš° ì–‘í˜¸ >> %COMPUTERNAME%_mssql.txt
-echo sa ê³„ì • í™œì„±í™”ì‹œ ê°•ë ¥í•œ ì•”í˜¸ ì •ì±… ë˜ì–´ìˆëŠ” ê²½ìš° ì–‘í˜¸ >> %COMPUTERNAME%_mssql.txt
+echo sa °èÁ¤ ºñÈ°¼ºÈ­ ¹× Windows ÀÎÁõ ¸ğµå »ç¿ëÇÏ´Â °æ¿ì ¾çÈ£ >> %COMPUTERNAME%_mssql.txt
+echo sa °èÁ¤ È°¼ºÈ­½Ã °­·ÂÇÑ ¾ÏÈ£ Á¤Ã¥ µÇ¾îÀÖ´Â °æ¿ì ¾çÈ£ >> %COMPUTERNAME%_mssql.txt
 set "query16= SELECT SERVERPROPERTY('IsIntegratedSecurityOnly') AS WindowsAuthOnly;"
 set "query16_2=SELECT *  from sys.sql_logins WHERE name = 'sa';"
 %commonCMD% -Q "%query16%" >> %COMPUTERNAME%_mssql.txt
@@ -290,92 +290,92 @@ set "query16_2=SELECT *  from sys.sql_logins WHERE name = 'sa';"
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-17. Audit Tableì€ ë°ì´í„°ë² ì´ìŠ¤ ê´€ë¦¬ì ê³„ì •ìœ¼ë¡œ ì ‘ê·¼í•˜ë„ë¡ ì œí•œ >> %COMPUTERNAME%_mssql.txt
+echo D-17. Audit TableÀº µ¥ÀÌÅÍº£ÀÌ½º °ü¸®ÀÚ °èÁ¤À¸·Î Á¢±ÙÇÏµµ·Ï Á¦ÇÑ >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo MSSQLì€ í•´ë‹¹ì‚¬í•­ ì—†ìŒ   >> %COMPUTERNAME%_mssql.txt
+echo MSSQLÀº ÇØ´ç»çÇ× ¾øÀ½   >> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-18. ì‘ìš©í”„ë¡œê·¸ë¨ ë˜ëŠ” DBA ê³„ì •ì˜ Roleì´ Publicìœ¼ë¡œ ì„¤ì •ë˜ì§€ ì•Šë„ë¡ ì¡°ì • >> %COMPUTERNAME%_mssql.txt
+echo D-18. ÀÀ¿ëÇÁ·Î±×·¥ ¶Ç´Â DBA °èÁ¤ÀÇ RoleÀÌ PublicÀ¸·Î ¼³Á¤µÇÁö ¾Êµµ·Ï Á¶Á¤ >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo MSSQLì€ í•´ë‹¹ì‚¬í•­ ì—†ìŒ   >> %COMPUTERNAME%_mssql.txt
+echo MSSQLÀº ÇØ´ç»çÇ× ¾øÀ½   >> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-19. OS_ROLES, REMOTE_OS_AUTHENTICATION, REMOTE_OS_ROLESë¥¼ FALSEë¡œ ì„¤ì • >> %COMPUTERNAME%_mssql.txt
+echo D-19. OS_ROLES, REMOTE_OS_AUTHENTICATION, REMOTE_OS_ROLES¸¦ FALSE·Î ¼³Á¤ >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo MSSQLì€ í•´ë‹¹ì‚¬í•­ ì—†ìŒ   >> %COMPUTERNAME%_mssql.txt
+echo MSSQLÀº ÇØ´ç»çÇ× ¾øÀ½   >> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-20. ì¸ê°€ë˜ì§€ ì•Šì€ Object Ownerì˜ ì œí•œ >> %COMPUTERNAME%_mssql.txt
+echo D-20. ÀÎ°¡µÇÁö ¾ÊÀº Object OwnerÀÇ Á¦ÇÑ >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo MSSQLì€ í•´ë‹¹ì‚¬í•­ ì—†ìŒ   >> %COMPUTERNAME%_mssql.txt
+echo MSSQLÀº ÇØ´ç»çÇ× ¾øÀ½   >> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-21. ì¸ê°€ë˜ì§€ ì•Šì€ GRANT OPTION ì‚¬ìš© ì œí•œ >> %COMPUTERNAME%_mssql.txt
+echo D-21. ÀÎ°¡µÇÁö ¾ÊÀº GRANT OPTION »ç¿ë Á¦ÇÑ >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo MSSQLì€ í•´ë‹¹ì‚¬í•­ ì—†ìŒ   >> %COMPUTERNAME%_mssql.txt
+echo MSSQLÀº ÇØ´ç»çÇ× ¾øÀ½   >> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-22. ë°ì´í„°ë² ì´ìŠ¤ì˜ ìì› ì œí•œ ê¸°ëŠ¥ì„ TRUEë¡œ ì„¤ì • >> %COMPUTERNAME%_mssql.txt
+echo D-22. µ¥ÀÌÅÍº£ÀÌ½ºÀÇ ÀÚ¿ø Á¦ÇÑ ±â´ÉÀ» TRUE·Î ¼³Á¤ >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo MSSQLì€ í•´ë‹¹ì‚¬í•­ ì—†ìŒ   >> %COMPUTERNAME%_mssql.txt
+echo MSSQLÀº ÇØ´ç»çÇ× ¾øÀ½   >> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-23. xp_cmdshell ì‚¬ìš© ì œí•œ >> %COMPUTERNAME%_mssql.txt
+echo D-23. xp_cmdshell »ç¿ë Á¦ÇÑ >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
 set "query23= SELECT name, value_in_use FROM sys.configurations WHERE name = 'xp_cmdshell';"
 %commonCMD% -Q "%query23%" >> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo D-24. Registry Procedure ê¶Œí•œ ì œí•œ >> %COMPUTERNAME%_mssql.txt
+echo D-24. Registry Procedure ±ÇÇÑ Á¦ÇÑ >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
 set "query24=SELECT OBJECT_NAME(major_id) AS ProcedureName, USER_NAME(grantee_principal_id) AS UserName, permission_name AS Permission, state_desc AS State FROM sys.database_permissions WHERE OBJECT_NAME(major_id) IN ('xp_regaddmultistring','xp_regdeletekey','xp_regdeletevalue','xp_regenumvalues','xp_regread','xp_regremovemultistring','xp_regwrite') AND USER_NAME(grantee_principal_id)='public' AND class=1 ORDER BY OBJECT_NAME(major_id);"
 %commonCMD% -Q "%query24%" >> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo  D-25. ì£¼ê¸°ì  ë³´ì•ˆ íŒ¨ì¹˜ ë° ë²¤ë” ê¶Œê³  ì‚¬í•­ ì ìš© >> %COMPUTERNAME%_mssql.txt
+echo  D-25. ÁÖ±âÀû º¸¾È ÆĞÄ¡ ¹× º¥´õ ±Ç°í »çÇ× Àû¿ë >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
 echo ----------------------------------------------------------------------------------------->> %COMPUTERNAME%_mssql.txt
-echo ì°¸ê³  server 2019(cu32) : 15.0.4430.1, KB5054833 >> %COMPUTERNAME%_mssql.txt
-echo ì°¸ê³  server 2019(cu32+GDR) : 15.0.4455.2, KB5068404 >> %COMPUTERNAME%_mssql.txt
-echo ì°¸ê³  server 2022(cu23) : 16.0.4235.2, KB5074819 >> %COMPUTERNAME%_mssql.txt
-echo ì°¸ê³  server 2022(cu22+GDR) : 16.0.4230.2, KB5072936 >> %COMPUTERNAME%_mssql.txt
-echo ì°¸ê³  server 2025(cu1) : 17.0.4005.7, KB5074901 >> %COMPUTERNAME%_mssql.txt
-echo ì°¸ê³  server 2025(cu1+GDR) : 17.0.1050.2	, KB5073177 >> %COMPUTERNAME%_mssql.txt
+echo Âü°í server 2019(cu32) : 15.0.4430.1, KB5054833 >> %COMPUTERNAME%_mssql.txt
+echo Âü°í server 2019(cu32+GDR) : 15.0.4455.2, KB5068404 >> %COMPUTERNAME%_mssql.txt
+echo Âü°í server 2022(cu23) : 16.0.4235.2, KB5074819 >> %COMPUTERNAME%_mssql.txt
+echo Âü°í server 2022(cu22+GDR) : 16.0.4230.2, KB5072936 >> %COMPUTERNAME%_mssql.txt
+echo Âü°í server 2025(cu1) : 17.0.4005.7, KB5074901 >> %COMPUTERNAME%_mssql.txt
+echo Âü°í server 2025(cu1+GDR) : 17.0.1050.2	, KB5073177 >> %COMPUTERNAME%_mssql.txt
 echo ----------------------------------------------------------------------------------------->> %COMPUTERNAME%_mssql.txt
 set "query4_1_1= select @@version"
 set "query4_1_2= SELECT SERVERPROPERTY('ProductVersion') AS ProductVersion, SERVERPROPERTY('ProductUpdateLevel') AS ProductUpdateLevel, SERVERPROPERTY('ProductUpdateReference') AS KB;"
 echo ------------------------------------------------------>> %COMPUTERNAME%_mssql.txt
-echo --------------------- êµ¬ë²„ì „ ---------------------  >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ±¸¹öÀü ---------------------  >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query4_1_1%" >> %COMPUTERNAME%_mssql.txt
-echo --------------------- ì‹ ë²„ì „ ---------------------  >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ½Å¹öÀü ---------------------  >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query4_1_2%" >> %COMPUTERNAME%_mssql.txt
 echo [END] >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo  D-26 ë°ì´í„°ë² ì´ìŠ¤ì˜ ì ‘ê·¼, ë³€ê²½, ì‚­ì œ ë“±ì˜ ê°ì‚¬ê¸°ë¡ì´ ê¸°ê´€ì˜ ê°ì‚¬ê¸°ë¡ ì •ì±…ì— ì í•©í•˜ë„ë¡ ì„¤ì •  >> %COMPUTERNAME%_mssql.txt
+echo  D-26 µ¥ÀÌÅÍº£ÀÌ½ºÀÇ Á¢±Ù, º¯°æ, »èÁ¦ µîÀÇ °¨»ç±â·ÏÀÌ ±â°üÀÇ °¨»ç±â·Ï Á¤Ã¥¿¡ ÀûÇÕÇÏµµ·Ï ¼³Á¤  >> %COMPUTERNAME%_mssql.txt
 echo [START] >> %COMPUTERNAME%_mssql.txt
-echo AuditLevel ê°’ì´ 0 ì•„ë‹ê²½ìš° ì–‘í˜¸ >> %COMPUTERNAME%_mssql.txt
-echo ì—†ìŒ = 0  >> %COMPUTERNAME%_mssql.txt
-echo ì‹¤íŒ¨í•œ ë¡œê·¸ì¸ë§Œ = 2  >> %COMPUTERNAME%_mssql.txt
-echo ì„±ê³µí•œ ë¡œê·¸ì¸ë§Œ = 1  >> %COMPUTERNAME%_mssql.txt
-echo ì‹¤íŒ¨í•œ ë¡œê·¸ì¸ê³¼ ì„±ê³µí•œ ë¡œê·¸ì¸ ëª¨ë‘ = 3  >> %COMPUTERNAME%_mssql.txt
+echo AuditLevel °ªÀÌ 0 ¾Æ´Ò°æ¿ì ¾çÈ£ >> %COMPUTERNAME%_mssql.txt
+echo ¾øÀ½ = 0  >> %COMPUTERNAME%_mssql.txt
+echo ½ÇÆĞÇÑ ·Î±×ÀÎ¸¸ = 2  >> %COMPUTERNAME%_mssql.txt
+echo ¼º°øÇÑ ·Î±×ÀÎ¸¸ = 1  >> %COMPUTERNAME%_mssql.txt
+echo ½ÇÆĞÇÑ ·Î±×ÀÎ°ú ¼º°øÇÑ ·Î±×ÀÎ ¸ğµÎ = 3  >> %COMPUTERNAME%_mssql.txt
 echo ----------------------------------------------------------------------------------------->> %COMPUTERNAME%_mssql.txt
 set "query4_2_1= DECLARE @AuditLevel int EXEC master.dbo.xp_instance_regread N'HKEY_LOCAL_MACHINE', N'Software\Microsoft\MSSQLServer\MSSQLServer', N'AuditLevel', @AuditLevel OUTPUT SELECT CASE WHEN @AuditLevel = 0 THEN 'None' WHEN @AuditLevel = 1 THEN 'Successful logins only' WHEN @AuditLevel = 2 THEN 'Failed logins only' WHEN @AuditLevel = 3 THEN 'Both failed and successful logins' END AS [AuditLevel]"
 set "query4_2_2_1= SELECT name, is_state_enabled FROM sys.server_audits"
 set "query4_2_2_2= SELECT * FROM sys.dm_exec_sessions WHERE is_user_process = 1"
 echo ------------------------------------------------------>> %COMPUTERNAME%_mssql.txt
-echo --------------------- êµ¬ë²„ì „ ---------------------  >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ±¸¹öÀü ---------------------  >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query4_2_1%" >> %COMPUTERNAME%_mssql.txt
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server" /s | find "AuditLevel" >> %COMPUTERNAME%_mssql.txt
-echo --------------------- ì‹ ë²„ì „ ---------------------  >> %COMPUTERNAME%_mssql.txt
+echo --------------------- ½Å¹öÀü ---------------------  >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query4_2_2_1%" >> %COMPUTERNAME%_mssql.txt
 %commonCMD% -Q "%query4_2_2_2%" >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
@@ -390,16 +390,16 @@ date /t >> %COMPUTERNAME%_mssql.txt
 time /t >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
-echo ì ê¸ˆ ì„ê³„ê°’, ì ê¸ˆ ê¸°ê°„ ì„¤ì • >> %COMPUTERNAME%_mssql.txt
+echo Àá±İ ÀÓ°è°ª, Àá±İ ±â°£ ¼³Á¤ >> %COMPUTERNAME%_mssql.txt
 net accounts  >> %COMPUTERNAME%_mssql.txt
 echo. >> %COMPUTERNAME%_mssql.txt
 
 echo ---------------------------------------------------- >> %COMPUTERNAME%_mssql.txt
-echo            ìŠ¤í¬ë¦½íŠ¸ê°€ ì •ìƒ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤. >> %COMPUTERNAME%_mssql.txt
+echo            ½ºÅ©¸³Æ®°¡ Á¤»ó Á¾·áµÇ¾ú½À´Ï´Ù. >> %COMPUTERNAME%_mssql.txt
 echo ---------------------------------------------------- >> %COMPUTERNAME%_mssql.txt
 echo.
 echo ----------------------------------------------------
-echo            ìŠ¤í¬ë¦½íŠ¸ê°€ ì •ìƒ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.
+echo            ½ºÅ©¸³Æ®°¡ Á¤»ó Á¾·áµÇ¾ú½À´Ï´Ù.
 echo ----------------------------------------------------
 echo.
 REM ==================================================

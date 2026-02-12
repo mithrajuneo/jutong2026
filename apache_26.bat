@@ -8,12 +8,12 @@ echo #    JeongJuneHyuck Copyright 2026. all rights reserved.      #
 echo ###############################################################
 
 echo ============================================
-echo Apache í”„ë¡œì„¸ìŠ¤ ì •ë³´
+echo Apache ÇÁ·Î¼¼½º Á¤º¸
 echo ============================================
-echo [ì°¸ê³ ] -d ì˜µì…˜ ë’¤ì˜ ê²½ë¡œê°€ Apache í™ˆ ë””ë ‰í„°ë¦¬ì…ë‹ˆë‹¤
+echo [Âü°í] -d ¿É¼Ç µÚÀÇ °æ·Î°¡ Apache È¨ µğ·ºÅÍ¸®ÀÔ´Ï´Ù
 echo.
 
-REM Apache í”„ë¡œì„¸ìŠ¤ì˜ CommandLine ì¶œë ¥
+REM Apache ÇÁ·Î¼¼½ºÀÇ CommandLine Ãâ·Â
 for /f "skip=1 delims=" %%i in ('
     wmic process where "name='httpd.exe' or name='Apache.exe'" get CommandLine 2^>nul
 ') do (
@@ -27,36 +27,36 @@ for /f "skip=1 delims=" %%i in ('
 
 echo ============================================
 echo.
-set /p APACHE_HOME="Apache í™ˆ ë””ë ‰í„°ë¦¬ ê²½ë¡œë¥¼ ì…ë ¥í•˜ì„¸ìš”: "
+set /p APACHE_HOME="Apache È¨ µğ·ºÅÍ¸® °æ·Î¸¦ ÀÔ·ÂÇÏ¼¼¿ä: "
 
 if not defined APACHE_HOME (
-    echo [ERROR] ê²½ë¡œë¥¼ ì…ë ¥í•˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.
+    echo [ERROR] °æ·Î¸¦ ÀÔ·ÂÇÏÁö ¾Ê¾Ò½À´Ï´Ù.
     goto :EOF
 )
 
-REM ë”°ì˜´í‘œ ì œê±°
+REM µû¿ÈÇ¥ Á¦°Å
 set "APACHE_HOME=!APACHE_HOME:"=!"
 
-REM ìŠ¬ë˜ì‹œë¥¼ ë°±ìŠ¬ë˜ì‹œë¡œ ë³€í™˜
+REM ½½·¡½Ã¸¦ ¹é½½·¡½Ã·Î º¯È¯
 set "APACHE_HOME=!APACHE_HOME:/=\!"
 
-REM ëì˜ ë°±ìŠ¬ë˜ì‹œ ì œê±°
+REM ³¡ÀÇ ¹é½½·¡½Ã Á¦°Å
 if "!APACHE_HOME:~-1!"=="\" set "APACHE_HOME=!APACHE_HOME:~0,-1!"
 
-REM httpd.conf ê²½ë¡œ ì„¤ì •
+REM httpd.conf °æ·Î ¼³Á¤
 set "CONF_FILE=!APACHE_HOME!\conf\httpd.conf"
 
 echo.
 if exist "!CONF_FILE!" (
-    echo [OK] Apache í™ˆ: !APACHE_HOME!
+    echo [OK] Apache È¨: !APACHE_HOME!
     echo [OK] httpd.conf: !CONF_FILE!
 ) else (
-    echo [ERROR] httpd.confë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤: !CONF_FILE!
+    echo [ERROR] httpd.conf¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù: !CONF_FILE!
     goto :EOF
 )
 
 REM ===========================================
-REM ê²°ê³¼ íŒŒì¼ëª… ìƒì„±
+REM °á°ú ÆÄÀÏ¸í »ı¼º
 REM ===========================================
 set RESULT_FILE=%COMPUTERNAME%_apache.txt
 
@@ -68,7 +68,7 @@ echo        Apache Security Check - Windows Server
 echo =========================================================== 
 
 echo.
-echo [OK] ê²°ê³¼ íŒŒì¼ ìƒì„± ì™„ë£Œ: %RESULT_FILE%
+echo [OK] °á°ú ÆÄÀÏ »ı¼º ¿Ï·á: %RESULT_FILE%
 
 
 
@@ -77,229 +77,229 @@ echo        Apache Security Check - Windows Server              >> %RESULT_FILE%
 echo =========================================================== >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-01. Default ê´€ë¦¬ì ê³„ì •ëª… ë³€ê²½
+:: WEB-01. Default °ü¸®ÀÚ °èÁ¤¸í º¯°æ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-01. Default ê´€ë¦¬ì ê³„ì •ëª… ë³€ê²½ >> %RESULT_FILE%
+echo WEB-01. Default °ü¸®ÀÚ °èÁ¤¸í º¯°æ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ApacheëŠ” í•´ë‹¹ ì‚¬í•­ ì—†ìŒ >> %RESULT_FILE%
+echo Apache´Â ÇØ´ç »çÇ× ¾øÀ½ >> %RESULT_FILE%
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-02. ì·¨ì•½í•œ ë¹„ë°€ë²ˆí˜¸ ì‚¬ìš© ì œí•œ
+:: WEB-02. Ãë¾àÇÑ ºñ¹Ğ¹øÈ£ »ç¿ë Á¦ÇÑ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-02. ì·¨ì•½í•œ ë¹„ë°€ë²ˆí˜¸ ì‚¬ìš© ì œí•œ >> %RESULT_FILE%
+echo WEB-02. Ãë¾àÇÑ ºñ¹Ğ¹øÈ£ »ç¿ë Á¦ÇÑ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ApacheëŠ” í•´ë‹¹ ì‚¬í•­ ì—†ìŒ >> %RESULT_FILE%
+echo Apache´Â ÇØ´ç »çÇ× ¾øÀ½ >> %RESULT_FILE%
 echo [END] >> %RESULT_FILE%
 
 
 :: ===========================================
-:: WEB-03. ë¹„ë°€ë²ˆí˜¸ íŒŒì¼ ê¶Œí•œ ê´€ë¦¬
+:: WEB-03. ºñ¹Ğ¹øÈ£ ÆÄÀÏ ±ÇÇÑ °ü¸®
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-03. ë¹„ë°€ë²ˆí˜¸ íŒŒì¼ ê¶Œí•œ ê´€ë¦¬ >> %RESULT_FILE%
+echo WEB-03. ºñ¹Ğ¹øÈ£ ÆÄÀÏ ±ÇÇÑ °ü¸® >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ApacheëŠ” í•´ë‹¹ ì‚¬í•­ ì—†ìŒ >> %RESULT_FILE%
+echo Apache´Â ÇØ´ç »çÇ× ¾øÀ½ >> %RESULT_FILE%
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-04. ì›¹ ì„œë¹„ìŠ¤ ë””ë ‰í„°ë¦¬ ë¦¬ìŠ¤íŒ… ë°©ì§€ ì„¤ì •
+:: WEB-04. À¥ ¼­ºñ½º µğ·ºÅÍ¸® ¸®½ºÆÃ ¹æÁö ¼³Á¤
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-04. ì›¹ ì„œë¹„ìŠ¤ ë””ë ‰í„°ë¦¬ ë¦¬ìŠ¤íŒ… ë°©ì§€ ì„¤ì • >> %RESULT_FILE%
+echo WEB-04. À¥ ¼­ºñ½º µğ·ºÅÍ¸® ¸®½ºÆÃ ¹æÁö ¼³Á¤ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ : ë””ë ‰í„°ë¦¬ ë¦¬ìŠ¤íŒ…ì„ ì‚¬ìš©í•˜ì§€ ì•ŠëŠ” ê²½ìš° >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ : µğ·ºÅÍ¸® ¸®½ºÆÃÀ» »ç¿ëÇÏÁö ¾Ê´Â °æ¿ì >> %RESULT_FILE%
 
-:: httpd.conf íŒŒì¼ ì¡´ì¬ ì—¬ë¶€ í™•ì¸
+:: httpd.conf ÆÄÀÏ Á¸Àç ¿©ºÎ È®ÀÎ
 if exist "!APACHE_HOME!\conf\httpd.conf" (
-    echo [INFO] httpd.conf íŒŒì¼ ì¡´ì¬í•¨ >> %RESULT_FILE%
+    echo [INFO] httpd.conf ÆÄÀÏ Á¸ÀçÇÔ >> %RESULT_FILE%
     
-    :: ë¨¼ì € Indexes ì˜µì…˜ì„ ì°¾ëŠ”ë‹¤
+    :: ¸ÕÀú Indexes ¿É¼ÇÀ» Ã£´Â´Ù
     set "FOUND="
     for /f "delims=" %%G in ('findstr /i /c:"Options" "!APACHE_HOME!\conf\httpd.conf" ^| findstr /i /c:"Indexes"') do (
         set "FOUND=%%G"
     )
 
     if defined FOUND (
-        echo [WARN] Indexes ì˜µì…˜ ë°œê²¬ë¨ - ë””ë ‰í„°ë¦¬ ë¦¬ìŠ¤íŒ… í—ˆìš© ê°€ëŠ¥ì„± ìˆìŒ >> %RESULT_FILE%
+        echo [WARN] Indexes ¿É¼Ç ¹ß°ßµÊ - µğ·ºÅÍ¸® ¸®½ºÆÃ Çã¿ë °¡´É¼º ÀÖÀ½ >> %RESULT_FILE%
         echo !FOUND! >> %RESULT_FILE%
     ) else (
-        echo [OK] Indexes ì˜µì…˜ ì„¤ì • ì—†ìŒ (ë””ë ‰í„°ë¦¬ ë¦¬ìŠ¤íŒ… ë¯¸í—ˆìš©) >> %RESULT_FILE%
+        echo [OK] Indexes ¿É¼Ç ¼³Á¤ ¾øÀ½ (µğ·ºÅÍ¸® ¸®½ºÆÃ ¹ÌÇã¿ë) >> %RESULT_FILE%
     )
 
 ) else (
-    echo [WARN] httpd.conf íŒŒì¼ ì—†ìŒ >> %RESULT_FILE%
+    echo [WARN] httpd.conf ÆÄÀÏ ¾øÀ½ >> %RESULT_FILE%
 )
 
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-05. ì§€ì •í•˜ì§€ ì•Šì€ CGI/ISAPI ì‹¤í–‰ ì œí•œ
+:: WEB-05. ÁöÁ¤ÇÏÁö ¾ÊÀº CGI/ISAPI ½ÇÇà Á¦ÇÑ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-05. ì§€ì •í•˜ì§€ ì•Šì€ CGI/ISAPI ì‹¤í–‰ ì œí•œ >> %RESULT_FILE%
+echo WEB-05. ÁöÁ¤ÇÏÁö ¾ÊÀº CGI/ISAPI ½ÇÇà Á¦ÇÑ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ : cgi ìŠ¤í¬ë¦½íŠ¸ë¥¼ ì‚¬ìš©í•˜ì§€ ì•Šê±°ë‚˜ CGI ìŠ¤í¬ë¦½íŠ¸ ì‹¤í–‰ê°€ëŠ¥í•œ ë””ë ‰í„°ë¦¬ë¥¼ ì œí•œí•œ ê²½ìš° >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ : cgi ½ºÅ©¸³Æ®¸¦ »ç¿ëÇÏÁö ¾Ê°Å³ª CGI ½ºÅ©¸³Æ® ½ÇÇà°¡´ÉÇÑ µğ·ºÅÍ¸®¸¦ Á¦ÇÑÇÑ °æ¿ì >> %RESULT_FILE%
 
 findstr /I /R "^[^#].*ExecCGI" "!APACHE_HOME!\conf\httpd.conf" >nul
 if !errorlevel! equ 0 (
-    echo [WARN] CGI ì‹¤í–‰ ê°€ëŠ¥í•œ ë””ë ‰í„°ë¦¬ ì¡´ì¬ >> %RESULT_FILE%
+    echo [WARN] CGI ½ÇÇà °¡´ÉÇÑ µğ·ºÅÍ¸® Á¸Àç >> %RESULT_FILE%
     findstr /I /R "^[^#].*ExecCGI" "!APACHE_HOME!\conf\httpd.conf" >> %RESULT_FILE%
 ) else (
-    echo [OK] CGI ì‹¤í–‰ ê°€ëŠ¥ ì„¤ì • ì—†ìŒ >> %RESULT_FILE%
+    echo [OK] CGI ½ÇÇà °¡´É ¼³Á¤ ¾øÀ½ >> %RESULT_FILE%
 )
 
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-06. ì›¹ ì„œë¹„ìŠ¤ ìƒìœ„ ë””ë ‰í„°ë¦¬ ì ‘ê·¼ ì œí•œ ì„¤ì •
+:: WEB-06. À¥ ¼­ºñ½º »óÀ§ µğ·ºÅÍ¸® Á¢±Ù Á¦ÇÑ ¼³Á¤
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-06. ì›¹ ì„œë¹„ìŠ¤ ìƒìœ„ ë””ë ‰í„°ë¦¬ ì ‘ê·¼ ì œí•œ ì„¤ì • >> %RESULT_FILE%
+echo WEB-06. À¥ ¼­ºñ½º »óÀ§ µğ·ºÅÍ¸® Á¢±Ù Á¦ÇÑ ¼³Á¤ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ : ìƒìœ„ ë””ë ‰í„°ë¦¬ ì ‘ê·¼ ê¸°ëŠ¥(AllowOverride)ì„ ì œê±°í•œ ê²½ìš° >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ : »óÀ§ µğ·ºÅÍ¸® Á¢±Ù ±â´É(AllowOverride)À» Á¦°ÅÇÑ °æ¿ì >> %RESULT_FILE%
 
 if exist "!APACHE_HOME!\conf\httpd.conf" (
-    echo [INFO] AllowOverride ì„¤ì • í™•ì¸ >> %RESULT_FILE%
+    echo [INFO] AllowOverride ¼³Á¤ È®ÀÎ >> %RESULT_FILE%
     findstr /i "AllowOverride" "!APACHE_HOME!\conf\httpd.conf" >> %RESULT_FILE%
     if !errorlevel! equ 0 (
-        echo [ì°¸ê³ ] ì„¤ì • í™•ì¸ í•„ìš” >> %RESULT_FILE%
+        echo [Âü°í] ¼³Á¤ È®ÀÎ ÇÊ¿ä >> %RESULT_FILE%
     ) else (
-        echo [OK] AllowOverride ì„¤ì • ì—†ìŒ >> %RESULT_FILE%
+        echo [OK] AllowOverride ¼³Á¤ ¾øÀ½ >> %RESULT_FILE%
     )
 ) else (
-    echo [WARN] httpd.conf íŒŒì¼ ì—†ìŒ >> %RESULT_FILE%
+    echo [WARN] httpd.conf ÆÄÀÏ ¾øÀ½ >> %RESULT_FILE%
 )
 echo [END] >> %RESULT_FILE%
 
 
 :: ===========================================
-:: WEB-07. ì›¹ ì„œë¹„ìŠ¤ ê²½ë¡œ ë‚´ ë¶ˆí•„ìš”í•œ íŒŒì¼ ì œê±°
+:: WEB-07. À¥ ¼­ºñ½º °æ·Î ³» ºÒÇÊ¿äÇÑ ÆÄÀÏ Á¦°Å
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-07. ì›¹ ì„œë¹„ìŠ¤ ê²½ë¡œ ë‚´ ë¶ˆí•„ìš”í•œ íŒŒì¼ ì œê±° >> %RESULT_FILE%
+echo WEB-07. À¥ ¼­ºñ½º °æ·Î ³» ºÒÇÊ¿äÇÑ ÆÄÀÏ Á¦°Å >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ : ê¸°ë³¸ìœ¼ë¡œ ìƒì„±ë˜ëŠ” ë¶ˆí•„ìš”í•œ íŒŒì¼ ë° ë””ë ‰í† ë¦¬ê°€ ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ê²½ìš° >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ : ±âº»À¸·Î »ı¼ºµÇ´Â ºÒÇÊ¿äÇÑ ÆÄÀÏ ¹× µğ·ºÅä¸®°¡ Á¸ÀçÇÏÁö ¾Ê´Â °æ¿ì >> %RESULT_FILE%
 
 if exist "!APACHE_HOME!\htdocs\manual" (
-    echo 1^) /htdocs/manual ë””ë ‰í† ë¦¬ ì¡´ì¬ >> !RESULT_FILE!
-    echo [/htdocs/manual ë‚´ ì „ì²´ ëª©ë¡] >> !RESULT_FILE!
+    echo 1^) /htdocs/manual µğ·ºÅä¸® Á¸Àç >> !RESULT_FILE!
+    echo [/htdocs/manual ³» ÀüÃ¼ ¸ñ·Ï] >> !RESULT_FILE!
 
     for %%F in ("!APACHE_HOME!\htdocs\manual\*") do (
         echo %%~fF >> !RESULT_FILE!
     )
 ) else (
-    echo 1^) /htdocs/manual ë””ë ‰í† ë¦¬ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> !RESULT_FILE!
+    echo 1^) /htdocs/manual µğ·ºÅä¸® Á¸ÀçÇÏÁö ¾ÊÀ½ >> !RESULT_FILE!
 )
 if exist "!APACHE_HOME!\manual" (
-    echo 2^) manual ë””ë ‰í† ë¦¬ ì¡´ì¬ >> !RESULT_FILE!
-    echo [manual ë””ë ‰í† ë¦¬ ë‚´ ì „ì²´ ëª©ë¡] >> !RESULT_FILE!
+    echo 2^) manual µğ·ºÅä¸® Á¸Àç >> !RESULT_FILE!
+    echo [manual µğ·ºÅä¸® ³» ÀüÃ¼ ¸ñ·Ï] >> !RESULT_FILE!
 
     for %%F in ("!APACHE_HOME!\manual\*") do (
         echo %%~fF >> !RESULT_FILE!
     )
 ) else (
-    echo 2^) manual ë””ë ‰í† ë¦¬ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> !RESULT_FILE!
+    echo 2^) manual µğ·ºÅä¸® Á¸ÀçÇÏÁö ¾ÊÀ½ >> !RESULT_FILE!
 )
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-08. ì›¹ ì„œë¹„ìŠ¤ íŒŒì¼ ì—…ë¡œë“œ ë° ë‹¤ìš´ë¡œë“œ ìš©ëŸ‰ ì œí•œ
+:: WEB-08. À¥ ¼­ºñ½º ÆÄÀÏ ¾÷·Îµå ¹× ´Ù¿î·Îµå ¿ë·® Á¦ÇÑ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-08. ì›¹ ì„œë¹„ìŠ¤ íŒŒì¼ ì—…ë¡œë“œ ë° ë‹¤ìš´ë¡œë“œ ìš©ëŸ‰ ì œí•œ >> %RESULT_FILE%
+echo WEB-08. À¥ ¼­ºñ½º ÆÄÀÏ ¾÷·Îµå ¹× ´Ù¿î·Îµå ¿ë·® Á¦ÇÑ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ : LimitRequestBodyë¡œ ì—…ë¡œë“œ/ë‹¤ìš´ë¡œë“œ ìš©ëŸ‰ì„ ì œí•œí•˜ë©´ ì–‘í˜¸ >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ : LimitRequestBody·Î ¾÷·Îµå/´Ù¿î·Îµå ¿ë·®À» Á¦ÇÑÇÏ¸é ¾çÈ£ >> %RESULT_FILE%
 
 if exist "!APACHE_HOME!\conf\httpd.conf" (
     
     findstr /I "LimitRequestBody" "!APACHE_HOME!\conf\httpd.conf" > nul
     if !errorlevel! equ 0 (
-        echo [OK] LimitRequestBody ì„¤ì • ì¡´ì¬ >> %RESULT_FILE%
+        echo [OK] LimitRequestBody ¼³Á¤ Á¸Àç >> %RESULT_FILE%
         findstr /I "LimitRequestBody" "!APACHE_HOME!\conf\httpd.conf" >> %RESULT_FILE%
     ) else (
-        echo [WARN] LimitRequestBody ì„¤ì • ì—†ìŒ >> %RESULT_FILE%
+        echo [WARN] LimitRequestBody ¼³Á¤ ¾øÀ½ >> %RESULT_FILE%
     )
 ) else (
-    echo [WARN] httpd.conf íŒŒì¼ ì—†ìŒ >> %RESULT_FILE%
+    echo [WARN] httpd.conf ÆÄÀÏ ¾øÀ½ >> %RESULT_FILE%
 )
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-09. ì›¹ í”„ë¡œì„¸ìŠ¤ ê¶Œí•œ ì œí•œ
+:: WEB-09. À¥ ÇÁ·Î¼¼½º ±ÇÇÑ Á¦ÇÑ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-09. ì›¹ í”„ë¡œì„¸ìŠ¤ ê¶Œí•œ ì œí•œ >> %RESULT_FILE%
+echo WEB-09. À¥ ÇÁ·Î¼¼½º ±ÇÇÑ Á¦ÇÑ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ : Apache ë°ëª¬ì´ ê´€ë¦¬ì ê¶Œí•œ(Administrator)ìœ¼ë¡œ êµ¬ë™ë˜ì§€ ì•ŠëŠ” ê²½ìš° >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ : Apache µ¥¸óÀÌ °ü¸®ÀÚ ±ÇÇÑ(Administrator)À¸·Î ±¸µ¿µÇÁö ¾Ê´Â °æ¿ì >> %RESULT_FILE%
 
-:: httpd.conf íŒŒì¼ ì¡´ì¬ ì—¬ë¶€
+:: httpd.conf ÆÄÀÏ Á¸Àç ¿©ºÎ
 if exist "!APACHE_HOME!\conf\httpd.conf" (
-    echo [INFO] httpd.conf íŒŒì¼ ì¡´ì¬í•¨ >> %RESULT_FILE%
+    echo [INFO] httpd.conf ÆÄÀÏ Á¸ÀçÇÔ >> %RESULT_FILE%
 
-    rem User / Group ì„¤ì • ë‚´ìš© ì¶œë ¥
+    rem User / Group ¼³Á¤ ³»¿ë Ãâ·Â
     findstr /i /c:"User " "!APACHE_HOME!\conf\httpd.conf" >> %RESULT_FILE%
     findstr /i /c:"Group " "!APACHE_HOME!\conf\httpd.conf" >> %RESULT_FILE%
 )
 
 echo. >> %RESULT_FILE%
 
-:: Apache ì„œë¹„ìŠ¤ ì¡´ì¬ ì—¬ë¶€ ì ê²€
-echo [INFO] Apache ì„œë¹„ìŠ¤ í™•ì¸ >> %RESULT_FILE%
+:: Apache ¼­ºñ½º Á¸Àç ¿©ºÎ Á¡°Ë
+echo [INFO] Apache ¼­ºñ½º È®ÀÎ >> %RESULT_FILE%
 sc query Apache2.4 >> %RESULT_FILE% 2>&1
 if !errorlevel! neq 0 (
-    echo [INFO] Apache2.4 ì„œë¹„ìŠ¤ ì—†ìŒ, Apache ì„œë¹„ìŠ¤ í™•ì¸ >> %RESULT_FILE%
+    echo [INFO] Apache2.4 ¼­ºñ½º ¾øÀ½, Apache ¼­ºñ½º È®ÀÎ >> %RESULT_FILE%
     sc query Apache >> %RESULT_FILE% 2>&1
 )
 
-:: httpd.exe í”„ë¡œì„¸ìŠ¤ ì ê²€
+:: httpd.exe ÇÁ·Î¼¼½º Á¡°Ë
 tasklist /FI "IMAGENAME eq httpd.exe" | findstr /i "httpd.exe" > nul
 
 if %ERRORLEVEL% equ 0 (
-    echo [WARN] httpd.exe í”„ë¡œì„¸ìŠ¤ ì‹¤í–‰ ì¤‘ì„ â†’ ì„œë¹„ìŠ¤ ì™¸ ìˆ˜ë™ ì‹¤í–‰ì¼ ê°€ëŠ¥ì„± ìˆìŒ >> %RESULT_FILE%
+    echo [WARN] httpd.exe ÇÁ·Î¼¼½º ½ÇÇà ÁßÀÓ ¡æ ¼­ºñ½º ¿Ü ¼öµ¿ ½ÇÇàÀÏ °¡´É¼º ÀÖÀ½ >> %RESULT_FILE%
 
     powershell -NoProfile -Command ^
         "Get-WmiObject Win32_Process -Filter 'Name=''httpd.exe''' | ForEach-Object { $o = $_.GetOwner(); Write-Output ('PID {0} - {1}\{2} - {3}' -f $_.ProcessId, $o.Domain, $o.User, $_.CommandLine) }" >> %RESULT_FILE%
 
 ) else (
-    echo [OK] httpd.exe í”„ë¡œì„¸ìŠ¤ ì‹¤í–‰ ì¤‘ ì•„ë‹˜ >> %RESULT_FILE%
+    echo [OK] httpd.exe ÇÁ·Î¼¼½º ½ÇÇà Áß ¾Æ´Ô >> %RESULT_FILE%
 )
 
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-10. ë¶ˆí•„ìš”í•œ í”„ë¡ì‹œ ì„¤ì • ì œí•œ
+:: WEB-10. ºÒÇÊ¿äÇÑ ÇÁ·Ï½Ã ¼³Á¤ Á¦ÇÑ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-10. ë¶ˆí•„ìš”í•œ í”„ë¡ì‹œ ì„¤ì • ì œí•œ >> %RESULT_FILE%
+echo WEB-10. ºÒÇÊ¿äÇÑ ÇÁ·Ï½Ã ¼³Á¤ Á¦ÇÑ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ : ë¶ˆí•„ìš”í•œ Proxy ì„¤ì •ì„ ì œí•œ í•œ ê²½ìš° >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ : ºÒÇÊ¿äÇÑ Proxy ¼³Á¤À» Á¦ÇÑ ÇÑ °æ¿ì >> %RESULT_FILE%
 
 if exist "!APACHE_HOME!\conf\httpd.conf" (
     
     findstr /I "proxy" "!APACHE_HOME!\conf\httpd.conf" > nul
     if !errorlevel! equ 0 (
-        echo [OK] proxy ì„¤ì • ì¡´ì¬ >> %RESULT_FILE%
+        echo [OK] proxy ¼³Á¤ Á¸Àç >> %RESULT_FILE%
         findstr /I "proxy" "!APACHE_HOME!\conf\httpd.conf" >> %RESULT_FILE%
     ) else (
-        echo [WARN] proxy ì„¤ì • ì—†ìŒ >> %RESULT_FILE%
+        echo [WARN] proxy ¼³Á¤ ¾øÀ½ >> %RESULT_FILE%
     )
 ) else (
-    echo [WARN] httpd.conf íŒŒì¼ ì—†ìŒ >> %RESULT_FILE%
+    echo [WARN] httpd.conf ÆÄÀÏ ¾øÀ½ >> %RESULT_FILE%
 )
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-11. ì›¹ ì„œë¹„ìŠ¤ ê²½ë¡œ ì„¤ì •
+:: WEB-11. À¥ ¼­ºñ½º °æ·Î ¼³Á¤
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-11. ì›¹ ì„œë¹„ìŠ¤ ê²½ë¡œ ì„¤ì • >> %RESULT_FILE%
+echo WEB-11. À¥ ¼­ºñ½º °æ·Î ¼³Á¤ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ : ì›¹ ì„œë²„ì— ì„¤ì •í•œ DocumentRoot ê²½ë¡œê°€ ê¸°ë³¸ ê²½ë¡œê°€ ë¶„ë¦¬ë˜ì–´ìˆëŠ”ì§€ í™•ì¸ >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ : À¥ ¼­¹ö¿¡ ¼³Á¤ÇÑ DocumentRoot °æ·Î°¡ ±âº» °æ·Î°¡ ºĞ¸®µÇ¾îÀÖ´ÂÁö È®ÀÎ >> %RESULT_FILE%
 
-:: httpd.conf íŒŒì¼ ê²½ë¡œ ì§€ì •
+:: httpd.conf ÆÄÀÏ °æ·Î ÁöÁ¤
 
 type %CONF_FILE% | findstr /i /c:"Define SRVROOT" | findstr /v "#"  >> %RESULT_FILE%
 type %CONF_FILE% | findstr /i "DocumentRoot" | findstr /v "#"  >> %RESULT_FILE%
@@ -307,94 +307,94 @@ echo [END] >> %RESULT_FILE%
 
 
 :: ===========================================
-:: WEB-12. ì›¹ ì„œë¹„ìŠ¤ ë§í¬ ì‚¬ìš© ê¸ˆì§€
+:: WEB-12. À¥ ¼­ºñ½º ¸µÅ© »ç¿ë ±İÁö
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-12. ì›¹ ì„œë¹„ìŠ¤ ë§í¬ ì‚¬ìš© ê¸ˆì§€ >> %RESULT_FILE%
+echo WEB-12. À¥ ¼­ºñ½º ¸µÅ© »ç¿ë ±İÁö >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ : FollowSymLinks ì˜µì…˜ ë° Alias ì„¤ì •ì´ ì—†ìœ¼ë©´ ì–‘í˜¸ >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ : FollowSymLinks ¿É¼Ç ¹× Alias ¼³Á¤ÀÌ ¾øÀ¸¸é ¾çÈ£ >> %RESULT_FILE%
 
 
-:: 1. FollowSymLinks ì‚¬ìš© ì—¬ë¶€
+:: 1. FollowSymLinks »ç¿ë ¿©ºÎ
 echo. >> %RESULT_FILE%
-echo [INFO] FollowSymLinks ì˜µì…˜ ì ê²€ >> %RESULT_FILE%
+echo [INFO] FollowSymLinks ¿É¼Ç Á¡°Ë >> %RESULT_FILE%
 
 if exist "!CONF_FILE!" (
     findstr /i "FollowSymLinks" "!CONF_FILE !" >> %RESULT_FILE%
     if !errorlevel! equ 0 (
-        echo [WARN] FollowSymLinks ì˜µì…˜ì´ ì„¤ì •ë˜ì–´ ìˆìŒ >> %RESULT_FILE%
+        echo [WARN] FollowSymLinks ¿É¼ÇÀÌ ¼³Á¤µÇ¾î ÀÖÀ½ >> %RESULT_FILE%
     ) else (
-        echo [OK] FollowSymLinks ì˜µì…˜ ë¯¸ì„¤ì • >> %RESULT_FILE%
+        echo [OK] FollowSymLinks ¿É¼Ç ¹Ì¼³Á¤ >> %RESULT_FILE%
     )
 ) else (
-    echo [WARN] httpd.conf íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> %RESULT_FILE%
+    echo [WARN] httpd.conf ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> %RESULT_FILE%
 )
 
-:: 2. Alias ì„¤ì • ì—¬ë¶€
+:: 2. Alias ¼³Á¤ ¿©ºÎ
 echo. >> %RESULT_FILE%
-echo [INFO] Alias ì„¤ì • ì ê²€ >> %RESULT_FILE%
+echo [INFO] Alias ¼³Á¤ Á¡°Ë >> %RESULT_FILE%
 
 if exist "!CONF_FILE!" (
     findstr /i /r "^Alias" "!CONF_FILE !" >> %RESULT_FILE%
     if !errorlevel! equ 0 (
-        echo [WARN] Alias ì„¤ì • ì¡´ì¬í•¨ >> %RESULT_FILE%
+        echo [WARN] Alias ¼³Á¤ Á¸ÀçÇÔ >> %RESULT_FILE%
     ) else (
-        echo [OK] Alias ì„¤ì • ì—†ìŒ >> %RESULT_FILE%
+        echo [OK] Alias ¼³Á¤ ¾øÀ½ >> %RESULT_FILE%
     )
 ) else (
-    echo [WARN] httpd.conf íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> %RESULT_FILE%
+    echo [WARN] httpd.conf ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> %RESULT_FILE%
 )
 
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-13. ì›¹ ì„œë¹„ìŠ¤ ì„¤ì • íŒŒì¼ ë…¸ì¶œ ì œí•œ
+:: WEB-13. À¥ ¼­ºñ½º ¼³Á¤ ÆÄÀÏ ³ëÃâ Á¦ÇÑ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-13. ì›¹ ì„œë¹„ìŠ¤ ì„¤ì • íŒŒì¼ ë…¸ì¶œ ì œí•œ >> %RESULT_FILE%
+echo WEB-13. À¥ ¼­ºñ½º ¼³Á¤ ÆÄÀÏ ³ëÃâ Á¦ÇÑ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ApacheëŠ” í•´ë‹¹ ì‚¬í•­ ì—†ìŒ >> %RESULT_FILE%
+echo Apache´Â ÇØ´ç »çÇ× ¾øÀ½ >> %RESULT_FILE%
 echo [END] >> %RESULT_FILE%
 
 
 :: ===========================================
-:: WEB-14. ì›¹ ì„œë¹„ìŠ¤ ê²½ë¡œ ë‚´ íŒŒì¼ì˜ ì ‘ê·¼ í†µì œ
+:: WEB-14. À¥ ¼­ºñ½º °æ·Î ³» ÆÄÀÏÀÇ Á¢±Ù ÅëÁ¦
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-14. ì›¹ ì„œë¹„ìŠ¤ ê²½ë¡œ ë‚´ íŒŒì¼ì˜ ì ‘ê·¼ í†µì œ >> %RESULT_FILE%
+echo WEB-14. À¥ ¼­ºñ½º °æ·Î ³» ÆÄÀÏÀÇ Á¢±Ù ÅëÁ¦ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ : config íŒŒì¼ ë‚´ì— ì ì ˆí•œ ê¶Œí•œì´ ë¶€ì—¬ë˜ì–´ìˆëŠ” ê²½ìš°  >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ : config ÆÄÀÏ ³»¿¡ ÀûÀıÇÑ ±ÇÇÑÀÌ ºÎ¿©µÇ¾îÀÖ´Â °æ¿ì  >> %RESULT_FILE%
 
-echo config íŒŒì¼ ê¶Œí•œ í™•ì¸  >> %RESULT_FILE%
+echo config ÆÄÀÏ ±ÇÇÑ È®ÀÎ  >> %RESULT_FILE%
 icacls "!CONF_FILE!" >> %RESULT_FILE%
 
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-15. ì›¹ ì„œë¹„ìŠ¤ì˜ ë¶ˆí•„ìš”í•œ ìŠ¤í¬ë¦½íŠ¸ ë§¤í•‘ ì œê±°
+:: WEB-15. À¥ ¼­ºñ½ºÀÇ ºÒÇÊ¿äÇÑ ½ºÅ©¸³Æ® ¸ÅÇÎ Á¦°Å
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-15. ì›¹ ì„œë¹„ìŠ¤ì˜ ë¶ˆí•„ìš”í•œ ìŠ¤í¬ë¦½íŠ¸ ë§¤í•‘ ì œê±° >> %RESULT_FILE%
+echo WEB-15. À¥ ¼­ºñ½ºÀÇ ºÒÇÊ¿äÇÑ ½ºÅ©¸³Æ® ¸ÅÇÎ Á¦°Å >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ApacheëŠ” í•´ë‹¹ ì‚¬í•­ ì—†ìŒ >> %RESULT_FILE%
+echo Apache´Â ÇØ´ç »çÇ× ¾øÀ½ >> %RESULT_FILE%
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-16. ì›¹ ì„œë¹„ìŠ¤ í—¤ë” ì •ë³´ ë…¸ì¶œ ì œí•œ
+:: WEB-16. À¥ ¼­ºñ½º Çì´õ Á¤º¸ ³ëÃâ Á¦ÇÑ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-16. ì›¹ ì„œë¹„ìŠ¤ í—¤ë” ì •ë³´ ë…¸ì¶œ ì œí•œ >> %RESULT_FILE%
+echo WEB-16. À¥ ¼­ºñ½º Çì´õ Á¤º¸ ³ëÃâ Á¦ÇÑ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ :  HTTP ì‘ë‹µ í—¤ë”ì—ì„œ ì›¹ ì„œë²„ ì •ë³´ê°€ ë…¸ì¶œë˜ì§€ ì•ŠëŠ” ê²½ìš° >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ :  HTTP ÀÀ´ä Çì´õ¿¡¼­ À¥ ¼­¹ö Á¤º¸°¡ ³ëÃâµÇÁö ¾Ê´Â °æ¿ì >> %RESULT_FILE%
 
 echo. >> %RESULT_FILE%
-echo ì›¹ ì„œë²„ ì •ë³´ ë…¸ì¶œ ì ê²€ >> %RESULT_FILE%
+echo À¥ ¼­¹ö Á¤º¸ ³ëÃâ Á¡°Ë >> %RESULT_FILE%
 
 if exist "!CONF_FILE!" (
-    echo [INFO] ServerTokens ì„¤ì • í™•ì¸ >> %RESULT_FILE%
+    echo [INFO] ServerTokens ¼³Á¤ È®ÀÎ >> %RESULT_FILE%
     findstr /i /v "^#" "!CONF_FILE!" | findstr /i "ServerTokens" >> %RESULT_FILE%
     echo. >> %RESULT_FILE%
-    echo [INFO] ServerSignature ì„¤ì • í™•ì¸ >> %RESULT_FILE%
+    echo [INFO] ServerSignature ¼³Á¤ È®ÀÎ >> %RESULT_FILE%
     findstr /i /v "^#" "!CONF_FILE!" | findstr /i "ServerSignature" >> %RESULT_FILE%
     echo. >> %RESULT_FILE%
     
@@ -411,163 +411,163 @@ if exist "!CONF_FILE!" (
             set "PORT=!PORT_RAW!"
         )
         
-        echo [INFO] Apache í¬íŠ¸ !PORT! : ì„œë²„ ì‘ë‹µ í™•ì¸ >> %RESULT_FILE%
+        echo [INFO] Apache Æ÷Æ® !PORT! : ¼­¹ö ÀÀ´ä È®ÀÎ >> %RESULT_FILE%
         powershell -Command "try { $response = Invoke-WebRequest -Uri http://localhost:!PORT! -Method Head -ErrorAction Stop; $response.Headers } catch { 'Connection failed: ' + $_.Exception.Message }" >> %RESULT_FILE%
         echo. >> %RESULT_FILE%
     ) else (
-        echo [WARN] Listen í¬íŠ¸ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŒ >> %RESULT_FILE%
+        echo [WARN] Listen Æ÷Æ®¸¦ Ã£À» ¼ö ¾øÀ½ >> %RESULT_FILE%
     )
     
 ) else (
-    echo [WARN] httpd.conf íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> %RESULT_FILE%
+    echo [WARN] httpd.conf ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> %RESULT_FILE%
 )
 
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-17. ì›¹ ì„œë¹„ìŠ¤ ê°€ìƒ ë””ë ‰í„°ë¦¬ ì‚­ì œ
+:: WEB-17. À¥ ¼­ºñ½º °¡»ó µğ·ºÅÍ¸® »èÁ¦
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-17. ì›¹ ì„œë¹„ìŠ¤ ê°€ìƒ ë””ë ‰í„°ë¦¬ ì‚­ì œ >> %RESULT_FILE%
+echo WEB-17. À¥ ¼­ºñ½º °¡»ó µğ·ºÅÍ¸® »èÁ¦ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ : ë¶ˆí•„ìš”í•œ ê°€ìƒ ë””ë ‰í„°ë¦¬ê°€ ì¡´ì¬í•˜ëŠ” ê²½ìš° >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ : ºÒÇÊ¿äÇÑ °¡»ó µğ·ºÅÍ¸®°¡ Á¸ÀçÇÏ´Â °æ¿ì >> %RESULT_FILE%
 
 if exist "!CONF_FILE!" (
     findstr /i /r "^Alias" "!CONF_FILE !" >> %RESULT_FILE%
     if !errorlevel! equ 0 (
-        echo [ì°¸ê³ ] Alias ì˜µì…˜ í™•ì¸ >> %RESULT_FILE%
+        echo [Âü°í] Alias ¿É¼Ç È®ÀÎ >> %RESULT_FILE%
     ) else (
-        echo [ì–‘í˜¸] Alias ì˜µì…˜ ì—†ìŒ >> %RESULT_FILE%
+        echo [¾çÈ£] Alias ¿É¼Ç ¾øÀ½ >> %RESULT_FILE%
     )
 ) else (
-    echo [WARN] httpd.conf íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> %RESULT_FILE%
+    echo [WARN] httpd.conf ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> %RESULT_FILE%
 )
 
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-18. ì›¹ ì„œë¹„ìŠ¤ WebDAV ë¹„í™œì„±í™”
+:: WEB-18. À¥ ¼­ºñ½º WebDAV ºñÈ°¼ºÈ­
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-18. ì›¹ ì„œë¹„ìŠ¤ WebDAV ë¹„í™œì„±í™” >> %RESULT_FILE%
+echo WEB-18. À¥ ¼­ºñ½º WebDAV ºñÈ°¼ºÈ­ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ :  WebDAV ì„œë¹„ìŠ¤ê°€ ë¹„í™œì„±í™” ë˜ì–´ìˆëŠ” ê²½ìš° >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ :  WebDAV ¼­ºñ½º°¡ ºñÈ°¼ºÈ­ µÇ¾îÀÖ´Â °æ¿ì >> %RESULT_FILE%
 
 echo. >> %RESULT_FILE%
-echo WEBDAV ì„œë¹„ìŠ¤ ë¹„í™œì„±í™” ì ê²€ >> %RESULT_FILE%
+echo WEBDAV ¼­ºñ½º ºñÈ°¼ºÈ­ Á¡°Ë >> %RESULT_FILE%
 
 if exist "!CONF_FILE!" (
     findstr /i "Dav" "!CONF_FILE!" >> %RESULT_FILE%
     if !errorlevel! equ 0 (
-        echo [ì·¨ì•½] WebDAV ì„œë¹„ìŠ¤ í™œì„±í™” >> %RESULT_FILE%
+        echo [Ãë¾à] WebDAV ¼­ºñ½º È°¼ºÈ­ >> %RESULT_FILE%
     ) else (
-        echo [ì–‘í˜¸] WebDAV ì˜µì…˜ ì—†ìŒ >> %RESULT_FILE%
+        echo [¾çÈ£] WebDAV ¿É¼Ç ¾øÀ½ >> %RESULT_FILE%
     )
 ) else (
-    echo [WARN] httpd.conf íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> %RESULT_FILE%
+    echo [WARN] httpd.conf ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> %RESULT_FILE%
 )
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-19. ì›¹ ì„œë¹„ìŠ¤ SSI ì‚¬ìš© ì œí•œ
+:: WEB-19. À¥ ¼­ºñ½º SSI »ç¿ë Á¦ÇÑ
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-19. ì›¹ ì„œë¹„ìŠ¤ SSI ì‚¬ìš© ì œí•œ >> %RESULT_FILE%
+echo WEB-19. À¥ ¼­ºñ½º SSI »ç¿ë Á¦ÇÑ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ : ì›¹ ì„œë¹„ìŠ¤ SSI ì‚¬ìš© ì„¤ì •ì´ ë¹„í™œì„±í™” ëœ ê²½ìš° >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ : À¥ ¼­ºñ½º SSI »ç¿ë ¼³Á¤ÀÌ ºñÈ°¼ºÈ­ µÈ °æ¿ì >> %RESULT_FILE%
 
 echo. >> %RESULT_FILE%
-echo SSI ì‚¬ìš© ì„¤ì • ì ê²€ >> %RESULT_FILE%
+echo SSI »ç¿ë ¼³Á¤ Á¡°Ë >> %RESULT_FILE%
 
 if exist "!CONF_FILE!" (
     findstr /i "Includes" "!CONF_FILE!" >> %RESULT_FILE%
     if !errorlevel! equ 0 (
-        echo [í™•ì¸í•„ìš”] ì›¹ ì„œë¹„ìŠ¤ SSI ì‚¬ìš© ì„¤ì • í™œì„±í™” >> %RESULT_FILE%
+        echo [È®ÀÎÇÊ¿ä] À¥ ¼­ºñ½º SSI »ç¿ë ¼³Á¤ È°¼ºÈ­ >> %RESULT_FILE%
     ) else (
-        echo [ì–‘í˜¸] SSI ì˜µì…˜ ì—†ìŒ >> %RESULT_FILE%
+        echo [¾çÈ£] SSI ¿É¼Ç ¾øÀ½ >> %RESULT_FILE%
     )
 ) else (
-    echo [WARN] httpd.conf íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> %RESULT_FILE%
+    echo [WARN] httpd.conf ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> %RESULT_FILE%
 )
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-20. SSL/TLS í™œì„±í™”
+:: WEB-20. SSL/TLS È°¼ºÈ­
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-20. SSL/TLS í™œì„±í™” >> %RESULT_FILE%
+echo WEB-20. SSL/TLS È°¼ºÈ­ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ : SSL/TLS í™œì„±í™” ë˜ì–´ìˆëŠ”ê²½ìš° >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ : SSL/TLS È°¼ºÈ­ µÇ¾îÀÖ´Â°æ¿ì >> %RESULT_FILE%
 
 if exist "!APACHE_HOME!\bin\httpd.exe" (
-    echo "ssl ëª¨ë“ˆ(mod_ssl) í™œì„±í™” í™•ì¸" >> %RESULT_FILE%
+    echo "ssl ¸ğµâ(mod_ssl) È°¼ºÈ­ È®ÀÎ" >> %RESULT_FILE%
     "!APACHE_HOME!\bin\httpd.exe" -M >> %RESULT_FILE%
 ) else (
-    echo [WARN] httpd.exe íŒŒì¼ ëª» ì°¾ìŒ >> %RESULT_FILE%
+    echo [WARN] httpd.exe ÆÄÀÏ ¸ø Ã£À½ >> %RESULT_FILE%
 )
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-21. HTTP ë¦¬ë””ë ‰ì…˜
+:: WEB-21. HTTP ¸®µğ·º¼Ç
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-21. HTTP ë¦¬ë””ë ‰ì…˜ >> %RESULT_FILE%
+echo WEB-21. HTTP ¸®µğ·º¼Ç >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ : HTTP ì ‘ê·¼ì‹œ HTTPS Redirectionì´ í™œì„±í™” ëœ ê²½ìš° >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ : HTTP Á¢±Ù½Ã HTTPS RedirectionÀÌ È°¼ºÈ­ µÈ °æ¿ì >> %RESULT_FILE%
 
 if exist "!CONF_FILE!" (
     findstr /i /R "Redirect|RewriteRule.*https|HTTPS.*off" "!CONF_FILE!" >> %RESULT_FILE%
     if !errorlevel! equ 0 (
-        echo [ì–‘í˜¸] HTTP â†’ HTTPS ë¦¬ë‹¤ì´ë ‰ì…˜ ì„¤ì • ì¡´ì¬ >> %RESULT_FILE%
+        echo [¾çÈ£] HTTP ¡æ HTTPS ¸®´ÙÀÌ·º¼Ç ¼³Á¤ Á¸Àç >> %RESULT_FILE%
     ) else (
-        echo [ì·¨ì•½] HTTP â†’ HTTPS ë¦¬ë‹¤ì´ë ‰ì…˜ ì„¤ì • ì—†ìŒ >> %RESULT_FILE%
+        echo [Ãë¾à] HTTP ¡æ HTTPS ¸®´ÙÀÌ·º¼Ç ¼³Á¤ ¾øÀ½ >> %RESULT_FILE%
     )
 ) else (
-    echo [WARN] httpd.conf íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> %RESULT_FILE%
+    echo [WARN] httpd.conf ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> %RESULT_FILE%
 )
 
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-22. ì—ëŸ¬ í˜ì´ì§€ ê´€ë¦¬
+:: WEB-22. ¿¡·¯ ÆäÀÌÁö °ü¸®
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-22. ì—ëŸ¬ í˜ì´ì§€ ê´€ë¦¬ >> %RESULT_FILE%
+echo WEB-22. ¿¡·¯ ÆäÀÌÁö °ü¸® >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ : ì›¹ ì„œë¹„ìŠ¤ ì—ëŸ¬ í˜ì´ì§€ê°€ ë³„ë„ë¡œ ì§€ì •ëœ ê²½ìš° >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ : À¥ ¼­ºñ½º ¿¡·¯ ÆäÀÌÁö°¡ º°µµ·Î ÁöÁ¤µÈ °æ¿ì >> %RESULT_FILE%
 
 if exist "!CONF_FILE!" (
     findstr /i /S "ErrorDocument" "!CONF_FILE!" >> %RESULT_FILE%
     if !errorlevel! equ 0 (
-		echo [ì–‘í˜¸] ì—ëŸ¬ í˜ì´ì§€ ì„¤ì • ì¡´ì¬í•¨ >> %RESULT_FILE%
+		echo [¾çÈ£] ¿¡·¯ ÆäÀÌÁö ¼³Á¤ Á¸ÀçÇÔ >> %RESULT_FILE%
     ) else (
-        echo [ì·¨ì•½] ì—ëŸ¬ í˜ì´ì§€ ì„¤ì • ì—†ìŒ >> %RESULT_FILE%
+        echo [Ãë¾à] ¿¡·¯ ÆäÀÌÁö ¼³Á¤ ¾øÀ½ >> %RESULT_FILE%
     )
 ) else (
-    echo [WARN] httpd.conf íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> %RESULT_FILE%
+    echo [WARN] httpd.conf ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> %RESULT_FILE%
 )
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-23. LDAP ì•Œê³ ë¦¬ì¦˜ ì ì ˆí•˜ê²Œ êµ¬ì„±
+:: WEB-23. LDAP ¾Ë°í¸®Áò ÀûÀıÇÏ°Ô ±¸¼º
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-23. LDAP ì•Œê³ ë¦¬ì¦˜ ì ì ˆí•˜ê²Œ êµ¬ì„± >> %RESULT_FILE%
+echo WEB-23. LDAP ¾Ë°í¸®Áò ÀûÀıÇÏ°Ô ±¸¼º >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo ApacheëŠ” í•´ë‹¹ ì‚¬í•­ ì—†ìŒ >> %RESULT_FILE%
+echo Apache´Â ÇØ´ç »çÇ× ¾øÀ½ >> %RESULT_FILE%
 echo [END] >> %RESULT_FILE%
 
 
 :: ===========================================
-:: WEB-24. ë³„ë„ì˜ ì—…ë¡œë“œ ê²½ë¡œ ì‚¬ìš© ë° ê¶Œí•œ ì„¤ì •
+:: WEB-24. º°µµÀÇ ¾÷·Îµå °æ·Î »ç¿ë ¹× ±ÇÇÑ ¼³Á¤
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-24. ë³„ë„ì˜ ì—…ë¡œë“œ ê²½ë¡œ ì‚¬ìš© ë° ê¶Œí•œ ì„¤ì • >> %RESULT_FILE%
+echo WEB-24. º°µµÀÇ ¾÷·Îµå °æ·Î »ç¿ë ¹× ±ÇÇÑ ¼³Á¤ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%												
-echo íŒë‹¨ ê¸°ì¤€ : DocumentRoot ë””ë ‰í† ë¦¬ ë‚´ë¶€ì— ì—…ë¡œë“œ ë””ë ‰í„°ë¦¬ê°€ ìˆì„ ê²½ìš° ì·¨ì•½ >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ : DocumentRoot µğ·ºÅä¸® ³»ºÎ¿¡ ¾÷·Îµå µğ·ºÅÍ¸®°¡ ÀÖÀ» °æ¿ì Ãë¾à >> %RESULT_FILE%
 set "DOCROOT="
 
-:: PowerShellë¡œ ì •í™•í•˜ê²Œ íŒŒì‹±
+:: PowerShell·Î Á¤È®ÇÏ°Ô ÆÄ½Ì
 powershell -NoProfile -Command ^
     "$line = Select-String -Path '%APACHE_HOME%\conf\httpd.conf' -Pattern '^DocumentRoot' | Select-Object -First 1; " ^
     "if ($line) { $path = $line.Line -replace '.*DocumentRoot\s+\""?([^\""]+)\""?.*', '$1'; Write-Output $path | Out-File -FilePath '%TEMP%\docroot.tmp' -Encoding ASCII }"
@@ -575,75 +575,75 @@ powershell -NoProfile -Command ^
 set /p DOCROOT=<"%TEMP%\docroot.tmp"
 del "%TEMP%\docroot.tmp" >nul 2>&1
 
-:: 2. ë”°ì˜´í‘œ ì œê±°
+:: 2. µû¿ÈÇ¥ Á¦°Å
 set "DOCROOT=%DOCROOT:"=%"
 
-:: 3. ${SRVROOT} ì œê±° â†’ ì‹¤ì œ í•˜ìœ„ ê²½ë¡œë§Œ ë‚¨ê¹€
+:: 3. ${SRVROOT} Á¦°Å ¡æ ½ÇÁ¦ ÇÏÀ§ °æ·Î¸¸ ³²±è
 set "DOCROOT=%DOCROOT:${SRVROOT}/=%"
 
-:: 4. ìµœì¢… ì›¹ ë£¨íŠ¸ ê²½ë¡œ ìƒì„±
+:: 4. ÃÖÁ¾ À¥ ·çÆ® °æ·Î »ı¼º
 set "WEB_ROOT=%APACHE_HOME%\%DOCROOT%"
 
-echo [INFO] DocumentRoot íŒŒì‹± ê²°ê³¼ >> %RESULT_FILE%
+echo [INFO] DocumentRoot ÆÄ½Ì °á°ú >> %RESULT_FILE%
 echo %WEB_ROOT% >> %RESULT_FILE%
 
-:: 5. ë””ë ‰í„°ë¦¬ ì¡´ì¬ ì—¬ë¶€ í™•ì¸
+:: 5. µğ·ºÅÍ¸® Á¸Àç ¿©ºÎ È®ÀÎ
 if exist "%WEB_ROOT%" (
-    echo [INFO] ì›¹ ë£¨íŠ¸ ë””ë ‰í„°ë¦¬ ê¶Œí•œ í™•ì¸ >> %RESULT_FILE%
+    echo [INFO] À¥ ·çÆ® µğ·ºÅÍ¸® ±ÇÇÑ È®ÀÎ >> %RESULT_FILE%
     icacls "%WEB_ROOT%" >> %RESULT_FILE%
 ) else (
-    echo [WARN] ì›¹ ë£¨íŠ¸ ë””ë ‰í„°ë¦¬ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> %RESULT_FILE%
+    echo [WARN] À¥ ·çÆ® µğ·ºÅÍ¸®°¡ Á¸ÀçÇÏÁö ¾ÊÀ½ >> %RESULT_FILE%
 )
 echo [END] >> %RESULT_FILE%
 
 :: ===========================================
-:: WEB-25. ì£¼ê¸°ì  ë³´ì•ˆ íŒ¨ì¹˜ ë° ë²¤ë” ê¶Œê³ ì‚¬í•­ ì ìš©
+:: WEB-25. ÁÖ±âÀû º¸¾È ÆĞÄ¡ ¹× º¥´õ ±Ç°í»çÇ× Àû¿ë
 :: ===========================================
-:: WEB-25. ì£¼ê¸°ì  ë³´ì•ˆ íŒ¨ì¹˜ ë° ë²¤ë” ê¶Œê³ ì‚¬í•­ ì ìš©
+:: WEB-25. ÁÖ±âÀû º¸¾È ÆĞÄ¡ ¹× º¥´õ ±Ç°í»çÇ× Àû¿ë
 echo. >> %RESULT_FILE%
-echo WEB-25. ì£¼ê¸°ì  ë³´ì•ˆ íŒ¨ì¹˜ ë° ë²¤ë” ê¶Œê³ ì‚¬í•­ ì ìš© >> %RESULT_FILE%
+echo WEB-25. ÁÖ±âÀû º¸¾È ÆĞÄ¡ ¹× º¥´õ ±Ç°í»çÇ× Àû¿ë >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ : Apache ë²„ì „ì •ë³´ê°€ 2.4.62 ë²„ì „ ì´í•˜ëŠ” ë¦´ë¦¬ì¦ˆ ëœì§€ 1ë…„ ì´ìƒ ì§€ë‚¬ìœ¼ë¯€ë¡œ ì·¨ì•½  >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ : Apache ¹öÀüÁ¤º¸°¡ 2.4.62 ¹öÀü ÀÌÇÏ´Â ¸±¸®Áî µÈÁö 1³â ÀÌ»ó Áö³µÀ¸¹Ç·Î Ãë¾à  >> %RESULT_FILE%
 %APACHE_HOME%\bin\httpd.exe -v >> %RESULT_FILE%
 
 echo [END] >> %RESULT_FILE%
 
 
 :: ===========================================
-:: WEB-26. ë¡œê·¸ ë””ë ‰í„°ë¦¬ ë° íŒŒì¼ ê¶Œí•œ ì„¤ì •
+:: WEB-26. ·Î±× µğ·ºÅÍ¸® ¹× ÆÄÀÏ ±ÇÇÑ ¼³Á¤
 :: ===========================================
 echo. >> %RESULT_FILE%
-echo WEB-26. ë¡œê·¸ ë””ë ‰í„°ë¦¬ ë° íŒŒì¼ ê¶Œí•œ ì„¤ì • >> %RESULT_FILE%
+echo WEB-26. ·Î±× µğ·ºÅÍ¸® ¹× ÆÄÀÏ ±ÇÇÑ ¼³Á¤ >> %RESULT_FILE%
 echo [START] >> %RESULT_FILE%
-echo íŒë‹¨ ê¸°ì¤€ : ë¡œê·¸ ë””ë ‰í„°ë¦¬ ë° íŒŒì¼ì— ì¼ë°˜ ì‚¬ìš©ìì˜ ì ‘ê·¼ ê¶Œí•œì´ ì—†ëŠ” ê²½ìš°  >> %RESULT_FILE%
+echo ÆÇ´Ü ±âÁØ : ·Î±× µğ·ºÅÍ¸® ¹× ÆÄÀÏ¿¡ ÀÏ¹İ »ç¿ëÀÚÀÇ Á¢±Ù ±ÇÇÑÀÌ ¾ø´Â °æ¿ì  >> %RESULT_FILE%
 
-echo 1. log ë””ë ‰í„°ë¦¬ ê¶Œí•œ í™•ì¸  >> %RESULT_FILE%
+echo 1. log µğ·ºÅÍ¸® ±ÇÇÑ È®ÀÎ  >> %RESULT_FILE%
 icacls %APACHE_HOME%\logs >> %RESULT_FILE%
 echo. >> %RESULT_FILE%
-echo 2. log ë””ë ‰í„°ë¦¬ ë‚´ íŒŒì¼ ê¶Œí•œ í™•ì¸  >> %RESULT_FILE%
+echo 2. log µğ·ºÅÍ¸® ³» ÆÄÀÏ ±ÇÇÑ È®ÀÎ  >> %RESULT_FILE%
 icacls %APACHE_HOME%\logs\*.log >> %RESULT_FILE%
 
-:: ì°¸ê³  ë¡œê·¸ ì„¤ì • í™•ì¸
+:: Âü°í ·Î±× ¼³Á¤ È®ÀÎ
 echo. >> %RESULT_FILE%
-echo [INFO] ë¡œê·¸ ì„¤ì • ì ê²€ >> %RESULT_FILE%
+echo [INFO] ·Î±× ¼³Á¤ Á¡°Ë >> %RESULT_FILE%
 
 if exist "!CONF_FILE!" (
     findstr /i "ErrorLog CustomLog" "!CONF_FILE!" >> %RESULT_FILE%
     if !errorlevel! equ 0 (
-        echo [ì°¸ê³ ] Log ì„¤ì • ì¡´ì¬í•¨ >> %RESULT_FILE%
+        echo [Âü°í] Log ¼³Á¤ Á¸ÀçÇÔ >> %RESULT_FILE%
     ) else (
-        echo [ì°¸ê³ ] Log ì„¤ì • ì—†ìŒ >> %RESULT_FILE%
+        echo [Âü°í] Log ¼³Á¤ ¾øÀ½ >> %RESULT_FILE%
     )
 ) else (
-    echo [WARN] httpd.conf íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> %RESULT_FILE%
+    echo [WARN] httpd.conf ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> %RESULT_FILE%
 )
 echo [END] >> %RESULT_FILE%
 echo.  >> %RESULT_FILE%
-echo === Apache ì·¨ì•½ì  ì ê²€ ì¢…ë£Œ === >> %RESULT_FILE%
+echo === Apache Ãë¾àÁ¡ Á¡°Ë Á¾·á === >> %RESULT_FILE%
 
 echo.
-echo === Apache ì·¨ì•½ì  ì ê²€ ì¢…ë£Œ ===
-echo Apache ìŠ¤í¬ë¦½íŠ¸ ì‘ì—…ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.
-echo ìŠ¤í¬ë¦½íŠ¸ ê²°ê³¼ íŒŒì¼ì„ ë³´ì•ˆë‹´ë‹¹ìì—ê²Œ ì „ë‹¬ ë°”ëë‹ˆë‹¤.
-echo ê°ì‚¬í•©ë‹ˆë‹¤.
+echo === Apache Ãë¾àÁ¡ Á¡°Ë Á¾·á ===
+echo Apache ½ºÅ©¸³Æ® ÀÛ¾÷ÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.
+echo ½ºÅ©¸³Æ® °á°ú ÆÄÀÏÀ» º¸¾È´ã´çÀÚ¿¡°Ô Àü´Ş ¹Ù¶ø´Ï´Ù.
+echo °¨»çÇÕ´Ï´Ù.
 echo =============================

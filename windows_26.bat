@@ -6,7 +6,7 @@ PUSHD %~dp0
 bcdedit > nul || (ECHO Please, execute by Administrator & pause & exit)
 CLS 2> NUL
 TITLE Windows Server Check 2026
-REM ì£¼ìš”ì •ë³´í†µì‹ ê¸°ë°˜ì‹œì„¤ WINDOWS SERVER
+REM ÁÖ¿äÁ¤º¸Åë½Å±â¹İ½Ã¼³ WINDOWS SERVER
 
 REM ==================================================
 REM ==================================================
@@ -28,19 +28,19 @@ cls 2>NUL
 REM ==================================================
 REM ==================================================
 :SYSTEM_BASIC_CONFIG
-rem ë§¨ì•ê¸€ìê°€ ìˆ«ìì¸ì§€ ë¹„êµë¥¼ í•´ì•¼í•¨
+rem ¸Ç¾Õ±ÛÀÚ°¡ ¼ıÀÚÀÎÁö ºñ±³¸¦ ÇØ¾ßÇÔ
 FOR /f "tokens=1,2,3,* delims=-/ " %%i IN ('date /t') DO (
 	SET START_DATE=%%i-%%j-%%k
 	IF %%i leq 2100 (
 		echo %START_DATE% 2>NUL | findstr /l \/ >NUL
-		rem ì¼ë‹¨ ë§¨ì•ì— ê¸€ìëŠ” ì•„ë‹˜
+		rem ÀÏ´Ü ¸Ç¾Õ¿¡ ±ÛÀÚ´Â ¾Æ´Ô
 		IF NOT ERRORLEVEL 1 (
 			FOR /f "tokens=1,2,3,* delims=/ " %%i IN ('date /t') DO (
 				SET START_DATE=%%i-%%j-%%k
 			)
 		)
     ) ELSE (
-	rem ì¼ë‹¨ ë§¨ì•ì— ê¸€ìê°€ ìˆìŒ
+	rem ÀÏ´Ü ¸Ç¾Õ¿¡ ±ÛÀÚ°¡ ÀÖÀ½
 		IF NOT ERRORLEVEL 1 (
 			FOR /f "tokens=2,3,4,* delims=/ " %%i IN ('date /t') DO (
 				SET START_DATE=%%i-%%j-%%k
@@ -50,12 +50,12 @@ FOR /f "tokens=1,2,3,* delims=-/ " %%i IN ('date /t') DO (
 )
 
 echo %START_DATE% >> time.txt
-rem íŒŒì¼ì„ ë§Œë“¤ê²Œ ë˜ë©´ ê³µë°±ì´ ì¶”ê°€ê°€ ëœë‹¤. ì´ê±°ë¥¼ ì—¼ë‘í•´ì•¼í•¨
+rem ÆÄÀÏÀ» ¸¸µé°Ô µÇ¸é °ø¹éÀÌ Ãß°¡°¡ µÈ´Ù. ÀÌ°Å¸¦ ¿°µÎÇØ¾ßÇÔ
 
-rem ë‚ ì§œ ìˆœì„œê°€ 2018/12/31
-rem ë‚ ì§œ ìˆœì„œê°€ 12/31/2018
-rem ë‚ ì§œìˆœì„œê°€ ì˜ëª»ëœê±°ë¥¼ ë°”ë¡œ ì¡ì•„ì•¼ í•œë‹¤.
-rem ì¼ë‹¨ì€ ì°¨ì´ì ì€ ë§¨ì• ê¸€ìê°€ 1900ë¥¼ ë¹„êµí•´ì„œ ìˆœì„œë¥¼ ë°”ê¾¸ë©´ ë ë“¯
+rem ³¯Â¥ ¼ø¼­°¡ 2018/12/31
+rem ³¯Â¥ ¼ø¼­°¡ 12/31/2018
+rem ³¯Â¥¼ø¼­°¡ Àß¸øµÈ°Å¸¦ ¹Ù·Î Àâ¾Æ¾ß ÇÑ´Ù.
+rem ÀÏ´ÜÀº Â÷ÀÌÁ¡Àº ¸Ç¾Õ ±ÛÀÚ°¡ 1900¸¦ ºñ±³ÇØ¼­ ¼ø¼­¸¦ ¹Ù²Ù¸é µÉµí
 
 FOR /f "tokens=1,2,3,* delims=- " %%i IN (time.txt) DO (
 	SET START_DATE=%%i-%%j-%%k
@@ -102,28 +102,28 @@ IF NOT DEFINED OS_TYPE (SET OS_TYPE=WINDOWS[UNKNOWN])
 
 
 FOR /f "tokens=*" %%i IN ('wmic os get caption ^| findstr /i "microsoft"') DO (SET OS_NAME=%%i&SET OS_NAME=!OS_NAME:  =!)
-REM ë³´ì•ˆì •ì±… íŒŒì¼ í˜„ì¬ ë””ë ‰í† ë¦¬ì— ì„ì‹œì €ì¥
+REM º¸¾ÈÁ¤Ã¥ ÆÄÀÏ ÇöÀç µğ·ºÅä¸®¿¡ ÀÓ½ÃÀúÀå
 SECEDIT /EXPORT /CFG secpol.inf 2>NUL >NUL
-REM no_file ì´ˆê¸°í™” (1ì´ë©´ íŒŒì¼ ë¯¸ìƒì„± ì—ëŸ¬)
+REM no_file ÃÊ±âÈ­ (1ÀÌ¸é ÆÄÀÏ ¹Ì»ı¼º ¿¡·¯)
 SET no_file=0
 IF NOT EXIST secpol.inf (
-	SET file_1=         - ë³´ì•ˆì •ì±… íŒŒì¼ì´ ìƒì„±ë˜ì§€ ì•ŠìŒ.&SET file_1_no=1&SET no_file=1
+	SET file_1=         - º¸¾ÈÁ¤Ã¥ ÆÄÀÏÀÌ »ı¼ºµÇÁö ¾ÊÀ½.&SET file_1_no=1&SET no_file=1
 ) ELSE (
 	SET file_1_no=0
 )
-REM ì„œë¹„ìŠ¤ íŒŒì¼ í˜„ì¬ ë””ë ‰í† ë¦¬ì— ì„ì‹œì €ì¥
+REM ¼­ºñ½º ÆÄÀÏ ÇöÀç µğ·ºÅä¸®¿¡ ÀÓ½ÃÀúÀå
 
 wmic service get displayname, startmode, state 2>NUL > services.inf
 
 IF NOT EXIST services.inf (
-	SET file_2=         - ì„œë¹„ìŠ¤ íŒŒì¼ì´ ìƒì„±ë˜ì§€ ì•ŠìŒ.&SET file_2_no=1&SET no_file=1
+	SET file_2=         - ¼­ºñ½º ÆÄÀÏÀÌ »ı¼ºµÇÁö ¾ÊÀ½.&SET file_2_no=1&SET no_file=1
 ) ELSE (SET file_2_no=0)
-REM ì„œë¹„ìŠ¤ í¬íŠ¸ ë° í˜¸ìŠ¤íŠ¸ ì •ë³´ ì„ì‹œì €ì¥
+REM ¼­ºñ½º Æ÷Æ® ¹× È£½ºÆ® Á¤º¸ ÀÓ½ÃÀúÀå
 
 netstat -ano | findstr /i /v "TIME_WAIT" | findstr ":20 :21 :23 :25 :53 :80 :161 :443 :465 :587 :993 :995" > netstat.inf
 
 IF NOT EXIST netstat.inf (
-    SET "file_3=         - ì„œë¹„ìŠ¤ í¬íŠ¸ íŒŒì¼ì´ ìƒì„±ë˜ì§€ ì•ŠìŒ."
+    SET "file_3=         - ¼­ºñ½º Æ÷Æ® ÆÄÀÏÀÌ »ı¼ºµÇÁö ¾ÊÀ½."
     SET file_3_no=1
     SET no_file=1
 ) ELSE (
@@ -136,8 +136,8 @@ IF %no_file% EQU 1 (
 	CLS 2> NUL
 	echo ---------------------[ Error ]---------------------
 	echo.
-	echo           ì‹œìŠ¤í…œ ì„¤ì •íŒŒì¼ ìƒì„± ì˜¤ë¥˜ì…ë‹ˆë‹¤.
-	echo           ë‹´ë‹¹ìì—ê²Œ ë¬¸ì˜ë°”ëë‹ˆë‹¤.
+	echo           ½Ã½ºÅÛ ¼³Á¤ÆÄÀÏ »ı¼º ¿À·ùÀÔ´Ï´Ù.
+	echo           ´ã´çÀÚ¿¡°Ô ¹®ÀÇ¹Ù¶ø´Ï´Ù.
 	echo.
 	IF %file_1_no% EQU 1 (echo %file_1%)
 	IF %file_2_no% EQU 1 (echo %file_2%)
@@ -148,7 +148,7 @@ IF %no_file% EQU 1 (
 	EXIT /b
 )
 :IP_ADDR_CHECK
-REM ì²« ë²ˆì§¸ IPv4 ì£¼ì†Œë§Œ ì‚¬ìš©
+REM Ã¹ ¹øÂ° IPv4 ÁÖ¼Ò¸¸ »ç¿ë
 FOR /f "tokens=2 delims=:" %%i IN ('ipconfig ^| findstr /i "IPv4"') DO (
 	SET ipaddr=%%i
 	SET ipaddr=!ipaddr: =!
@@ -159,11 +159,11 @@ FOR /f "tokens=2 delims=:" %%i IN ('ipconfig ^| findstr /i "IPv4"') DO (
 :LOGO
 CLS 2> NUL
 echo. > [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* [ì£¼ìš”ì •ë³´í†µì‹ ê¸°ë°˜ì‹œì„¤] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* [ÁÖ¿äÁ¤º¸Åë½Å±â¹İ½Ã¼³] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* í•´ë‹¹ íŒŒì¼ì€ %COMPUTERNAME%ì˜ ìŠ¤í¬ë¦½íŠ¸ ê²°ê³¼ íŒŒì¼ ì…ë‹ˆë‹¤. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* ÇØ´ç ÆÄÀÏÀº %COMPUTERNAME%ÀÇ ½ºÅ©¸³Æ® °á°ú ÆÄÀÏ ÀÔ´Ï´Ù. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ë‹´ë‹¹ìì—ê²Œ ì „ë‹¬í•´ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* ´ã´çÀÚ¿¡°Ô Àü´ŞÇØÁÖ½Ã±â ¹Ù¶ø´Ï´Ù. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo --------[ Script Result - Windows SRV ]------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
@@ -197,63 +197,63 @@ echo #               Windows Server CheckList                      #
 echo #    JeongJuneHyuck Copyright 2026. all rights reserved.      #                                        
 echo ###############################################################
 echo -------------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo  1. ê³„ì •ê´€ë¦¬  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo  1. °èÁ¤°ü¸®  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo -------------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo.
-echo 1. ê³„ì •ê´€ë¦¬
+echo 1. °èÁ¤°ü¸®
 echo --------------
 
 REM ==================================================
 :01_START
-echo [01.W-01] Administrator ê³„ì • ì´ë¦„ ë³€ê²½ ë“± ë³´ì•ˆì„± ê°•í™” >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [01.W-01] Administrator °èÁ¤ ÀÌ¸§ º¯°æ µî º¸¾È¼º °­È­ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :01_ROUTINE
-SET CMT_01=ì´ˆê¸°í™”&SET RESULT_01=ì¸í„°ë·°
+SET CMT_01=ÃÊ±âÈ­&SET RESULT_01=ÀÎÅÍºä
 SET SECPOL=%CD%\secpol.inf
 
 type "%SECPOL%" | findstr /i "EnableAdminAccount" | findstr "= 1" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_01=Administrator ê³„ì •ì´ ë¹„í™œì„±í™”ë¨
-	SET RESULT_01=ì–‘í˜¸
+	SET CMT_01=Administrator °èÁ¤ÀÌ ºñÈ°¼ºÈ­µÊ
+	SET RESULT_01=¾çÈ£
 ) ELSE (
 	FOR /F "tokens=3 delims= " %%i IN ('type "%SECPOL%" ^| findstr /i "NewAdministratorName"') DO (
 		echo %%~i | findstr /i "Administrator" >NUL
 		IF ERRORLEVEL 1 (
-			SET CMT_01=Administrator ê³„ì •ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ
-			SET RESULT_01=ì–‘í˜¸
+			SET CMT_01=Administrator °èÁ¤ÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½
+			SET RESULT_01=¾çÈ£
 		) ELSE (
-			SET CMT_01=Administrator ê³„ì •ì´ ì¡´ì¬í•¨
-			SET RESULT_01=ì·¨ì•½
+			SET CMT_01=Administrator °èÁ¤ÀÌ Á¸ÀçÇÔ
+			SET RESULT_01=Ãë¾à
 		)
 	)
 )
 
 :01_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_01% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : Administratorê³„ì • ì´ë¦„ "ë³€ê²½" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_01% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_01% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : Administrator°èÁ¤ ÀÌ¸§ "º¯°æ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_01% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "EnableAdminAccount" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "EnableAdminAccount" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "NewAdministratorName" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "NewAdministratorName" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) wmic useraccount get name ^| findstr /i administrator >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê²°ê³¼ê°’ì´ ì—†ì„ ì‹œ, administrator ê³„ì • ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °á°ú°ªÀÌ ¾øÀ» ½Ã, administrator °èÁ¤ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 wmic useraccount get name 2>NUL | findstr /i administrator >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-    echo     Administrator ê³„ì •ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+    echo     Administrator °èÁ¤ÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 
 echo (CMD) wmic useraccount where disabled="true" get name ^| findstr /i administrator >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê³„ì •ì´ ì¡´ì¬í•˜ê³  ê²°ê³¼ê°’ì´ ì—†ì„ ì‹œ, administrator ê³„ì • í™œì„±í™”ë¨ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °èÁ¤ÀÌ Á¸ÀçÇÏ°í °á°ú°ªÀÌ ¾øÀ» ½Ã, administrator °èÁ¤ È°¼ºÈ­µÊ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 wmic useraccount where disabled="true" get name | findstr /i administrator >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) net localgroup "Administrators" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê³„ì • 10ê°œ ì´ìƒì¼ ê²½ìš°, 10ê°œë¥¼ ì œì™¸í•œ ë‚˜ë¨¸ì§€ëŠ” ìƒëµ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °èÁ¤ 10°³ ÀÌ»óÀÏ °æ¿ì, 10°³¸¦ Á¦¿ÜÇÑ ³ª¸ÓÁö´Â »ı·« >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 SET count=0
-FOR /f %%i IN ('net localgroup "Administrators" ^| findstr /i /v "^$ ë³„ì¹­ Alias ëª…ë ¹ completed ì„¤ëª… Comment êµ¬ì„±ì› Members -"') DO (
-	net user %%i 2>NUL | findstr /i "í™œì„± active" | findstr /i "ì•„ë‹ˆìš” No" >NUL
+FOR /f %%i IN ('net localgroup "Administrators" ^| findstr /i /v "^$ º°Äª Alias ¸í·É completed ¼³¸í Comment ±¸¼º¿ø Members -"') DO (
+	net user %%i 2>NUL | findstr /i "È°¼º active" | findstr /i "¾Æ´Ï¿ä No" >NUL
 	IF NOT ERRORLEVEL 1 (
 		echo     ^(inactive^)%%i >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	)
@@ -270,49 +270,49 @@ FOR /f %%i IN ('net localgroup "Administrators" ^| findstr /i /v "^$ ë³„ì¹­ Alia
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [01.W-01] Administrator ê³„ì • ì´ë¦„ ë°”ê¾¸ê¸° [%RESULT_01%]
+echo [01.W-01] Administrator °èÁ¤ ÀÌ¸§ ¹Ù²Ù±â [%RESULT_01%]
 :01_END
 SET CMT_01=
 SET RESULT_01=
 
 :01_ADD
-REM [í•­ëª©] Administrator ê³„ì • ì´ë¦„ ë°”ê¾¸ê¸°
-REM Administratorsê·¸ë£¹ì— Administratorì´ ì¡´ì¬í•˜ëŠ”ì§€ í™•ì¸(ì¼ë°˜ ì‚¬ìš©ìê³„ì •ì¼ ê²½ìš°ì—” ì–‘í˜¸)
+REM [Ç×¸ñ] Administrator °èÁ¤ ÀÌ¸§ ¹Ù²Ù±â
+REM Administrators±×·ì¿¡ AdministratorÀÌ Á¸ÀçÇÏ´ÂÁö È®ÀÎ(ÀÏ¹İ »ç¿ëÀÚ°èÁ¤ÀÏ °æ¿ì¿£ ¾çÈ£)
 
 REM ==================================================
 :02_START
-echo [02.W-02] Guest ê³„ì • ë¹„í™œì„±í™” >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [02.W-02] Guest °èÁ¤ ºñÈ°¼ºÈ­ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :02_ROUTINE
-SET CMT_02=ì´ˆê¸°í™”&SET RESULT_02=ì¸í„°ë·°
+SET CMT_02=ÃÊ±âÈ­&SET RESULT_02=ÀÎÅÍºä
 type secpol.inf | findstr /i "EnableGuestAccount" | findstr "1" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_02=Guest ê³„ì •ì´ "ë¹„í™œì„±í™”"ë¨&SET RESULT_02=ì–‘í˜¸
+	SET CMT_02=Guest °èÁ¤ÀÌ "ºñÈ°¼ºÈ­"µÊ&SET RESULT_02=¾çÈ£
 ) ELSE (
-	SET CMT_02=Guest ê³„ì •ì´ "í™œì„±í™”"ë¨&SET RESULT_02=ì·¨ì•½
+	SET CMT_02=Guest °èÁ¤ÀÌ "È°¼ºÈ­"µÊ&SET RESULT_02=Ãë¾à
 )
 
 :02_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_02% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : Guest ê³„ì • "ë¹„í™œì„±í™”" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_02% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_02% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : Guest °èÁ¤ "ºñÈ°¼ºÈ­" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_02% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "EnableGuestAccount" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "EnableGuestAccount" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "NewGuestName" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "NewGuestName" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) wmic useraccount get name ^| findstr /i "Guest" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê²°ê³¼ê°’ì´ ì—†ì„ ì‹œ, Guest ê³„ì • ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °á°ú°ªÀÌ ¾øÀ» ½Ã, Guest °èÁ¤ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 wmic useraccount get name 2>NUL | findstr /i "Guest" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) wmic useraccount where disabled="true" get name ^| findstr /i "Guest" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê³„ì •ì´ ì¡´ì¬í•˜ê³  ê²°ê³¼ê°’ì´ ì—†ì„ ì‹œ, Guest ê³„ì • í™œì„±í™”ë¨ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °èÁ¤ÀÌ Á¸ÀçÇÏ°í °á°ú°ªÀÌ ¾øÀ» ½Ã, Guest °èÁ¤ È°¼ºÈ­µÊ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 wmic useraccount where disabled="true" get name 2>NUL | findstr /i "Guest" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 net user guest >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [02.W-02] Guest ê³„ì • ìƒíƒœ [%RESULT_02%]
+echo [02.W-02] Guest °èÁ¤ »óÅÂ [%RESULT_02%]
 :02_END
 SET CMT_02=
 SET RESULT_02=
@@ -321,20 +321,20 @@ SET RESULT_02=
 
 REM ==================================================
 :03_START
-echo [03.W-03] ë¶ˆí•„ìš”í•œ ê³„ì • ì œê±° >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [03.W-03] ºÒÇÊ¿äÇÑ °èÁ¤ Á¦°Å >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :03_ROUTINE
-SET CMT_03=ìˆ˜ë™ ì ê²€&SET RESULT_03=ì¸í„°ë·°
+SET CMT_03=¼öµ¿ Á¡°Ë&SET RESULT_03=ÀÎÅÍºä
 
 
 :03_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_03% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : 3ê°œì›” ì´ìƒ ë¡œê·¸ì¸í•˜ì§€ ì•Šì€ ë¶ˆí•„ìš”í•œ ê³„ì • "ì œê±°" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_03% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_03% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : 3°³¿ù ÀÌ»ó ·Î±×ÀÎÇÏÁö ¾ÊÀº ºÒÇÊ¿äÇÑ °èÁ¤ "Á¦°Å" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_03% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo (CMD) net user "í™œì„± ê³„ì •" ^| findstr "ìµœê·¼ ë§ˆì§€ë§‰ last" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê³„ì • 5ê°œ ì´ìƒì¼ ê²½ìš°, 5ê°œë¥¼ ì œì™¸í•œ ë‚˜ë¨¸ì§€ëŠ” ìƒëµ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo (CMD) net user "È°¼º °èÁ¤" ^| findstr "ÃÖ±Ù ¸¶Áö¸· last" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °èÁ¤ 5°³ ÀÌ»óÀÏ °æ¿ì, 5°³¸¦ Á¦¿ÜÇÑ ³ª¸ÓÁö´Â »ı·« >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 SET count=0
 
 wmic useraccount where Disabled=false get name | findstr /v /r "^$ Name" > users.txt
@@ -348,7 +348,7 @@ IF EXIST users.txt del users.txt
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [03.W-03] ë¶ˆí•„ìš”í•œ ê³„ì • ì œê±° [%RESULT_03%]
+echo [03.W-03] ºÒÇÊ¿äÇÑ °èÁ¤ Á¦°Å [%RESULT_03%]
 :03_END
 SET CMT_03=
 SET RESULT_03=
@@ -363,101 +363,101 @@ SET NOW_03_year=
 
 REM ==================================================
 :04_START
-echo [04.W-04] ê³„ì • ì ê¸ˆ ì„ê³„ê°’ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [04.W-04] °èÁ¤ Àá±İ ÀÓ°è°ª ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :04_ROUTINE
 
-SET CMT_04=ì´ˆê¸°í™”&SET RESULT_04=ì–‘í˜¸
+SET CMT_04=ÃÊ±âÈ­&SET RESULT_04=¾çÈ£
 FOR /f "tokens=2 delims== " %%i IN ('type "%SECPOL%" ^| findstr /i "LockoutBadCount"') DO (
 	IF %%i EQU 0 (
-		SET CMT_04=ê³„ì • ì ê¸ˆ ì„ê³„ê°’ì´ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"&SET RESULT_04=ì·¨ì•½& GOTO :04_PRINT
+		SET CMT_04=°èÁ¤ Àá±İ ÀÓ°è°ªÀÌ "¼³Á¤µÇÁö ¾ÊÀ½"&SET RESULT_04=Ãë¾à& GOTO :04_PRINT
 	)
 	IF %%i LEQ 5 (
-		SET CMT_04=ê³„ì • ì ê¸ˆ ì„ê³„ê°’ì´ "5íšŒ ì´í•˜"ë¡œ ì„¤ì •ë¨&SET RESULT_04=ì–‘í˜¸
+		SET CMT_04=°èÁ¤ Àá±İ ÀÓ°è°ªÀÌ "5È¸ ÀÌÇÏ"·Î ¼³Á¤µÊ&SET RESULT_04=¾çÈ£
 	) ELSE (
-		SET CMT_04=ê³„ì • ì ê¸ˆ ì„ê³„ê°’ì´ "5íšŒ ì´ˆê³¼"ë¡œ ì„¤ì •ë¨&SET RESULT_04=ì·¨ì•½
+		SET CMT_04=°èÁ¤ Àá±İ ÀÓ°è°ªÀÌ "5È¸ ÃÊ°ú"·Î ¼³Á¤µÊ&SET RESULT_04=Ãë¾à
 	)
 )
 
 :04_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_04% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ê³„ì • ì ê¸ˆ ì„ê³„ê°’ì„ "5íšŒ ì´í•˜"ë¡œ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_04% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_04% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : °èÁ¤ Àá±İ ÀÓ°è°ªÀ» "5È¸ ÀÌÇÏ"·Î ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_04% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "LockoutBadCount" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "LockoutBadCount" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [04.W-04] ê³„ì • ì ê¸ˆ ì„ê³„ê°’ ì„¤ì • [%RESULT_04%]
+echo [04.W-04] °èÁ¤ Àá±İ ÀÓ°è°ª ¼³Á¤ [%RESULT_04%]
 :04_END
 SET CMT_04=
 
 :04_ADD
-REM [í•­ëª©] ê³„ì • ì ê¸ˆ ì„ê³„ê°’ ì„¤ì •
-REM í•´ë‹¹ í•­ëª©ì´ ì„¤ì •ë˜ì–´ì•¼ ê´€ë ¨ ì„¤ì •í•­ëª©ë“¤ì´ í™œì„±í™”ë¨ (08ë²ˆ)
+REM [Ç×¸ñ] °èÁ¤ Àá±İ ÀÓ°è°ª ¼³Á¤
+REM ÇØ´ç Ç×¸ñÀÌ ¼³Á¤µÇ¾î¾ß °ü·Ã ¼³Á¤Ç×¸ñµéÀÌ È°¼ºÈ­µÊ (08¹ø)
 
 REM ==================================================
 :05_START
-echo [05.W-05] í•´ë… ê°€ëŠ¥í•œ ì•”í˜¸í™”ë¥¼ ì‚¬ìš©í•˜ì—¬ ì•”í˜¸ ì €ì¥ í•´ì œ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [05.W-05] ÇØµ¶ °¡´ÉÇÑ ¾ÏÈ£È­¸¦ »ç¿ëÇÏ¿© ¾ÏÈ£ ÀúÀå ÇØÁ¦ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :05_ROUTINE
-SET CMT_05=ì´ˆê¸°í™”&SET RESULT_05=ì¸í„°ë·°
+SET CMT_05=ÃÊ±âÈ­&SET RESULT_05=ÀÎÅÍºä
 type secpol.inf | findstr "ClearTextPassword" | findstr "0" >NUL
 IF NOT ERRORLEVEL 1 (
-	SET CMT_05=í•´ë… ê°€ëŠ¥í•œ ì•”í˜¸í™”ë¥¼ "ì‚¬ìš©í•˜ì§€ ì•ŠìŒ"&SET RESULT_05=ì–‘í˜¸& GOTO :05_PRINT
+	SET CMT_05=ÇØµ¶ °¡´ÉÇÑ ¾ÏÈ£È­¸¦ "»ç¿ëÇÏÁö ¾ÊÀ½"&SET RESULT_05=¾çÈ£& GOTO :05_PRINT
 )
 IF ERRORLEVEL 1 (
-	SET CMT_05=í•´ë… ê°€ëŠ¥í•œ ì•”í˜¸í™”ë¥¼ "ì‚¬ìš©"í•¨&SET RESULT_05=ì·¨ì•½& GOTO :05_PRINT
+	SET CMT_05=ÇØµ¶ °¡´ÉÇÑ ¾ÏÈ£È­¸¦ "»ç¿ë"ÇÔ&SET RESULT_05=Ãë¾à& GOTO :05_PRINT
 )
 
 :05_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_05% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : í•´ë… ê°€ëŠ¥í•œ ì•”í˜¸í™”ë¥¼ "ì‚¬ìš©í•˜ì§€ ì•ŠìŒ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_05% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_05% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ÇØµ¶ °¡´ÉÇÑ ¾ÏÈ£È­¸¦ "»ç¿ëÇÏÁö ¾ÊÀ½" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_05% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr "ClearTextPassword" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr "ClearTextPassword" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [05.W-05] í•´ë… ê°€ëŠ¥í•œ ì•”í˜¸í™”ë¥¼ ì‚¬ìš©í•˜ì—¬ ì•”í˜¸ ì €ì¥ í•´ì œ[%RESULT_05%]
+echo [05.W-05] ÇØµ¶ °¡´ÉÇÑ ¾ÏÈ£È­¸¦ »ç¿ëÇÏ¿© ¾ÏÈ£ ÀúÀå ÇØÁ¦[%RESULT_05%]
 :05_END
 SET CMT_05=
 SET RESULT_05=
 
 :05_ADD
-REM [ì„¤ì •] ë³´ì•ˆì •ì±… ì„¤ì •íŒŒì¼ ìœ„ì¹˜
+REM [¼³Á¤] º¸¾ÈÁ¤Ã¥ ¼³Á¤ÆÄÀÏ À§Ä¡
 REM 1.  XP, 2003 : %windir%\repair\secsetup.inf
 REM 2. vista, 7, 2008 : %windir%\inf\defltbase.inf
-REM 3. 2012, 2016, 2019 ??(í…ŒìŠ¤íŠ¸ í›„ ìˆ˜ì • ì˜ˆì •)
+REM 3. 2012, 2016, 2019 ??(Å×½ºÆ® ÈÄ ¼öÁ¤ ¿¹Á¤)
 
 REM ==================================================
 :06_START
-echo [06.W-06] ê´€ë¦¬ì ê·¸ë£¹ì— ìµœì†Œí•œì˜ ì‚¬ìš©ì í¬í•¨ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [06.W-06] °ü¸®ÀÚ ±×·ì¿¡ ÃÖ¼ÒÇÑÀÇ »ç¿ëÀÚ Æ÷ÇÔ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :06_ROUTINE
-SET CMT_06=ê´€ë¦¬ì ê·¸ë£¹ì— ìµœì†Œí•œì˜ ì‚¬ìš©ìê°€ "í¬í•¨" ì—¬ë¶€ í™•ì¸&SET RESULT_06=ì¸í„°ë·°
+SET CMT_06=°ü¸®ÀÚ ±×·ì¿¡ ÃÖ¼ÒÇÑÀÇ »ç¿ëÀÚ°¡ "Æ÷ÇÔ" ¿©ºÎ È®ÀÎ&SET RESULT_06=ÀÎÅÍºä
 
 :06_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_06% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ê´€ë¦¬ì ê·¸ë£¹ì— ìµœì†Œí•œì˜ ì‚¬ìš©ìê°€ "í¬í•¨" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_06% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_06% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : °ü¸®ÀÚ ±×·ì¿¡ ÃÖ¼ÒÇÑÀÇ »ç¿ëÀÚ°¡ "Æ÷ÇÔ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_06% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) net localgroup "Administrators" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê³„ì • 10ê°œ ì´ìƒì¼ ê²½ìš°, 10ê°œë¥¼ ì œì™¸í•œ ë‚˜ë¨¸ì§€ëŠ” ìƒëµ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °èÁ¤ 10°³ ÀÌ»óÀÏ °æ¿ì, 10°³¸¦ Á¦¿ÜÇÑ ³ª¸ÓÁö´Â »ı·« >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 SET count=0
-FOR /f %%i IN ('net localgroup "Administrators" ^| findstr /i /v "^$ ë³„ì¹­ Alias ëª…ë ¹ completed ì„¤ëª… Comment êµ¬ì„±ì› Members -"') DO (
-	net user %%i 2>NUL | findstr /i "í™œì„± active" | findstr /i "ì•„ë‹ˆìš” No" >NUL
+FOR /f %%i IN ('net localgroup "Administrators" ^| findstr /i /v "^$ º°Äª Alias ¸í·É completed ¼³¸í Comment ±¸¼º¿ø Members -"') DO (
+	net user %%i 2>NUL | findstr /i "È°¼º active" | findstr /i "¾Æ´Ï¿ä No" >NUL
 	IF NOT ERRORLEVEL 1 (
 		echo     ^(inactive^)%%i >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	)
@@ -474,7 +474,7 @@ FOR /f %%i IN ('net localgroup "Administrators" ^| findstr /i /v "^$ ë³„ì¹­ Alia
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [06.W-06] ê´€ë¦¬ì ê·¸ë£¹ì— ìµœì†Œí•œì˜ ì‚¬ìš©ì í¬í•¨ [%RESULT_06%]
+echo [06.W-06] °ü¸®ÀÚ ±×·ì¿¡ ÃÖ¼ÒÇÑÀÇ »ç¿ëÀÚ Æ÷ÇÔ [%RESULT_06%]
 :06_END
 SET CMT_06=
 SET RESULT_06=
@@ -484,162 +484,162 @@ SET count=
 
 REM ==================================================
 :07_START
-echo [07.W-07] Everyone ì‚¬ìš© ê¶Œí•œì„ ìµëª… ì‚¬ìš©ìì—ê²Œ ì ìš© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [07.W-07] Everyone »ç¿ë ±ÇÇÑÀ» ÀÍ¸í »ç¿ëÀÚ¿¡°Ô Àû¿ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :07_ROUTINE
-SET CMT_07=ì´ˆê¸°í™”&SET RESULT_07=ì¸í„°ë·°
+SET CMT_07=ÃÊ±âÈ­&SET RESULT_07=ÀÎÅÍºä
 type secpol.inf | findstr /i "everyoneincludesanonymous" | findstr /i "4,0" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_07=Everyone ì‚¬ìš© ê¶Œí•œì„ ìµëª… ì‚¬ìš©ìì—ê²Œ ì ìš©ì„ "ì‚¬ìš©"í•¨&SET RESULT_07=ì·¨ì•½
+	SET CMT_07=Everyone »ç¿ë ±ÇÇÑÀ» ÀÍ¸í »ç¿ëÀÚ¿¡°Ô Àû¿ëÀ» "»ç¿ë"ÇÔ&SET RESULT_07=Ãë¾à
 )
 IF NOT ERRORLEVEL 1 (
-	SET CMT_07=Everyone ì‚¬ìš© ê¶Œí•œì„ ìµëª… ì‚¬ìš©ìì—ê²Œ ì ìš©ì„ "ì‚¬ìš© ì•ˆ í•¨"&SET RESULT_07=ì–‘í˜¸
+	SET CMT_07=Everyone »ç¿ë ±ÇÇÑÀ» ÀÍ¸í »ç¿ëÀÚ¿¡°Ô Àû¿ëÀ» "»ç¿ë ¾È ÇÔ"&SET RESULT_07=¾çÈ£
 )
 
 :07_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_07% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë„¤íŠ¸ì›Œí¬ ì•¡ì„¸ìŠ¤:Everyone ì‚¬ìš© ê¶Œí•œì„ ìµëª… ì‚¬ìš©ìì—ê²Œ ì ìš© "ì‚¬ìš© ì•ˆ í•¨" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_07% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_07% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ³×Æ®¿öÅ© ¾×¼¼½º:Everyone »ç¿ë ±ÇÇÑÀ» ÀÍ¸í »ç¿ëÀÚ¿¡°Ô Àû¿ë "»ç¿ë ¾È ÇÔ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_07% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr "everyoneincludesanonymous" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "everyoneincludesanonymous" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo (CMD) reg query "HKLM\System\CurrentControlSet\Control\Lsa" /v "EveryoneIncludesAnonymous" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\System\CurrentControlSet\Control\Lsa" /v "EveryoneIncludesAnonymous" 2>NUL | findstr /i "EveryoneIncludesAnonymous" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [07.W-07] Everyone ì‚¬ìš© ê¶Œí•œì„ ìµëª… ì‚¬ìš©ìì—ê²Œ ì ìš© [%RESULT_07%]
+echo [07.W-07] Everyone »ç¿ë ±ÇÇÑÀ» ÀÍ¸í »ç¿ëÀÚ¿¡°Ô Àû¿ë [%RESULT_07%]
 :07_END
 SET CMT_07=
 SET RESULT_07=
 
 :07_ADD
-REM [í•­ëª©] Everyone ì‚¬ìš© ê¶Œí•œì„ ìµëª… ì‚¬ìš©ìì—ê²Œ ì ìš©
-REM ìµëª…ì‚¬ìš©ìì˜ ë„¤íŠ¸ì›Œí¬ ì—‘ì„¸ìŠ¤ì‹œ everyone ê¶Œí•œ ìì›ì— ëŒ€í•œ ì ‘ê·¼ í—ˆìš© ì—¬ë¶€
+REM [Ç×¸ñ] Everyone »ç¿ë ±ÇÇÑÀ» ÀÍ¸í »ç¿ëÀÚ¿¡°Ô Àû¿ë
+REM ÀÍ¸í»ç¿ëÀÚÀÇ ³×Æ®¿öÅ© ¿¢¼¼½º½Ã everyone ±ÇÇÑ ÀÚ¿ø¿¡ ´ëÇÑ Á¢±Ù Çã¿ë ¿©ºÎ
 
 REM ==================================================
 :08_START
-echo [08.W-08] ê³„ì • ì ê¸ˆ ê¸°ê°„ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [08.W-08] °èÁ¤ Àá±İ ±â°£ ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :08_ROUTINE
-SET CMT_08=ì´ˆê¸°í™”&SET RESULT_08=ì–‘í˜¸
-IF "%RESULT_04%" == "ì–‘í˜¸" (
+SET CMT_08=ÃÊ±âÈ­&SET RESULT_08=¾çÈ£
+IF "%RESULT_04%" == "¾çÈ£" (
 	type secpol.inf | findstr /i "LockoutDuration" >NUL
 	FOR /f "tokens=3 delims= " %%i IN ('type "%SECPOL%" ^| findstr /i "LockoutDuration"') DO (
 		IF %%i EQU -1 (
-			SET CMT_08="ê´€ë¦¬ìê°€ í•´ì œí•  ë•Œê¹Œì§€" ê³„ì • ì ê¸ˆìœ¼ë¡œ ì„¤ì •ë¨&SET RESULT_08=ì–‘í˜¸
+			SET CMT_08="°ü¸®ÀÚ°¡ ÇØÁ¦ÇÒ ¶§±îÁö" °èÁ¤ Àá±İÀ¸·Î ¼³Á¤µÊ&SET RESULT_08=¾çÈ£
 		) ELSE (
 			IF %%i GEQ 60 (
-				SET CMT_08=ê³„ì • ì ê¸ˆ ê¸°ê°„ì´ "60ë¶„ ì´ìƒ"ìœ¼ë¡œ ì„¤ì •ë¨&SET RESULT_08=ì–‘í˜¸
+				SET CMT_08=°èÁ¤ Àá±İ ±â°£ÀÌ "60ºĞ ÀÌ»ó"À¸·Î ¼³Á¤µÊ&SET RESULT_08=¾çÈ£
 			) ELSE (
-				SET CMT_08=ê³„ì • ì ê¸ˆ ê¸°ê°„ì´ "60ë¶„ ë¯¸ë§Œ"ìœ¼ë¡œ ì„¤ì •ë¨&SET RESULT_08=ì·¨ì•½
+				SET CMT_08=°èÁ¤ Àá±İ ±â°£ÀÌ "60ºĞ ¹Ì¸¸"À¸·Î ¼³Á¤µÊ&SET RESULT_08=Ãë¾à
 			)
 		)
 	)
 ) ELSE (
-	SET CMT_08=ê³„ì •ì ê¸ˆì„ê³„ê°’ì´ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"^(4ë²ˆ í•­ëª© ì·¨ì•½^)&SET RESULT_08=ì·¨ì•½
+	SET CMT_08=°èÁ¤Àá±İÀÓ°è°ªÀÌ "¼³Á¤µÇÁö ¾ÊÀ½"^(4¹ø Ç×¸ñ Ãë¾à^)&SET RESULT_08=Ãë¾à
 )
 
 :08_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_08% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ê³„ì • ì ê¸ˆ ì„ê³„ê°’ì´ ì¡´ì¬í•˜ê³  ì ê¸ˆ ê¸°ê°„ ë° ë‹¤ìŒ ì‹œê°„ í›„ ê³„ì • ì ê¸ˆ ìˆ˜ë¥¼ ì›ë˜ëŒ€ë¡œ ì„¤ì •ì´ 60ë¶„ ì´ìƒìœ¼ë¡œ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_08% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_08% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : °èÁ¤ Àá±İ ÀÓ°è°ªÀÌ Á¸ÀçÇÏ°í Àá±İ ±â°£ ¹× ´ÙÀ½ ½Ã°£ ÈÄ °èÁ¤ Àá±İ ¼ö¸¦ ¿ø·¡´ë·Î ¼³Á¤ÀÌ 60ºĞ ÀÌ»óÀ¸·Î ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_08% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
-echo ê³„ì • ì ê¸ˆ ì„ê³„ê°’ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °èÁ¤ Àá±İ ÀÓ°è°ª >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type "%SECPOL%" | findstr /i "LockoutBadCount" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
-echo ê³„ì • ì ê¸ˆ ê¸°ê°„ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °èÁ¤ Àá±İ ±â°£ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type "%SECPOL%" | findstr /i "LockoutDuration" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
-echo ë‹¤ìŒ ì‹œê°„ í›„ ê³„ì • ì ê¸ˆ ìˆ˜ë¥¼ ì›ë˜ëŒ€ë¡œ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ´ÙÀ½ ½Ã°£ ÈÄ °èÁ¤ Àá±İ ¼ö¸¦ ¿ø·¡´ë·Î ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type "%SECPOL%" | findstr /i "LockoutDuration" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 
 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [08.W-08] ê³„ì • ì ê¸ˆ ê¸°ê°„ ì„¤ì • [%RESULT_08%]
+echo [08.W-08] °èÁ¤ Àá±İ ±â°£ ¼³Á¤ [%RESULT_08%]
 :08_END
 SET CMT_08=
 SET RESULT_08=
 
 
 :08_ADD
-REM [í•­ëª©] ê³„ì • ì ê¸ˆ ê¸°ê°„ ì„¤ì •
-REM 04ë²ˆ í•­ëª©ì˜ ê³„ì •ì ê¸ˆì„ê³„ê°’ì´ ì„¤ì •ë˜ì–´ì•¼ í•´ë‹¹ ê¸°ëŠ¥ ì„¤ì •ê°€ëŠ¥
-REM ì•„ë‹˜ == 0ë¶„ ì„¤ì •
+REM [Ç×¸ñ] °èÁ¤ Àá±İ ±â°£ ¼³Á¤
+REM 04¹ø Ç×¸ñÀÇ °èÁ¤Àá±İÀÓ°è°ªÀÌ ¼³Á¤µÇ¾î¾ß ÇØ´ç ±â´É ¼³Á¤°¡´É
+REM ¾Æ´Ô == 0ºĞ ¼³Á¤
 
 REM ==================================================
 :09_START
-echo [09.W-09] ë¹„ë°€ë²ˆí˜¸ ê´€ë¦¬ ì •ì±… ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [09.W-09] ºñ¹Ğ¹øÈ£ °ü¸® Á¤Ã¥ ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :09_ROUTINE
-SET CMT_09=ì´ˆê¸°í™”&SET RESULT_09=ì¸í„°ë·°
+SET CMT_09=ÃÊ±âÈ­&SET RESULT_09=ÀÎÅÍºä
 type secpol.inf | findstr /i "PasswordComplexity" | findstr "1" >NUL
 IF NOT ERRORLEVEL 1 (
-	SET CMT_09=íŒ¨ìŠ¤ì›Œë“œ ë³µì¡ì„± ì •ì±…ì´ "ì„¤ì •"ë¨&SET RESULT_09=ì–‘í˜¸
+	SET CMT_09=ÆĞ½º¿öµå º¹Àâ¼º Á¤Ã¥ÀÌ "¼³Á¤"µÊ&SET RESULT_09=¾çÈ£
 )
 IF ERRORLEVEL 1 (
-	SET CMT_09=íŒ¨ìŠ¤ì›Œë“œ ë³µì¡ì„± ì •ì±…ì´ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"&SET RESULT_09=ì·¨ì•½
+	SET CMT_09=ÆĞ½º¿öµå º¹Àâ¼º Á¤Ã¥ÀÌ "¼³Á¤µÇÁö ¾ÊÀ½"&SET RESULT_09=Ãë¾à
 	GOTO :END_09
 )
 FOR /f "tokens=2 delims== " %%i IN ('type "%SECPOL%" ^| findstr /i "MinimumPasswordLength"') DO (
 	IF %%i LSS 8 (
-		SET CMT_09=íŒ¨ìŠ¤ì›Œë“œ ìµœì†Œ ì•”í˜¸ ê¸¸ì´ "8ìë¦¬ ë¯¸ë§Œ" ì„¤ì •ë¨&SET RESULT_09=ì·¨ì•½
+		SET CMT_09=ÆĞ½º¿öµå ÃÖ¼Ò ¾ÏÈ£ ±æÀÌ "8ÀÚ¸® ¹Ì¸¸" ¼³Á¤µÊ&SET RESULT_09=Ãë¾à
 		GOTO :END_09
 	) ELSE (
-		SET CMT_09=íŒ¨ìŠ¤ì›Œë“œ ìµœì†Œ ì•”í˜¸ ê¸¸ì´ "8ìë¦¬ ì´ìƒ" ì„¤ì •ë¨&SET RESULT_09=ì–‘í˜¸
+		SET CMT_09=ÆĞ½º¿öµå ÃÖ¼Ò ¾ÏÈ£ ±æÀÌ "8ÀÚ¸® ÀÌ»ó" ¼³Á¤µÊ&SET RESULT_09=¾çÈ£
 	)
 	IF %%i EQU 0 (
-		SET CMT_09=íŒ¨ìŠ¤ì›Œë“œ ìµœì†Œ ì•”í˜¸ ê¸¸ì´ ì •ì±…ì´ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"&SET RESULT_09=ì·¨ì•½
+		SET CMT_09=ÆĞ½º¿öµå ÃÖ¼Ò ¾ÏÈ£ ±æÀÌ Á¤Ã¥ÀÌ "¼³Á¤µÇÁö ¾ÊÀ½"&SET RESULT_09=Ãë¾à
 		GOTO :END_09
 	)
 )
 FOR /f "tokens=2 delims== " %%i IN ('type "%SECPOL%" ^| findstr /i "MaximumPasswordAge" ^| findstr /v "Netlogon"') DO (
 	IF %%i EQU 0 (
-		SET CMT_09=íŒ¨ìŠ¤ì›Œë“œ ì‚¬ìš© ê¸°ê°„ "ì œí•œ ì—†ìŒ",&SET RESULT_09=ì·¨ì•½
+		SET CMT_09=ÆĞ½º¿öµå »ç¿ë ±â°£ "Á¦ÇÑ ¾øÀ½",&SET RESULT_09=Ãë¾à
 		GOTO :END_09
 	)
 	IF %%i GTR 90 (
-		SET CMT_09=íŒ¨ìŠ¤ì›Œë“œ ìµœëŒ€ ì‚¬ìš© ê¸°ê°„ì´ "90ì¼ ì´ˆê³¼"ë¡œ ì„¤ì •ë¨,&SET RESULT_09=ì·¨ì•½
+		SET CMT_09=ÆĞ½º¿öµå ÃÖ´ë »ç¿ë ±â°£ÀÌ "90ÀÏ ÃÊ°ú"·Î ¼³Á¤µÊ,&SET RESULT_09=Ãë¾à
 		GOTO :END_09
 	) ELSE (
-		SET CMT_09=íŒ¨ìŠ¤ì›Œë“œ ìµœëŒ€ ì‚¬ìš© ê¸°ê°„ì´ "90ì¼ ì´í•˜"ë¡œ ì„¤ì •ë¨,&SET RESULT_09=ì–‘í˜¸
+		SET CMT_09=ÆĞ½º¿öµå ÃÖ´ë »ç¿ë ±â°£ÀÌ "90ÀÏ ÀÌÇÏ"·Î ¼³Á¤µÊ,&SET RESULT_09=¾çÈ£
 	)
 )
 FOR /f "tokens=2 delims= " %%i IN ('type "%SECPOL%" ^| findstr /i "MinimumPasswordAge"') DO (
 	IF %%i GEQ 1 (
-		SET CMT_09=íŒ¨ìŠ¤ì›Œë“œ ìµœì†Œ ì‚¬ìš© ê¸°ê°„ì´ "1ì¼ ì´ìƒ"ìœ¼ë¡œ ì„¤ì •ë¨
+		SET CMT_09=ÆĞ½º¿öµå ÃÖ¼Ò »ç¿ë ±â°£ÀÌ "1ÀÏ ÀÌ»ó"À¸·Î ¼³Á¤µÊ
 	) ELSE (
-		SET CMT_09=íŒ¨ìŠ¤ì›Œë“œ ìµœì†Œ ì‚¬ìš© ê¸°ê°„ì´ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"&SET RESULT_09=ì·¨ì•½
+		SET CMT_09=ÆĞ½º¿öµå ÃÖ¼Ò »ç¿ë ±â°£ÀÌ "¼³Á¤µÇÁö ¾ÊÀ½"&SET RESULT_09=Ãë¾à
 		GOTO :END_09
 	)
 )
 FOR /f "tokens=2 delims== " %%i IN ('type "%SECPOL%" ^| findstr /i "PasswordHistorySize"') DO (
 	IF %%i GEQ 4 (
-		SET CMT_09=ìµœê·¼ ì•”í˜¸ ê¸°ì–µ ê°œìˆ˜ê°€ "4ê°œ ì´ìƒ"ìœ¼ë¡œ ì„¤ì •ë¨
+		SET CMT_09=ÃÖ±Ù ¾ÏÈ£ ±â¾ï °³¼ö°¡ "4°³ ÀÌ»ó"À¸·Î ¼³Á¤µÊ
 	) ELSE (
-		SET CMT_09=ìµœê·¼ ì•”í˜¸ ê¸°ì–µ ê°œìˆ˜ê°€ "4ê°œ ë¯¸ë§Œ"ìœ¼ë¡œ ì„¤ì •ë¨&SET RESULT_09=ì·¨ì•½
+		SET CMT_09=ÃÖ±Ù ¾ÏÈ£ ±â¾ï °³¼ö°¡ "4°³ ¹Ì¸¸"À¸·Î ¼³Á¤µÊ&SET RESULT_09=Ãë¾à
 		GOTO :END_09
 	)
 	IF %%i EQU 0 (
-		SET CMT_09=ìµœê·¼ ì•”í˜¸ ê¸°ì–µ ì •ì±…ì´ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"&SET RESULT_09=ì·¨ì•½
+		SET CMT_09=ÃÖ±Ù ¾ÏÈ£ ±â¾ï Á¤Ã¥ÀÌ "¼³Á¤µÇÁö ¾ÊÀ½"&SET RESULT_09=Ãë¾à
 	)
 )
 
@@ -648,9 +648,9 @@ FOR /f "tokens=2 delims== " %%i IN ('type "%SECPOL%" ^| findstr /i "PasswordHist
 
 :09_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_09% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : íŒ¨ìŠ¤ì›Œë“œ ë³µì¡ì„± ì •ì±… "ì„¤ì •", >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_09% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_09% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ÆĞ½º¿öµå º¹Àâ¼º Á¤Ã¥ "¼³Á¤", >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_09% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "PasswordComplexity" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "MinimumPasswordLength" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
@@ -659,12 +659,12 @@ type secpol.inf | findstr /i "MinimumPasswordAge" >> [RESULT]%COMPUTERNAME%_%OS_
 type secpol.inf | findstr /i "PasswordHistorySize" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [09.W-09] íŒ¨ìŠ¤ì›Œë“œ ë³µì¡ì„± ì„¤ì • [%RESULT_09%]
+echo [09.W-09] ÆĞ½º¿öµå º¹Àâ¼º ¼³Á¤ [%RESULT_09%]
 :09_END
 SET CMT_09=
 SET RESULT_09=
@@ -675,186 +675,186 @@ SET RESULT_09=
 
 REM ==================================================
 :10_START
-echo [10.W-10] ë§ˆì§€ë§‰ ì‚¬ìš©ì ì´ë¦„ í‘œì‹œ ì•ˆí•¨ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [10.W-10] ¸¶Áö¸· »ç¿ëÀÚ ÀÌ¸§ Ç¥½Ã ¾ÈÇÔ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :10_ROUTINE
-SET CMT_10=ì´ˆê¸°í™”&SET RESULT_10=ì¸í„°ë·°
+SET CMT_10=ÃÊ±âÈ­&SET RESULT_10=ÀÎÅÍºä
 type secpol.inf | findstr /i "DontDisplayLastUserName" | findstr /i "4,1" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_10=ë§ˆì§€ë§‰ ì‚¬ìš©ì ì´ë¦„ í‘œì‹œ ì•ˆí•¨ì„ "ì‚¬ìš© ì•ˆ í•¨"&SET RESULT_10=ì·¨ì•½
+	SET CMT_10=¸¶Áö¸· »ç¿ëÀÚ ÀÌ¸§ Ç¥½Ã ¾ÈÇÔÀ» "»ç¿ë ¾È ÇÔ"&SET RESULT_10=Ãë¾à
 )
 IF NOT ERRORLEVEL 1 (
-	SET CMT_10=ë§ˆì§€ë§‰ ì‚¬ìš©ì ì´ë¦„ í‘œì‹œ ì•ˆí•¨ì„ "ì‚¬ìš©"í•¨&SET RESULT_10=ì–‘í˜¸
+	SET CMT_10=¸¶Áö¸· »ç¿ëÀÚ ÀÌ¸§ Ç¥½Ã ¾ÈÇÔÀ» "»ç¿ë"ÇÔ&SET RESULT_10=¾çÈ£
 )
 
 :10_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_10% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ëŒ€í™”í˜• ë¡œê·¸ì˜¨:ë§ˆì§€ë§‰ ì‚¬ìš©ì ì´ë¦„ í‘œì‹œ ì•ˆí•¨ "ì‚¬ìš©" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_10% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_10% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ´ëÈ­Çü ·Î±×¿Â:¸¶Áö¸· »ç¿ëÀÚ ÀÌ¸§ Ç¥½Ã ¾ÈÇÔ "»ç¿ë" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_10% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "DontDisplayLastUserName" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "DontDisplayLastUserName" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo (CMD) reg query "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "DontDisplayLastUserName" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "DontDisplayLastUserName" 2>NUL | findstr /i "DontDisplayLastUserName" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [10.W-10] ë§ˆì§€ë§‰ ì‚¬ìš©ì ì´ë¦„ í‘œì‹œ ì•ˆí•¨ [%RESULT_10%]
+echo [10.W-10] ¸¶Áö¸· »ç¿ëÀÚ ÀÌ¸§ Ç¥½Ã ¾ÈÇÔ [%RESULT_10%]
 :10_END
 SET CMT_10=
 SET RESULT_10=
 
 :10_ADD
-REM [í•­ëª©] ë§ˆì§€ë§‰ ì‚¬ìš©ì ì´ë¦„ í‘œì‹œ ì•ˆí•¨
-REM windows10ì˜ ê²½ìš°, ê¸°ë³¸ ì°¨ë‹¨ >> users.txt
+REM [Ç×¸ñ] ¸¶Áö¸· »ç¿ëÀÚ ÀÌ¸§ Ç¥½Ã ¾ÈÇÔ
+REM windows10ÀÇ °æ¿ì, ±âº» Â÷´Ü >> users.txt
 
 REM ==================================================
 :11_START
-echo [11.W-11] ë¡œì»¬ ë¡œê·¸ì˜¨ í—ˆìš© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [11.W-11] ·ÎÄÃ ·Î±×¿Â Çã¿ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :11_ROUTINE
-SET CMT_11=ì´ˆê¸°í™”&SET RESULT_11=ì¸í„°ë·°
+SET CMT_11=ÃÊ±âÈ­&SET RESULT_11=ÀÎÅÍºä
 FOR /f "tokens=3 delims= " %%i IN ('type "%SECPOL%" ^| findstr /i "SeInteractiveLogonRight"') DO (
 	SET NOW_11_group=%%i
-	REM ê´€ë¦¬ì ê·¸ë£¹ S-1-5-32-544 (ì–‘í˜¸)
+	REM °ü¸®ÀÚ ±×·ì S-1-5-32-544 (¾çÈ£)
 	echo !NOW_11_group! 2>NUL | findstr /i "S-1-5-32-544" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_11_group=!NOW_11_group:S-1-5-32-544=Administrators^(o^)!
 	)
 
-	REM IUSR_ ì‚¬ìš©ì ì§€ì • ê·¸ë£¹ (ì–‘í˜¸)
+	REM IUSR_ »ç¿ëÀÚ ÁöÁ¤ ±×·ì (¾çÈ£)
 	echo !NOW_11_group! 2>NUL | findstr /i "IUSR S-1-5-17" >NUL
 	IF NOT ERRORLEVEL 1 (
-		SET NOW_11_group=!NOW_11_group:IUSR=ì‚¬ìš©ìì§€ì • IUSR^(o^)!
-		SET NOW_11_group=!NOW_11_group:S-1-5-17=ì‚¬ìš©ìì§€ì • IUSR^(o^)!
+		SET NOW_11_group=!NOW_11_group:IUSR=»ç¿ëÀÚÁöÁ¤ IUSR^(o^)!
+		SET NOW_11_group=!NOW_11_group:S-1-5-17=»ç¿ëÀÚÁöÁ¤ IUSR^(o^)!
 	)
 
-	REM ë°±ì—…ìš´ì˜ìê·¸ë£¹ S-1-5-32-551 (ë‚´ë¶€ì— ê³„ì •ì´ ì—†ì„ ê²½ìš° ì–‘í˜¸)
+	REM ¹é¾÷¿î¿µÀÚ±×·ì S-1-5-32-551 (³»ºÎ¿¡ °èÁ¤ÀÌ ¾øÀ» °æ¿ì ¾çÈ£)
 	echo !NOW_11_group! 2>NUL | findstr /i "S-1-5-32-551" >NUL
 	IF NOT ERRORLEVEL 1 (
-		FOR /f %%i IN ('net localgroup "Backup Operators" ^| findstr /i /v "^$ ^- ë³„ì¹­ alias ì„¤ëª… comment êµ¬ì„±ì› members ëª…ë ¹ command" ^| find /c /v "^$"') DO (
+		FOR /f %%i IN ('net localgroup "Backup Operators" ^| findstr /i /v "^$ ^- º°Äª alias ¼³¸í comment ±¸¼º¿ø members ¸í·É command" ^| find /c /v "^$"') DO (
 			IF NOT %%i EQU 0 (
 				SET NOW_11_group=!NOW_11_group:S-1-5-32-551=Backup Operators^(x^)!
-				SET CMT_11=ë¡œì»¬ ë¡œê·¸ì˜¨ í—ˆìš© ê³„ì •ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬"í•¨
-				SET CMT_11_1=!CMT_11_1! "Backup Operators"&SET RESULT_11=ì·¨ì•½
+				SET CMT_11=·ÎÄÃ ·Î±×¿Â Çã¿ë °èÁ¤¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸Àç"ÇÔ
+				SET CMT_11_1=!CMT_11_1! "Backup Operators"&SET RESULT_11=Ãë¾à
 			) ELSE (
 				SET NOW_11_group=!NOW_11_group:S-1-5-32-551=Backup Operators^(o^)!
 			)	
 		)
 	)
 
-	REM ì„œë²„ìš´ì˜ìê·¸ë£¹ S-1-5-32-549 (ì·¨ì•½ ê·¸ë£¹)
+	REM ¼­¹ö¿î¿µÀÚ±×·ì S-1-5-32-549 (Ãë¾à ±×·ì)
 	echo !NOW_11_group! 2>NUL | findstr /i "S-1-5-32-549" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_11_group=!NOW_11_group:S-1-5-32-549=Server Operators^(x^)!
-		FOR /f %%i IN ('net localgroup "Server Operators" ^| findstr /i /v "^$ ^- ë³„ì¹­ alias ì„¤ëª… comment êµ¬ì„±ì› members ëª…ë ¹ command" ^| find /c /v "^$"') DO (
+		FOR /f %%i IN ('net localgroup "Server Operators" ^| findstr /i /v "^$ ^- º°Äª alias ¼³¸í comment ±¸¼º¿ø members ¸í·É command" ^| find /c /v "^$"') DO (
 			IF NOT %%i EQU 0 (
-				SET CMT_11=ë¡œì»¬ ë¡œê·¸ì˜¨ í—ˆìš© ê³„ì •ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬"í•¨
-				SET CMT_11_1=!CMT_11_1! "Server Operators"&SET RESULT_11=ì·¨ì•½
+				SET CMT_11=·ÎÄÃ ·Î±×¿Â Çã¿ë °èÁ¤¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸Àç"ÇÔ
+				SET CMT_11_1=!CMT_11_1! "Server Operators"&SET RESULT_11=Ãë¾à
 			) ELSE (
-				SET CMT_11=ë¡œì»¬ ë¡œê·¸ì˜¨ í—ˆìš© ê³„ì •ì— ë¶ˆí•„ìš”í•œ ê·¸ë£¹ì´ "ì¡´ì¬"í•¨
-				SET CMT_11_2=!CMT_11_2! "Server Operators"&SET RESULT_11=ì·¨ì•½
+				SET CMT_11=·ÎÄÃ ·Î±×¿Â Çã¿ë °èÁ¤¿¡ ºÒÇÊ¿äÇÑ ±×·ìÀÌ "Á¸Àç"ÇÔ
+				SET CMT_11_2=!CMT_11_2! "Server Operators"&SET RESULT_11=Ãë¾à
 			)
 		)
 	)
 
-	REM Guest (2ë²ˆ í•­ëª© ì–‘í˜¸ì‹œ ì–‘í˜¸)
+	REM Guest (2¹ø Ç×¸ñ ¾çÈ£½Ã ¾çÈ£)
 	echo !NOW_11_group! 2>NUL | findstr /i "Guest" >NUL
 	IF NOT ERRORLEVEL 1 (
-		IF "%RESULT_02%" EQU "ì·¨ì•½" (
-			SET NOW_11_group=!NOW_11_group:Guest=active Guestê³„ì •^(x^)!
-			SET CMT_11=ë¡œì»¬ ë¡œê·¸ì˜¨ í—ˆìš© ê³„ì •ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬"í•¨
-			SET CMT_11_1=!CMT_11_1! "Guestê³„ì •"&SET RESULT_11=ì·¨ì•½
+		IF "%RESULT_02%" EQU "Ãë¾à" (
+			SET NOW_11_group=!NOW_11_group:Guest=active Guest°èÁ¤^(x^)!
+			SET CMT_11=·ÎÄÃ ·Î±×¿Â Çã¿ë °èÁ¤¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸Àç"ÇÔ
+			SET CMT_11_1=!CMT_11_1! "Guest°èÁ¤"&SET RESULT_11=Ãë¾à
 		) ELSE (
-			SET NOW_11_group=!NOW_11_group:Guest=inactive Guestê³„ì •^(o^)!
+			SET NOW_11_group=!NOW_11_group:Guest=inactive Guest°èÁ¤^(o^)!
 		)
 	)
 
-	REM Guests ê·¸ë£¹ S-1-5-32-546 (ì·¨ì•½ ê·¸ë£¹)
+	REM Guests ±×·ì S-1-5-32-546 (Ãë¾à ±×·ì)
 	echo !NOW_11_group! 2>NUL | findstr /i "Guests" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_11_group=!NOW_11_group:S-1-5-32-546=Guests^(x^)!
-		FOR /f %%i IN ('net localgroup "Guests" ^| findstr /i /v "^$ ^- ë³„ì¹­ alias ì„¤ëª… comment êµ¬ì„±ì› members ëª…ë ¹ command" ^| find /c /v "^$"') DO (
+		FOR /f %%i IN ('net localgroup "Guests" ^| findstr /i /v "^$ ^- º°Äª alias ¼³¸í comment ±¸¼º¿ø members ¸í·É command" ^| find /c /v "^$"') DO (
 			IF NOT %%i EQU 0 (
-				SET CMT_11=ë¡œì»¬ ë¡œê·¸ì˜¨ í—ˆìš© ê³„ì •ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬"í•¨
-				SET CMT_11_1=!CMT_11_1! "Guests"&SET RESULT_11=ì·¨ì•½
+				SET CMT_11=·ÎÄÃ ·Î±×¿Â Çã¿ë °èÁ¤¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸Àç"ÇÔ
+				SET CMT_11_1=!CMT_11_1! "Guests"&SET RESULT_11=Ãë¾à
 			) ELSE (
-				SET CMT_11=ë¡œì»¬ ë¡œê·¸ì˜¨ í—ˆìš© ê³„ì •ì— ë¶ˆí•„ìš”í•œ ê·¸ë£¹ì´ "ì¡´ì¬"í•¨
-				SET CMT_11_2=!CMT_11_2! "Guests"&SET RESULT_11=ì·¨ì•½
+				SET CMT_11=·ÎÄÃ ·Î±×¿Â Çã¿ë °èÁ¤¿¡ ºÒÇÊ¿äÇÑ ±×·ìÀÌ "Á¸Àç"ÇÔ
+				SET CMT_11_2=!CMT_11_2! "Guests"&SET RESULT_11=Ãë¾à
 			)
 		)
 	)
 
-	REM ì‚¬ìš©ìê·¸ë£¹ (ì·¨ì•½ ê·¸ë£¹)
+	REM »ç¿ëÀÚ±×·ì (Ãë¾à ±×·ì)
 	echo !NOW_11_group! 2>NUL | findstr /i "S-1-5-32-545" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_11_group=!NOW_11_group:S-1-5-32-545=Users^(x^)!
-		FOR /f %%i IN ('net localgroup "Users" ^| findstr /i /v "^$ ^- ë³„ì¹­ alias ì„¤ëª… comment êµ¬ì„±ì› members ëª…ë ¹ command" ^| find /c /v "^$"') DO (
+		FOR /f %%i IN ('net localgroup "Users" ^| findstr /i /v "^$ ^- º°Äª alias ¼³¸í comment ±¸¼º¿ø members ¸í·É command" ^| find /c /v "^$"') DO (
 			IF NOT %%i EQU 0 (
-				SET CMT_11=ë¡œì»¬ ë¡œê·¸ì˜¨ í—ˆìš© ê³„ì •ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬"í•¨
-				SET CMT_11_1=!CMT_11_1! "Users"&SET RESULT_11=ì·¨ì•½
+				SET CMT_11=·ÎÄÃ ·Î±×¿Â Çã¿ë °èÁ¤¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸Àç"ÇÔ
+				SET CMT_11_1=!CMT_11_1! "Users"&SET RESULT_11=Ãë¾à
 			) ELSE (
-				SET CMT_11=ë¡œì»¬ ë¡œê·¸ì˜¨ í—ˆìš© ê³„ì •ì— ë¶ˆí•„ìš”í•œ ê·¸ë£¹ì´ "ì¡´ì¬"í•¨
-				SET CMT_11_2=!CMT_11_2! "Users"&SET RESULT_11=ì·¨ì•½
+				SET CMT_11=·ÎÄÃ ·Î±×¿Â Çã¿ë °èÁ¤¿¡ ºÒÇÊ¿äÇÑ ±×·ìÀÌ "Á¸Àç"ÇÔ
+				SET CMT_11_2=!CMT_11_2! "Users"&SET RESULT_11=Ãë¾à
 			)
 		)
 	)
 
-	REM ë„ë©”ì¸ ê´€ë ¨ ê·¸ë£¹ (ì·¨ì•½ ê·¸ë£¹)
+	REM µµ¸ŞÀÎ °ü·Ã ±×·ì (Ãë¾à ±×·ì)
 	echo !NOW_11_group! 2>NUL | findstr /i "S-1-5-21" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_11_group=!NOW_11_group:S-1-5-21=Domain related^(x^)!
-		SET CMT_11=ë¡œì»¬ ë¡œê·¸ì˜¨ í—ˆìš© ê³„ì •ì— ë¶ˆí•„ìš”í•œ ê³„ì •/ê·¸ë£¹ì´ "ì¡´ì¬"í•¨
-		SET CMT_11_1=!CMT_11_1! "Domain related"&SET RESULT_11=ì·¨ì•½
+		SET CMT_11=·ÎÄÃ ·Î±×¿Â Çã¿ë °èÁ¤¿¡ ºÒÇÊ¿äÇÑ °èÁ¤/±×·ìÀÌ "Á¸Àç"ÇÔ
+		SET CMT_11_1=!CMT_11_1! "Domain related"&SET RESULT_11=Ãë¾à
 	)
 
-	REM ê³„ì • ìš´ì˜ì ê·¸ë£¹ (ë‚´ë¶€ì— ê³„ì •ì´ ì—†ì„ ê²½ìš° ì–‘í˜¸)
+	REM °èÁ¤ ¿î¿µÀÚ ±×·ì (³»ºÎ¿¡ °èÁ¤ÀÌ ¾øÀ» °æ¿ì ¾çÈ£)
 	echo !NOW_11_group! 2>NUL | findstr /i "S-1-5-32-548" >NUL
 	IF NOT ERRORLEVEL 1 (
-		FOR /f %%i IN ('net localgroup "Account Operators" ^| findstr /i /v "^$ ^- ë³„ì¹­ alias ì„¤ëª… comment êµ¬ì„±ì› members ëª…ë ¹ command" ^| find /c /v "^$"') DO (
+		FOR /f %%i IN ('net localgroup "Account Operators" ^| findstr /i /v "^$ ^- º°Äª alias ¼³¸í comment ±¸¼º¿ø members ¸í·É command" ^| find /c /v "^$"') DO (
 			IF NOT %%i EQU 0 (
 				SET NOW_11_group=!NOW_11_group:S-1-5-32-548=Account Operators^(x^)!
-				SET CMT_11=ë¡œì»¬ ë¡œê·¸ì˜¨ í—ˆìš© ê³„ì •ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬"í•¨
-				SET CMT_11_1=!CMT_11_1! "Domain controler:Account Operators"&SET RESULT_11=ì·¨ì•½
+				SET CMT_11=·ÎÄÃ ·Î±×¿Â Çã¿ë °èÁ¤¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸Àç"ÇÔ
+				SET CMT_11_1=!CMT_11_1! "Domain controler:Account Operators"&SET RESULT_11=Ãë¾à
 			) ELSE (
 				SET NOW_11_group=!NOW_11_group:S-1-5-32-548=Account Operators^(o^)!
 			)
 		)
 	)
 
-	REM ë„ë©”ì¸ í”„ë¦°í„° ê·¸ë£¹ (ì·¨ì•½ ê·¸ë£¹)
+	REM µµ¸ŞÀÎ ÇÁ¸°ÅÍ ±×·ì (Ãë¾à ±×·ì)
 	echo !NOW_11_group! 2>NUL | findstr /i "S-1-5-32-550" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_11_group=!NOW_11_group:S-1-5-32-550=Print Operators^(x^)!
-		FOR /f %%i IN ('net localgroup "Print Operators" ^| findstr /i /v "^$ ^- ë³„ì¹­ alias ì„¤ëª… comment êµ¬ì„±ì› members ëª…ë ¹ command" ^| find /c /v "^$"') DO (
+		FOR /f %%i IN ('net localgroup "Print Operators" ^| findstr /i /v "^$ ^- º°Äª alias ¼³¸í comment ±¸¼º¿ø members ¸í·É command" ^| find /c /v "^$"') DO (
 			IF NOT %%i EQU 0 (
-				SET CMT_11=ë¡œì»¬ ë¡œê·¸ì˜¨ í—ˆìš© ê³„ì •ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬"í•¨
-				SET CMT_11_1=!CMT_11_1! "Domain controler:Print Operators"&SET RESULT_11=ì·¨ì•½
+				SET CMT_11=·ÎÄÃ ·Î±×¿Â Çã¿ë °èÁ¤¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸Àç"ÇÔ
+				SET CMT_11_1=!CMT_11_1! "Domain controler:Print Operators"&SET RESULT_11=Ãë¾à
 			) ELSE (
-				SET CMT_11=ë¡œì»¬ ë¡œê·¸ì˜¨ í—ˆìš© ê³„ì •ì— ë¶ˆí•„ìš”í•œ ê·¸ë£¹ì´ "ì¡´ì¬"í•¨
-				SET CMT_11_2=!CMT_11_2! "Domain controler:Print Operators"&SET RESULT_11=ì·¨ì•½
+				SET CMT_11=·ÎÄÃ ·Î±×¿Â Çã¿ë °èÁ¤¿¡ ºÒÇÊ¿äÇÑ ±×·ìÀÌ "Á¸Àç"ÇÔ
+				SET CMT_11_2=!CMT_11_2! "Domain controler:Print Operators"&SET RESULT_11=Ãë¾à
 			)
 		)
 	)
 
-	REM vmware ì‚¬ìš©ì ê·¸ë£¹ (ì·¨ì•½ ê·¸ë£¹)
+	REM vmware »ç¿ëÀÚ ±×·ì (Ãë¾à ±×·ì)
 	echo !NOW_11_group! 2>NUL | findstr /i "__vmware__" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_11_group=!NOW_11_group:vmware=Vmare Users^(x^)!
-		FOR /f %%i IN ('net localgroup "__vmware__" ^| findstr /i /v "^$ ^- ë³„ì¹­ alias ì„¤ëª… comment êµ¬ì„±ì› members ëª…ë ¹ command" ^| find /c /v "^$"') DO (
+		FOR /f %%i IN ('net localgroup "__vmware__" ^| findstr /i /v "^$ ^- º°Äª alias ¼³¸í comment ±¸¼º¿ø members ¸í·É command" ^| find /c /v "^$"') DO (
 			IF NOT %%i EQU 0 (
-				SET CMT_11=ë¡œì»¬ ë¡œê·¸ì˜¨ í—ˆìš© ê³„ì •ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬"í•¨
-				SET CMT_11_1=!CMT_11_1! "Vmware Users"&SET RESULT_11=ì·¨ì•½
+				SET CMT_11=·ÎÄÃ ·Î±×¿Â Çã¿ë °èÁ¤¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸Àç"ÇÔ
+				SET CMT_11_1=!CMT_11_1! "Vmware Users"&SET RESULT_11=Ãë¾à
 			) ELSE (
-				SET CMT_11=ë¡œì»¬ ë¡œê·¸ì˜¨ í—ˆìš© ê³„ì •ì— ë¶ˆí•„ìš”í•œ ê·¸ë£¹ì´ "ì¡´ì¬"í•¨
-				SET CMT_11_2=!CMT_11_2! "Vmware Users"&SET RESULT_11=ì·¨ì•½
+				SET CMT_11=·ÎÄÃ ·Î±×¿Â Çã¿ë °èÁ¤¿¡ ºÒÇÊ¿äÇÑ ±×·ìÀÌ "Á¸Àç"ÇÔ
+				SET CMT_11_2=!CMT_11_2! "Vmware Users"&SET RESULT_11=Ãë¾à
 			)
 		)
 	)
@@ -862,29 +862,29 @@ FOR /f "tokens=3 delims= " %%i IN ('type "%SECPOL%" ^| findstr /i "SeInteractive
 
 :11_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_11% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë¡œì»¬ ë¡œê·¸ì˜¨ í—ˆìš© ê³„ì •ì— administrators, IUSR ì´ì™¸ì˜ ê³„ì •ì´ "ì¡´ì¬í•˜ì§€ ì•ŠìŒ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_11% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_11% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ·ÎÄÃ ·Î±×¿Â Çã¿ë °èÁ¤¿¡ administrators, IUSR ÀÌ¿ÜÀÇ °èÁ¤ÀÌ "Á¸ÀçÇÏÁö ¾ÊÀ½" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_11% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo %CMT_11_1% 2>NUL | findstr /r "\"*\"" >NUL
 IF ERRORLEVEL 1 (
-	echo   ë¶ˆí•„ìš”í•œ ê·¸ë£¹ ëª©ë¡^(ê³„ì • o^) : ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo   ºÒÇÊ¿äÇÑ ±×·ì ¸ñ·Ï^(°èÁ¤ o^) : ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) ELSE (
-	echo   ë¶ˆí•„ìš”í•œ ê·¸ë£¹ ëª©ë¡^(ê³„ì • o^) : %CMT_11_1% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo   ºÒÇÊ¿äÇÑ ±×·ì ¸ñ·Ï^(°èÁ¤ o^) : %CMT_11_1% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 echo %CMT_11_2% 2>NUL | findstr /r "\"*\"" >NUL
 IF ERRORLEVEL 1 (
-	echo   ë¶ˆí•„ìš”í•œ ê·¸ë£¹ ëª©ë¡^(ê³„ì • x^) : ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo   ºÒÇÊ¿äÇÑ ±×·ì ¸ñ·Ï^(°èÁ¤ x^) : ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) ELSE (
-	echo   ë¶ˆí•„ìš”í•œ ê·¸ë£¹ ëª©ë¡^(ê³„ì • x^) : %CMT_11_2% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo   ºÒÇÊ¿äÇÑ ±×·ì ¸ñ·Ï^(°èÁ¤ x^) : %CMT_11_2% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "SeInteractiveLogonRight" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* o/x í‘œì‹œê°€ ì—†ëŠ” ê·¸ë£¹ì˜ ê²½ìš°, ì¸í„°ë·° í•„ìš” >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* o/x Ç¥½Ã°¡ ¾ø´Â ±×·ìÀÇ °æ¿ì, ÀÎÅÍºä ÇÊ¿ä >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo SeInteractiveLogonRight = "%NOW_11_group%" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [11.W-11] ë¡œì»¬ ë¡œê·¸ì˜¨ í—ˆìš© [%RESULT_11%]
+echo [11.W-11] ·ÎÄÃ ·Î±×¿Â Çã¿ë [%RESULT_11%]
 :11_END
 SET CMT_11=
 SET CMT_11_1=
@@ -893,94 +893,94 @@ SET RESULT_11=
 SET NOW_11_group=
 
 :11_ADD
-REM [ê¸°ì¤€] ê´€ë¦¬ìê·¸ë£¹, ë¹„í™œì„± Guestë¥¼ ì œì™¸í•œ ê·¸ë£¹ì´ ì¡´ì¬í•  ê²½ìš° ê·¸ë£¹ ë‚´ë¶€ ê³„ì •ì˜ ì¡´ì¬ ìœ ë¬´ì— ë”°ë¼ íŒë‹¨
-REM (ê·¸ë£¹ì´ë¦„ìœ¼ë¡œ ë³€í™˜ë˜ì§€ ì•ŠëŠ” SIDëŠ” ìŠ¤í¬ë¦½íŠ¸ì— ì¶”ê°€í•´ì•¼í•˜ë¯€ë¡œ ê³µì§€í•´ì£¼ê¸°)
+REM [±âÁØ] °ü¸®ÀÚ±×·ì, ºñÈ°¼º Guest¸¦ Á¦¿ÜÇÑ ±×·ìÀÌ Á¸ÀçÇÒ °æ¿ì ±×·ì ³»ºÎ °èÁ¤ÀÇ Á¸Àç À¯¹«¿¡ µû¶ó ÆÇ´Ü
+REM (±×·ìÀÌ¸§À¸·Î º¯È¯µÇÁö ¾Ê´Â SID´Â ½ºÅ©¸³Æ®¿¡ Ãß°¡ÇØ¾ßÇÏ¹Ç·Î °øÁöÇØÁÖ±â)
 REM
-REM [ì„¤ëª…] ê¸°ë³¸ ì„¤ì • ê·¸ë£¹ (Users, Guest, Print Operatorsì™€ ê°™ì€ ì·¨ì•½ê·¸ë£¹ ì™¸ ë‚˜ë¨¸ì§€ëŠ” ê·¸ë£¹ë‚´ ê³„ì •ì¡´ì¬ì—¬ë¶€ì— ë”°ë¼ ì–‘í˜¸ì²˜ë¦¬)
-REM ì›Œí¬ìŠ¤í…Œì´ì…˜ ë° ì„œë²„: Administrators, Backup Operators, Power Users, Users ë° Guest.
-REM ë„ë©”ì¸ ì»¨íŠ¸ë¡¤ëŸ¬: Account Operators, Administrators, Backup Operators ë° Print Operators.
+REM [¼³¸í] ±âº» ¼³Á¤ ±×·ì (Users, Guest, Print Operators¿Í °°Àº Ãë¾à±×·ì ¿Ü ³ª¸ÓÁö´Â ±×·ì³» °èÁ¤Á¸Àç¿©ºÎ¿¡ µû¶ó ¾çÈ£Ã³¸®)
+REM ¿öÅ©½ºÅ×ÀÌ¼Ç ¹× ¼­¹ö: Administrators, Backup Operators, Power Users, Users ¹× Guest.
+REM µµ¸ŞÀÎ ÄÁÆ®·Ñ·¯: Account Operators, Administrators, Backup Operators ¹× Print Operators.
 
 
 REM ==================================================
 :12_START
-echo [12.W-12] ìµëª… SID/ì´ë¦„ ë³€í™˜ í—ˆìš© í•´ì œ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [12.W-12] ÀÍ¸í SID/ÀÌ¸§ º¯È¯ Çã¿ë ÇØÁ¦ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :12_ROUTINE
-SET CMT_12=ì´ˆê¸°í™”&SET RESULT_12=ì¸í„°ë·°
+SET CMT_12=ÃÊ±âÈ­&SET RESULT_12=ÀÎÅÍºä
 type secpol.inf | findstr /i "LSAAnonymousNameLookup" | findstr "0" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_12=ìµëª… SID/ì´ë¦„ ë³€í™˜ í—ˆìš© ì •ì±…ì„ "ì‚¬ìš©"í•¨&SET RESULT_12=ì·¨ì•½
+	SET CMT_12=ÀÍ¸í SID/ÀÌ¸§ º¯È¯ Çã¿ë Á¤Ã¥À» "»ç¿ë"ÇÔ&SET RESULT_12=Ãë¾à
 )
 IF NOT ERRORLEVEL 1 (
-	SET CMT_12=ìµëª… SID/ì´ë¦„ ë³€í™˜ í—ˆìš© ì •ì±…ì„ "ì‚¬ìš© ì•ˆ í•¨"&SET RESULT_12=ì–‘í˜¸
+	SET CMT_12=ÀÍ¸í SID/ÀÌ¸§ º¯È¯ Çã¿ë Á¤Ã¥À» "»ç¿ë ¾È ÇÔ"&SET RESULT_12=¾çÈ£
 )
 
 :12_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_12% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ìµëª… SID/ì´ë¦„ ë³€í™˜ í—ˆìš© ì •ì±… "ì‚¬ìš© ì•ˆ í•¨" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_12% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_12% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ÀÍ¸í SID/ÀÌ¸§ º¯È¯ Çã¿ë Á¤Ã¥ "»ç¿ë ¾È ÇÔ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_12% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "LSAAnonymousNameLookup" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "LSAAnonymousNameLookup" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [12.W-12] ìµëª… SID/ì´ë¦„ ë³€í™˜ í—ˆìš© í•´ì œ[%RESULT_12%]
+echo [12.W-12] ÀÍ¸í SID/ÀÌ¸§ º¯È¯ Çã¿ë ÇØÁ¦[%RESULT_12%]
 :12_END
 SET CMT_12=
 SET RESULT_12=
 
 :12_ADD
-REM [í•­ëª©] ìµëª… SID/ì´ë¦„ ë³€í™˜ í—ˆìš©
-REM ì›Œí¬ìŠ¤í…Œì´ì…˜ ë° êµ¬ì„±ì› ì„œë²„ì˜ ê¸°ë³¸ê°’: ì‚¬ìš© ì•ˆ í•¨
-REM Windows Server 2008 ì´ìƒì„ ì‹¤í–‰í•˜ëŠ” ë„ë©”ì¸ ì»¨íŠ¸ë¡¤ëŸ¬ì˜ ê¸°ë³¸ê°’: ì‚¬ìš© ì•ˆ í•¨
-REM Windows Server 2003 R2 ì´í•˜ë¥¼ ì‹¤í–‰í•˜ëŠ” ë„ë©”ì¸ ì»¨íŠ¸ë¡¤ëŸ¬ì˜ ê¸°ë³¸ê°’: ì‚¬ìš©
+REM [Ç×¸ñ] ÀÍ¸í SID/ÀÌ¸§ º¯È¯ Çã¿ë
+REM ¿öÅ©½ºÅ×ÀÌ¼Ç ¹× ±¸¼º¿ø ¼­¹öÀÇ ±âº»°ª: »ç¿ë ¾È ÇÔ
+REM Windows Server 2008 ÀÌ»óÀ» ½ÇÇàÇÏ´Â µµ¸ŞÀÎ ÄÁÆ®·Ñ·¯ÀÇ ±âº»°ª: »ç¿ë ¾È ÇÔ
+REM Windows Server 2003 R2 ÀÌÇÏ¸¦ ½ÇÇàÇÏ´Â µµ¸ŞÀÎ ÄÁÆ®·Ñ·¯ÀÇ ±âº»°ª: »ç¿ë
 
 
 REM ==================================================
 :13_START
-echo [13.W-13] ì½˜ì†” ë¡œê·¸ì˜¨ ì‹œ ë¡œì»¬ ê³„ì •ì—ì„œ ë¹ˆ ì•”í˜¸ ì‚¬ìš© ì œí•œ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [13.W-13] ÄÜ¼Ö ·Î±×¿Â ½Ã ·ÎÄÃ °èÁ¤¿¡¼­ ºó ¾ÏÈ£ »ç¿ë Á¦ÇÑ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :13_ROUTINE
-SET CMT_13=ì´ˆê¸°í™”&SET RESULT_13=ì¸í„°ë·°
+SET CMT_13=ÃÊ±âÈ­&SET RESULT_13=ÀÎÅÍºä
 type secpol.inf | findstr /i "LimitBlankPasswordUse" | findstr "4,1" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_13_1=ì½˜ì†” ë¡œê·¸ì˜¨ ì‹œ ë¡œì»¬ ê³„ì •ì—ì„œ ë¹ˆ ì•”í˜¸ ì‚¬ìš©ì´ "ì œí•œë˜ì§€ ì•ŠìŒ"&SET RESULT_13=ì·¨ì•½
+	SET CMT_13_1=ÄÜ¼Ö ·Î±×¿Â ½Ã ·ÎÄÃ °èÁ¤¿¡¼­ ºó ¾ÏÈ£ »ç¿ëÀÌ "Á¦ÇÑµÇÁö ¾ÊÀ½"&SET RESULT_13=Ãë¾à
 ) ELSE (
-	SET CMT_13_1=ì½˜ì†” ë¡œê·¸ì˜¨ ì‹œ ë¡œì»¬ ê³„ì •ì—ì„œ ë¹ˆ ì•”í˜¸ ì‚¬ìš©ì´ "ì œí•œ"ë¨&SET RESULT_13=ì–‘í˜¸
+	SET CMT_13_1=ÄÜ¼Ö ·Î±×¿Â ½Ã ·ÎÄÃ °èÁ¤¿¡¼­ ºó ¾ÏÈ£ »ç¿ëÀÌ "Á¦ÇÑ"µÊ&SET RESULT_13=¾çÈ£
 )
 FOR /f %%i IN ('wmic useraccount where disabled^="false" get name ^| findstr /v /i "^$ Name"') DO (
-	net user %%i | findstr /i "í•„ìš” required" | findstr /i "ì˜ˆ yes" >NUL
+	net user %%i | findstr /i "ÇÊ¿ä required" | findstr /i "¿¹ yes" >NUL
 	IF NOT ERRORLEVEL 1 (
-		net user %%i | findstr /i "ì„¤ëª… comment" | findstr /i "ê¸°ë³¸ built-in" >NUL
+		net user %%i | findstr /i "¼³¸í comment" | findstr /i "±âº» built-in" >NUL
 		IF ERRORLEVEL 1 (
-			SET CMT_13=ì¼ë¶€ ê³„ì •ì˜ ë¹„ë°€ë²ˆí˜¸ê°€ "ì„¤ì •ë˜ì§€ ì•ŠìŒ",&SET RESULT_13=ì·¨ì•½& GOTO :13_PRINT
+			SET CMT_13=ÀÏºÎ °èÁ¤ÀÇ ºñ¹Ğ¹øÈ£°¡ "¼³Á¤µÇÁö ¾ÊÀ½",&SET RESULT_13=Ãë¾à& GOTO :13_PRINT
 		) ELSE (
-			SET CMT_13=ëª¨ë“  ê³„ì •ì˜ ë¹„ë°€ë²ˆí˜¸ê°€ "ì„¤ì •"ë¨,
+			SET CMT_13=¸ğµç °èÁ¤ÀÇ ºñ¹Ğ¹øÈ£°¡ "¼³Á¤"µÊ,
 		)
 	) ELSE (
-		SET CMT_13=ëª¨ë“  ê³„ì •ì˜ ë¹„ë°€ë²ˆí˜¸ê°€ "ì„¤ì •"ë¨,
+		SET CMT_13=¸ğµç °èÁ¤ÀÇ ºñ¹Ğ¹øÈ£°¡ "¼³Á¤"µÊ,
 	)
 )
 
 :13_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_13% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ì½˜ì†” ë¡œê·¸ì˜¨ ì‹œ ë¡œì»¬ ê³„ì •ì—ì„œ ë¹ˆ ì•”í˜¸ ì‚¬ìš©ì´ "ì œí•œ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_13% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™©2: %CMT_13_1% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_13% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ÄÜ¼Ö ·Î±×¿Â ½Ã ·ÎÄÃ °èÁ¤¿¡¼­ ºó ¾ÏÈ£ »ç¿ëÀÌ "Á¦ÇÑ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_13% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ²2: %CMT_13_1% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo (CMD) net user "í™œì„± ê³„ì •" ^| findstr "í•„ìš”" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* Built-in ê³„ì •ì€ ì˜ˆì™¸(ì ‘ì† ë¶ˆê°€) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê³„ì • 5ê°œ ì´ìƒì¼ ê²½ìš°, 5ê°œë¥¼ ì œì™¸í•œ ë‚˜ë¨¸ì§€ëŠ” ìƒëµ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo (CMD) net user "È°¼º °èÁ¤" ^| findstr "ÇÊ¿ä" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* Built-in °èÁ¤Àº ¿¹¿Ü(Á¢¼Ó ºÒ°¡) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °èÁ¤ 5°³ ÀÌ»óÀÏ °æ¿ì, 5°³¸¦ Á¦¿ÜÇÑ ³ª¸ÓÁö´Â »ı·« >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 SET count=0
 FOR /f %%i IN ('wmic useraccount where disabled^="false" get name ^| findstr /v /i "^$ Name"') DO (
 	echo - %%i - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-	net user %%i | findstr /i "í•„ìš” required ì„¤ëª… comment" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	net user %%i | findstr /i "ÇÊ¿ä required ¼³¸í comment" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	SET /a count+=1
 	IF !count! EQU 5 (
 		echo ... >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
@@ -992,17 +992,17 @@ FOR /f %%i IN ('wmic useraccount where disabled^="false" get name ^| findstr /v 
 echo (CMD) type secpol.inf ^| findstr /i "LimitBlankPasswordUse" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "LimitBlankPasswordUse" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo (CMD) reg query "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v "LimitBlankPasswordUse" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v "LimitBlankPasswordUse" 2>NUL | findstr /i "LimitBlankPasswordUse" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [13.W-13] ì½˜ì†” ë¡œê·¸ì˜¨ ì‹œ ë¡œì»¬ ê³„ì •ì—ì„œ ë¹ˆ ì•”í˜¸ ì‚¬ìš© ì œí•œ [%RESULT_13%]
+echo [13.W-13] ÄÜ¼Ö ·Î±×¿Â ½Ã ·ÎÄÃ °èÁ¤¿¡¼­ ºó ¾ÏÈ£ »ç¿ë Á¦ÇÑ [%RESULT_13%]
 
 :13_END
 SET CMT_13=
@@ -1013,164 +1013,164 @@ SET count=
 
 REM ==================================================
 :14_START
-echo [14.W-14] ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ ì œí•œ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [14.W-14] ¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì Á¦ÇÑ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :14_ROUTINE
-SET CMT_14=ì´ˆê¸°í™”&SET RESULT_14=ì¸í„°ë·°
+SET CMT_14=ÃÊ±âÈ­&SET RESULT_14=ÀÎÅÍºä
 reg query "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v "fDenyTSConnections" 2>NUL |findstr /i "fDenyTSConnections" | findstr "0x1" >NUL
 IF NOT ERRORLEVEL 1 (
-	SET CMT_14=ì›ê²©ë°ìŠ¤í¬í†±ì´ "ë¹„í™œì„±í™”"ë¨
-	SET RESULT_14=ì–‘í˜¸
+	SET CMT_14=¿ø°İµ¥½ºÅ©ÅéÀÌ "ºñÈ°¼ºÈ­"µÊ
+	SET RESULT_14=¾çÈ£
 	GOTO :14_PRINT
 )
-SET CMT_14=ë¡œì»¬ ë¡œê·¸ì˜¨ í—ˆìš© ê³„ì •ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬í•˜ì§€ ì•ŠìŒ"
-SET RESULT_14=ì–‘í˜¸
+SET CMT_14=·ÎÄÃ ·Î±×¿Â Çã¿ë °èÁ¤¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸ÀçÇÏÁö ¾ÊÀ½"
+SET RESULT_14=¾çÈ£
 FOR /f "tokens=3 delims= " %%i IN ('type "%SECPOL%" ^| findstr /i "SeRemoteInteractiveLogonRight"') DO (
 	SET NOW_14_group=%%i
 
-	REM ê´€ë¦¬ì ê·¸ë£¹ S-1-5-32-544 (ì–‘í˜¸)
+	REM °ü¸®ÀÚ ±×·ì S-1-5-32-544 (¾çÈ£)
 	echo !NOW_14_group! 2>NUL | findstr /i "S-1-5-32-544" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_14_group=!NOW_14_group:S-1-5-32-544=Administrators^(o^)!
 	)
 
-	REM Remote ë°ìŠ¤í¬í†± ì‚¬ìš©ì ê·¸ë£¹ S-1-5-32-555 (ì–‘í˜¸)
+	REM Remote µ¥½ºÅ©Åé »ç¿ëÀÚ ±×·ì S-1-5-32-555 (¾çÈ£)
 	echo !NOW_14_group! 2>NUL | findstr /i "S-1-5-32-555" >NUL
 	IF NOT ERRORLEVEL 1 (
-		FOR /f %%i IN ('net localgroup "Remote Desktop Users" ^| findstr /i /v "^$ ^- ë³„ì¹­ alias ì„¤ëª… comment êµ¬ì„±ì› members ëª…ë ¹ command" ^| find /c /v "^$"') DO (
+		FOR /f %%i IN ('net localgroup "Remote Desktop Users" ^| findstr /i /v "^$ ^- º°Äª alias ¼³¸í comment ±¸¼º¿ø members ¸í·É command" ^| find /c /v "^$"') DO (
 			IF NOT %%i EQU 0 (
 				SET NOW_14_group=!NOW_14_group:S-1-5-32-555=Remote Desktop Users^(?^)!
-				SET CMT_14=ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ ì¡´ì¬ ì—¬ë¶€ í™•ì¸
-				SET RESULT_14=ì¸í„°ë·°
+				SET CMT_14=¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ Á¸Àç ¿©ºÎ È®ÀÎ
+				SET RESULT_14=ÀÎÅÍºä
 				SET CMT_14_1=!CMT_14_1! "Remote Desktop Users"
 			) ELSE (
 				SET NOW_14_group=!NOW_14_group:S-1-5-32-555=Remote Desktop Users^(o^)!
-				SET CMT_14=ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬í•˜ì§€ ì•ŠìŒ"
+				SET CMT_14=¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸ÀçÇÏÁö ¾ÊÀ½"
 			)
 		)
 	)
 
-	REM IUSR_ ì‚¬ìš©ì ì§€ì • ê·¸ë£¹(ì·¨ì•½ ê·¸ë£¹)
+	REM IUSR_ »ç¿ëÀÚ ÁöÁ¤ ±×·ì(Ãë¾à ±×·ì)
 	echo !NOW_14_group! 2>NUL | findstr /i "IUSR S-1-5-17" >NUL
 	IF NOT ERRORLEVEL 1 (
-		SET NOW_14_group=!NOW_14_group:S-1-5-17=ì‚¬ìš©ìì§€ì • IUSR^(x^)!
-		SET CMT_14=ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê·¸ë£¹ì´ "ì¡´ì¬"í•¨
-		SET CMT_14_1=!CMT_14_1! "IUSR"&SET RESULT_14=ì·¨ì•½
+		SET NOW_14_group=!NOW_14_group:S-1-5-17=»ç¿ëÀÚÁöÁ¤ IUSR^(x^)!
+		SET CMT_14=¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ ±×·ìÀÌ "Á¸Àç"ÇÔ
+		SET CMT_14_1=!CMT_14_1! "IUSR"&SET RESULT_14=Ãë¾à
 	)
 
-	REM ë°±ì—…ìš´ì˜ìê·¸ë£¹ S-1-5-32-551(ì·¨ì•½ ê·¸ë£¹)
+	REM ¹é¾÷¿î¿µÀÚ±×·ì S-1-5-32-551(Ãë¾à ±×·ì)
 	echo !NOW_14_group! 2>NUL | findstr /i "S-1-5-32-551" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_14_group=!NOW_14_group:S-1-5-32-551=Backup Operators^(x^)!
-		FOR /f %%i IN ('net localgroup "Backup Operators" ^| findstr /i /v "^$ ^- ë³„ì¹­ alias ì„¤ëª… comment êµ¬ì„±ì› members ëª…ë ¹ command" ^| find /c /v "^$"') DO (
+		FOR /f %%i IN ('net localgroup "Backup Operators" ^| findstr /i /v "^$ ^- º°Äª alias ¼³¸í comment ±¸¼º¿ø members ¸í·É command" ^| find /c /v "^$"') DO (
 			IF NOT %%i EQU 0 (
-				SET CMT_14=ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬"í•¨
-				SET CMT_14_1=!CMT_14_1! "Backup Operators"&SET RESULT_14=ì·¨ì•½
+				SET CMT_14=¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸Àç"ÇÔ
+				SET CMT_14_1=!CMT_14_1! "Backup Operators"&SET RESULT_14=Ãë¾à
 			) ELSE (
-				SET CMT_14=ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê·¸ë£¹ì´ "ì¡´ì¬"í•¨
-				SET CMT_14_2=!CMT_14_2! "Backup Operators"&SET RESULT_14=ì·¨ì•½
+				SET CMT_14=¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ ±×·ìÀÌ "Á¸Àç"ÇÔ
+				SET CMT_14_2=!CMT_14_2! "Backup Operators"&SET RESULT_14=Ãë¾à
 			)
 		)
 	)
 
-	REM Guest (2ë²ˆ í•­ëª© ì–‘í˜¸ì‹œ ì–‘í˜¸)
+	REM Guest (2¹ø Ç×¸ñ ¾çÈ£½Ã ¾çÈ£)
 	echo !NOW_14_group! 2>NUL | findstr /i "Guest" >NUL
 	IF NOT ERRORLEVEL 1 (
-		IF "%RESULT_02%" EQU "ì·¨ì•½" (
-			SET NOW_14_group=!NOW_14_group:Guest=active Guestê³„ì •^(x^)!
-			SET CMT_14=ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬"í•¨
-			SET CMT_14_1=!CMT_18_1! "Guestê³„ì •"&SET RESULT_14=ì·¨ì•½
+		IF "%RESULT_02%" EQU "Ãë¾à" (
+			SET NOW_14_group=!NOW_14_group:Guest=active Guest°èÁ¤^(x^)!
+			SET CMT_14=¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸Àç"ÇÔ
+			SET CMT_14_1=!CMT_18_1! "Guest°èÁ¤"&SET RESULT_14=Ãë¾à
 		) ELSE (
-			SET NOW_14_group=!NOW_14_group:Guest=inactive Guestê³„ì •^(o^)!
+			SET NOW_14_group=!NOW_14_group:Guest=inactive Guest°èÁ¤^(o^)!
 		)
 	)
 
-	REM Guests ê·¸ë£¹ S-1-5-32-546 (ì·¨ì•½ ê·¸ë£¹)
+	REM Guests ±×·ì S-1-5-32-546 (Ãë¾à ±×·ì)
 	echo !NOW_14_group! 2>NUL | findstr /i "Guests" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_14_group=!NOW_14_group:S-1-5-32-546=Guests^(x^)!
-		FOR /f %%i IN ('net localgroup "Guests" ^| findstr /i /v "^$ ^- ë³„ì¹­ alias ì„¤ëª… comment êµ¬ì„±ì› members ëª…ë ¹ command" ^| find /c /v "^$"') DO (
+		FOR /f %%i IN ('net localgroup "Guests" ^| findstr /i /v "^$ ^- º°Äª alias ¼³¸í comment ±¸¼º¿ø members ¸í·É command" ^| find /c /v "^$"') DO (
 			IF NOT %%i EQU 0 (
-				SET CMT_14=ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬"í•¨
-				SET CMT_14_1=!CMT_14_1! "Guests"&SET RESULT_14=ì·¨ì•½
+				SET CMT_14=¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸Àç"ÇÔ
+				SET CMT_14_1=!CMT_14_1! "Guests"&SET RESULT_14=Ãë¾à
 			) ELSE (
-				SET CMT_14=ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê·¸ë£¹ì´ "ì¡´ì¬"í•¨
-				SET CMT_14_2=!CMT_14_2! "Guests"&SET RESULT_14=ì·¨ì•½
+				SET CMT_14=¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ ±×·ìÀÌ "Á¸Àç"ÇÔ
+				SET CMT_14_2=!CMT_14_2! "Guests"&SET RESULT_14=Ãë¾à
 			)
 		)
 	)
 
-	REM ì‚¬ìš©ìê·¸ë£¹ (ì·¨ì•½ ê·¸ë£¹)
+	REM »ç¿ëÀÚ±×·ì (Ãë¾à ±×·ì)
 	echo !NOW_14_group! 2>NUL |findstr /i "S-1-5-32-545" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_14_group=!NOW_14_group:S-1-5-32-545=Users^(x^)!
-		FOR /f %%i IN ('net localgroup "Users" ^| findstr /i /v "^$ ^- ë³„ì¹­ alias ì„¤ëª… comment êµ¬ì„±ì› members ëª…ë ¹ command" ^| find /c /v "^$"') DO (
+		FOR /f %%i IN ('net localgroup "Users" ^| findstr /i /v "^$ ^- º°Äª alias ¼³¸í comment ±¸¼º¿ø members ¸í·É command" ^| find /c /v "^$"') DO (
 			IF NOT %%i EQU 0 (
-				SET CMT_14=ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬"í•¨
-				SET CMT_14_1=!CMT_14_1! "Users"&SET RESULT_14=ì·¨ì•½
+				SET CMT_14=¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸Àç"ÇÔ
+				SET CMT_14_1=!CMT_14_1! "Users"&SET RESULT_14=Ãë¾à
 			) ELSE (
-				SET CMT_14=ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê·¸ë£¹ì´ "ì¡´ì¬"í•¨
-				SET CMT_14_2=!CMT_14_2! "Users"&SET RESULT_14=ì·¨ì•½
+				SET CMT_14=¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ ±×·ìÀÌ "Á¸Àç"ÇÔ
+				SET CMT_14_2=!CMT_14_2! "Users"&SET RESULT_14=Ãë¾à
 			)
 		)
 	)
 
-	REM ë„ë©”ì¸ê·¸ë£¹ (ì·¨ì•½ ê·¸ë£¹)
+	REM µµ¸ŞÀÎ±×·ì (Ãë¾à ±×·ì)
 	echo !NOW_14_group! 2>NUL |findstr /i "S-1-5-21" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_14_group=!NOW_14_group:S-1-5-21=Domain related^(x^)!
-		FOR /f %%i IN ('net localgroup "Server Operators" ^| findstr /i /v "^$ ^- ë³„ì¹­ alias ì„¤ëª… comment êµ¬ì„±ì› members ëª…ë ¹ command" ^| find /c /v "^$"') DO (
+		FOR /f %%i IN ('net localgroup "Server Operators" ^| findstr /i /v "^$ ^- º°Äª alias ¼³¸í comment ±¸¼º¿ø members ¸í·É command" ^| find /c /v "^$"') DO (
 			IF NOT %%i EQU 0 (
-				SET CMT_14=ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬"í•¨
-				SET CMT_14_1=!CMT_14_1! "Domain related"&SET RESULT_14=ì·¨ì•½
+				SET CMT_14=¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸Àç"ÇÔ
+				SET CMT_14_1=!CMT_14_1! "Domain related"&SET RESULT_14=Ãë¾à
 			) ELSE (
-				SET CMT_14=ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê·¸ë£¹ì´ "ì¡´ì¬"í•¨
-				SET CMT_14_2=!CMT_14_2! "Domain related"&SET RESULT_14=ì·¨ì•½
+				SET CMT_14=¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ ±×·ìÀÌ "Á¸Àç"ÇÔ
+				SET CMT_14_2=!CMT_14_2! "Domain related"&SET RESULT_14=Ãë¾à
 			)
 		)
 	)
 
-	REM ê³„ì • ìš´ì˜ì ê·¸ë£¹ (ì·¨ì•½ ê·¸ë£¹)
+	REM °èÁ¤ ¿î¿µÀÚ ±×·ì (Ãë¾à ±×·ì)
 	echo !NOW_14_group! 2>NUL |findstr /i "S-1-5-32-548" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_14_group=!NOW_14_group:S-1-5-32-548=Account Operators^(x^)!
-		FOR /f %%i IN ('net localgroup "Server Operators" ^| findstr /i /v "^$ ^- ë³„ì¹­ alias ì„¤ëª… comment êµ¬ì„±ì› members ëª…ë ¹ command" ^| find /c /v "^$"') DO (
+		FOR /f %%i IN ('net localgroup "Server Operators" ^| findstr /i /v "^$ ^- º°Äª alias ¼³¸í comment ±¸¼º¿ø members ¸í·É command" ^| find /c /v "^$"') DO (
 			IF NOT %%i EQU 0 (
-				SET CMT_14=ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬"í•¨
-				SET CMT_14_1=!CMT_14_1! "Domain controler:Account Operators"&SET RESULT_14=ì·¨ì•½
+				SET CMT_14=¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸Àç"ÇÔ
+				SET CMT_14_1=!CMT_14_1! "Domain controler:Account Operators"&SET RESULT_14=Ãë¾à
 			) ELSE (
-				SET CMT_14=ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê·¸ë£¹ì´ "ì¡´ì¬"í•¨
-				SET CMT_14_2=!CMT_14_2! "Domain controler:Account Operators"&SET RESULT_14=ì·¨ì•½
+				SET CMT_14=¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ ±×·ìÀÌ "Á¸Àç"ÇÔ
+				SET CMT_14_2=!CMT_14_2! "Domain controler:Account Operators"&SET RESULT_14=Ãë¾à
 			)
 		)
 	)
 
-	REM ë„ë©”ì¸ í”„ë¦°í„° ê·¸ë£¹ (ì·¨ì•½ ê·¸ë£¹)
+	REM µµ¸ŞÀÎ ÇÁ¸°ÅÍ ±×·ì (Ãë¾à ±×·ì)
 	echo !NOW_14_group! 2>NUL |findstr /i "S-1-5-32-550" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_14_group=!NOW_14_group:S-1-5-32-550=Print Operators^(x^)!
-		FOR /f %%i IN ('net localgroup "Print Operators" ^| findstr /i /v "^$ ^- ë³„ì¹­ alias ì„¤ëª… comment êµ¬ì„±ì› members ëª…ë ¹ command" ^| find /c /v "^$"') DO (
+		FOR /f %%i IN ('net localgroup "Print Operators" ^| findstr /i /v "^$ ^- º°Äª alias ¼³¸í comment ±¸¼º¿ø members ¸í·É command" ^| find /c /v "^$"') DO (
 			IF NOT %%i EQU 0 (
-				SET CMT_14=ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬"í•¨
-				SET CMT_14_1=!CMT_14_1! "Print Operators"&SET RESULT_14=ì·¨ì•½
+				SET CMT_14=¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸Àç"ÇÔ
+				SET CMT_14_1=!CMT_14_1! "Print Operators"&SET RESULT_14=Ãë¾à
 			) ELSE (
-				SET CMT_14=ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê·¸ë£¹ì´ "ì¡´ì¬"í•¨
-				SET CMT_14_2=!CMT_14_2! "Print Operators"&SET RESULT_14=ì·¨ì•½
+				SET CMT_14=¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ ±×·ìÀÌ "Á¸Àç"ÇÔ
+				SET CMT_14_2=!CMT_14_2! "Print Operators"&SET RESULT_14=Ãë¾à
 			)
 		)
 	)
 
-	REM vmware ì‚¬ìš©ì ê·¸ë£¹ (ì·¨ì•½ ê·¸ë£¹)
+	REM vmware »ç¿ëÀÚ ±×·ì (Ãë¾à ±×·ì)
 	echo !NOW_14_group! 2>NUL | findstr /i "__vmware__" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_14_group=!NOW_14_group:vmware=Vmware Users^(x^)!
-		FOR /f %%i IN ('net localgroup "__vmware__" ^| findstr /i /v "^$ ^- ë³„ì¹­ alias ì„¤ëª… comment êµ¬ì„±ì› members ëª…ë ¹ command" ^| find /c /v "^$"') DO (
+		FOR /f %%i IN ('net localgroup "__vmware__" ^| findstr /i /v "^$ ^- º°Äª alias ¼³¸í comment ±¸¼º¿ø members ¸í·É command" ^| find /c /v "^$"') DO (
 			IF NOT %%i EQU 0 (
-				SET CMT_14=ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê·¸ë£¹ì´ "ì¡´ì¬"í•¨
-				SET CMT_14_1=!CMT_14_1! "Vmware Users"&SET RESULT_14=ì·¨ì•½
+				SET CMT_14=¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ ±×·ìÀÌ "Á¸Àç"ÇÔ
+				SET CMT_14_1=!CMT_14_1! "Vmware Users"&SET RESULT_14=Ãë¾à
 			) ELSE (
-				SET CMT_14=ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬"í•¨
-				SET CMT_14_2=!CMT_14_2! "Vmware Users"&SET RESULT_14=ì·¨ì•½
+				SET CMT_14=¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸Àç"ÇÔ
+				SET CMT_14_2=!CMT_14_2! "Vmware Users"&SET RESULT_14=Ãë¾à
 			)
 		)
 	)
@@ -1178,33 +1178,33 @@ FOR /f "tokens=3 delims= " %%i IN ('type "%SECPOL%" ^| findstr /i "SeRemoteInter
 
 :14_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_14% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ì›ê²©ë°ìŠ¤í¬í†± "ë¹„í™œì„±í™”" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo        ë˜ëŠ” ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ì— ë¶ˆí•„ìš”í•œ ê³„ì •ì´ "ì¡´ì¬í•˜ì§€ ì•ŠìŒ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_14% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_14_1%  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_14_2%  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_14% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ¿ø°İµ¥½ºÅ©Åé "ºñÈ°¼ºÈ­" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo        ¶Ç´Â ¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì¿¡ ºÒÇÊ¿äÇÑ °èÁ¤ÀÌ "Á¸ÀçÇÏÁö ¾ÊÀ½" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_14% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_14_1%  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_14_2%  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) reg query "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v "fDenyTSConnections" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo - ì›ê²© ë°ìŠ¤í¬í†± ì‚¬ìš© ì—¬ë¶€ - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo - ¿ø°İ µ¥½ºÅ©Åé »ç¿ë ¿©ºÎ - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v "fDenyTSConnections" 2>NUL | findstr /i "fDenyTSConnections" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo (CMD) type secpol.inf ^| findstr /i "SeRemoteInteractiveLogonRight" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* o/x í‘œì‹œê°€ ì—†ëŠ” ê·¸ë£¹ì˜ ê²½ìš°, ì¸í„°ë·° í•„ìš” >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* o/x Ç¥½Ã°¡ ¾ø´Â ±×·ìÀÇ °æ¿ì, ÀÎÅÍºä ÇÊ¿ä >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo SeRemoteInteractiveLogonRight = "%NOW_14_group%" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo %NOW_14_group% 2>NUL | findstr /c:"Remote Desktop Users" >NUL
 IF NOT ERRORLEVEL 1 (
 	echo ^(CMD^) net localgroup "Remote Desktop Users" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-	echo ^*^* ê²°ê³¼ê°’ ì¡´ì¬ì‹œ, 3ë²ˆ í•­ëª© ê³„ì • ì •ë³´ ë¹„êµ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-	net localgroup "Remote Desktop Users" | findstr /i /v "^$ ^- ë³„ì¹­ alias ì„¤ëª… comment êµ¬ì„±ì› members ëª…ë ¹ command" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo ^*^* °á°ú°ª Á¸Àç½Ã, 3¹ø Ç×¸ñ °èÁ¤ Á¤º¸ ºñ±³ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	net localgroup "Remote Desktop Users" | findstr /i /v "^$ ^- º°Äª alias ¼³¸í comment ±¸¼º¿ø members ¸í·É command" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [14.W-14] ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ ì œí•œ [%RESULT_14%]
+echo [14.W-14] ¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì Á¦ÇÑ [%RESULT_14%]
 :14_END
 SET CMT_14=
 SET CMT_14_1=
@@ -1213,9 +1213,9 @@ SET RESULT_14=
 SET NOW_14_group=
 
 :14_ADD
-REM [í•­ëª©] ì›ê²©í„°ë¯¸ë„ ì ‘ì† ê°€ëŠ¥í•œ ì‚¬ìš©ì ê·¸ë£¹ ì œí•œ
-REM ê´€ë¦¬ì ê·¸ë£¹ê³¼ ì›ê²©ë°ìŠ¤í¬í†±ì‚¬ìš©ì ê·¸ë£¹ì„ ì œì™¸í•œ ë‚˜ë¨¸ì§€ ê·¸ë£¹ì€ ëª¨ë‘ ì·¨ì•½
-REM ì›ê²©ë°ìŠ¤í¬í†±ì‚¬ìš©ì ê·¸ë£¹ì˜ ì‚¬ìš©ìëŠ” í™•ì¸ í•„ìš”
+REM [Ç×¸ñ] ¿ø°İÅÍ¹Ì³Î Á¢¼Ó °¡´ÉÇÑ »ç¿ëÀÚ ±×·ì Á¦ÇÑ
+REM °ü¸®ÀÚ ±×·ì°ú ¿ø°İµ¥½ºÅ©Åé»ç¿ëÀÚ ±×·ìÀ» Á¦¿ÜÇÑ ³ª¸ÓÁö ±×·ìÀº ¸ğµÎ Ãë¾à
+REM ¿ø°İµ¥½ºÅ©Åé»ç¿ëÀÚ ±×·ìÀÇ »ç¿ëÀÚ´Â È®ÀÎ ÇÊ¿ä
 
 
 
@@ -1224,55 +1224,55 @@ REM ==================================================
 REM ==================================================
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ----------------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo  2. ì„œë¹„ìŠ¤ê´€ë¦¬  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo  2. ¼­ºñ½º°ü¸®  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ----------------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo.
 echo.
-echo 2. ì„œë¹„ìŠ¤ê´€ë¦¬
+echo 2. ¼­ºñ½º°ü¸®
 echo --------------
 
 REM ==================================================
 :15_START
-echo [15.W-15] ì‚¬ìš©ì ê°œì¸í‚¤ ì‚¬ìš© ì‹œ ì•”í˜¸ ì…ë ¥ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [15.W-15] »ç¿ëÀÚ °³ÀÎÅ° »ç¿ë ½Ã ¾ÏÈ£ ÀÔ·Â >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :15_ROUTINE
-SET CMT_15=Windows ë²„ì „ í™•ì¸ ì¤‘
-SET RESULT_15=ì¸í„°ë·°
+SET CMT_15=Windows ¹öÀü È®ÀÎ Áß
+SET RESULT_15=ÀÎÅÍºä
 
 echo %OS_VER% 2>NUL | findstr "10.0" >NUL
 IF NOT ERRORLEVEL 1 (
-	REM Windows 2016 ì´ìƒ (10.0) - ì ê²€ ëŒ€ìƒ
+	REM Windows 2016 ÀÌ»ó (10.0) - Á¡°Ë ´ë»ó
 	type secpol.inf | findstr /i "ForceKeyProtection" | findstr "2" >NUL
 	IF ERRORLEVEL 1 (
-		SET CMT_15=ì·¨ì•½í•œ ì˜µì…˜
-		SET RESULT_15=ì·¨ì•½
+		SET CMT_15=Ãë¾àÇÑ ¿É¼Ç
+		SET RESULT_15=Ãë¾à
 	) ELSE (
-		SET CMT_15=í‚¤ë¥¼ ì‚¬ìš©í•  ë•Œë§ˆë‹¤ ì•”í˜¸ë¥¼ ë§¤ë²ˆ ì…ë ¥í•´ì•¼í•¨ ì„¤ì •
-		SET RESULT_15=ì–‘í˜¸
+		SET CMT_15=Å°¸¦ »ç¿ëÇÒ ¶§¸¶´Ù ¾ÏÈ£¸¦ ¸Å¹ø ÀÔ·ÂÇØ¾ßÇÔ ¼³Á¤
+		SET RESULT_15=¾çÈ£
 	)
 ) ELSE (
-	REM Windows 2012 R2 ì´í•˜ (5.x, 6.0, 6.1, 6.2, 6.3) - í•´ë‹¹ì—†ìŒ
-	SET CMT_15=Windows 2016 ì´ìƒë§Œ ì ê²€ëŒ€ìƒì„
-	SET RESULT_15=ì–‘í˜¸
+	REM Windows 2012 R2 ÀÌÇÏ (5.x, 6.0, 6.1, 6.2, 6.3) - ÇØ´ç¾øÀ½
+	SET CMT_15=Windows 2016 ÀÌ»ó¸¸ Á¡°Ë´ë»óÀÓ
+	SET RESULT_15=¾çÈ£
 )
 
 
 :15_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_15% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ì‚¬ìš©ì ê°œì¸ í‚¤ë¥¼ ì‚¬ìš©í•  ë•Œë§ˆë‹¤ ì•”í˜¸ ì…ë ¥ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_15% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_15% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : »ç¿ëÀÚ °³ÀÎ Å°¸¦ »ç¿ëÇÒ ¶§¸¶´Ù ¾ÏÈ£ ÀÔ·Â ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_15% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "ForceKeyProtection" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "ForceKeyProtection" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [15.W-15] ì‚¬ìš©ì ê°œì¸í‚¤ ì‚¬ìš© ì‹œ ì•”í˜¸ ì…ë ¥[%RESULT_15%]
+echo [15.W-15] »ç¿ëÀÚ °³ÀÎÅ° »ç¿ë ½Ã ¾ÏÈ£ ÀÔ·Â[%RESULT_15%]
 :15_END
 SET CMT_15=
 SET RESULT_15=
@@ -1283,59 +1283,59 @@ SET RESULT_15=
 
 REM ==================================================
 :16_START
-echo [16.W-16] ê³µìœ  ê¶Œí•œ ë° ì‚¬ìš©ì ê·¸ë£¹ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [16.W-16] °øÀ¯ ±ÇÇÑ ¹× »ç¿ëÀÚ ±×·ì ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :16_ROUTINE
-SET CMT_16=ì´ˆê¸°í™”
-SET RESULT_16=ì¸í„°ë·°
+SET CMT_16=ÃÊ±âÈ­
+SET RESULT_16=ÀÎÅÍºä
 
-FOR /f "tokens=*" %%i IN ('wmic share get caption ^| findstr /v /i "^$ ê¸°ë³¸ ì›ê²© Default remote caption" ^| find /c /v "^$"') DO (
+FOR /f "tokens=*" %%i IN ('wmic share get caption ^| findstr /v /i "^$ ±âº» ¿ø°İ Default remote caption" ^| find /c /v "^$"') DO (
 	IF %%i EQU 0 (
-		SET CMT_16=ì¼ë°˜ ê³µìœ ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŒ
-		SET RESULT_16=ì–‘í˜¸
+		SET CMT_16=ÀÏ¹İ °øÀ¯°¡ Á¸ÀçÇÏÁö ¾ÊÀ½
+		SET RESULT_16=¾çÈ£
 		GOTO :16_PRINT
 	) ELSE (
-		SET CMT_16=ê³µìœ í´ë”ì— Everyone ê¶Œí•œì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ
-		SET RESULT_16=ì–‘í˜¸
+		SET CMT_16=°øÀ¯Æú´õ¿¡ Everyone ±ÇÇÑÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½
+		SET RESULT_16=¾çÈ£
 	)
 )
 
-FOR /f "tokens=1,2,* skip=1 delims= " %%i IN ('wmic share get caption^, path ^| findstr /v /i "^$ ê¸°ë³¸ ì›ê²© Default remote"') DO (
+FOR /f "tokens=1,2,* skip=1 delims= " %%i IN ('wmic share get caption^, path ^| findstr /v /i "^$ ±âº» ¿ø°İ Default remote"') DO (
 	echo %%j | findstr ":" >NUL
 	IF ERRORLEVEL 1 (
-		SET CMT_16=í™•ì¸í•„ìš”
-		SET RESULT_16=ì¸í„°ë·°
+		SET CMT_16=È®ÀÎÇÊ¿ä
+		SET RESULT_16=ÀÎÅÍºä
 		GOTO :16_PRINT
 	) ELSE (
 		net share %%i 2>NUL | findstr /i "Everyone" >NUL
 		IF NOT ERRORLEVEL 1 (
-			SET CMT_16=ê³µìœ í´ë”ì— Everyone ê¶Œí•œì´ ì¡´ì¬í•¨
-			SET RESULT_16=ì·¨ì•½
+			SET CMT_16=°øÀ¯Æú´õ¿¡ Everyone ±ÇÇÑÀÌ Á¸ÀçÇÔ
+			SET RESULT_16=Ãë¾à
 		)
 	)
 )
 
 :16_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_16% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ê¸°ë³¸ê³µìœ ë¥¼ ì œì™¸í•œ ì¼ë°˜ê³µìœ  ë””ë ‰í„°ë¦¬ ì ‘ê·¼ ê¶Œí•œì— >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo        Everyone ê¶Œí•œì´ "ì¡´ì¬í•˜ì§€ ì•ŠìŒ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_16% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_16% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ±âº»°øÀ¯¸¦ Á¦¿ÜÇÑ ÀÏ¹İ°øÀ¯ µğ·ºÅÍ¸® Á¢±Ù ±ÇÇÑ¿¡ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo        Everyone ±ÇÇÑÀÌ "Á¸ÀçÇÏÁö ¾ÊÀ½" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_16% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo (CMD) net share "ì¼ë°˜ ê³µìœ  ë””ë ‰í† ë¦¬" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-FOR /f "tokens=1,2,* skip=1 delims= " %%i IN ('wmic share get caption^, path ^| findstr /v /i "^$ ê¸°ë³¸ ì›ê²© Default remote"') DO (
+echo (CMD) net share "ÀÏ¹İ °øÀ¯ µğ·ºÅä¸®" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+FOR /f "tokens=1,2,* skip=1 delims= " %%i IN ('wmic share get caption^, path ^| findstr /v /i "^$ ±âº» ¿ø°İ Default remote"') DO (
 	echo - %%i - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	echo %%j | findstr ":" >NUL
 	IF ERRORLEVEL 1 (
-		echo     ì´ë¦„ì— ê³µë°±ì´ í¬í•¨ëœ ê³µìœ í´ë”ë¡œ ìˆ˜ë™ ì§„ë‹¨ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+		echo     ÀÌ¸§¿¡ °ø¹éÀÌ Æ÷ÇÔµÈ °øÀ¯Æú´õ·Î ¼öµ¿ Áø´Ü >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	)
-	net share %%i 2>NUL | findstr /v "^$ ì´ë¦„ name ê²½ë¡œ path ì„¤ëª… description ì‚¬ìš©ì user ìºì‹± cache ëª…ë ¹ completed" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	net share %%i 2>NUL | findstr /v "^$ ÀÌ¸§ name °æ·Î path ¼³¸í description »ç¿ëÀÚ user Ä³½Ì cache ¸í·É completed" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 net share >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [16.W-16] ê³µìœ  ê¶Œí•œ ë° ì‚¬ìš©ì ê·¸ë£¹ ì„¤ì • [%RESULT_16%]
+echo [16.W-16] °øÀ¯ ±ÇÇÑ ¹× »ç¿ëÀÚ ±×·ì ¼³Á¤ [%RESULT_16%]
 :16_END
 SET CMT_16=
 SET RESULT_16=
@@ -1344,33 +1344,33 @@ SET RESULT_16=
 
 REM ==================================================
 :17_START
-echo [17.W-17] í•˜ë“œë””ìŠ¤í¬ ê¸°ë³¸ ê³µìœ  ì œê±° >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [17.W-17] ÇÏµåµğ½ºÅ© ±âº» °øÀ¯ Á¦°Å >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :17_ROUTINE
-SET CMT_17=ì´ˆê¸°í™”&SET RESULT_17=ì¸í„°ë·°
-wmic share list brief | findstr /i "ì›ê²© remote ê¸°ë³¸ Default" | findstr /v /i "IPC" > NUL 2> NUL
-IF NOT ERRORLEVEL 1 (SET CMT_17=ê¸°ë³¸ ê³µìœ ê°€ "ì¡´ì¬"í•¨,&SET RESULT_17=ì·¨ì•½)
+SET CMT_17=ÃÊ±âÈ­&SET RESULT_17=ÀÎÅÍºä
+wmic share list brief | findstr /i "¿ø°İ remote ±âº» Default" | findstr /v /i "IPC" > NUL 2> NUL
+IF NOT ERRORLEVEL 1 (SET CMT_17=±âº» °øÀ¯°¡ "Á¸Àç"ÇÔ,&SET RESULT_17=Ãë¾à)
 
 REG QUERY "HKLM\SYSTEM\CurrentControlSet\Services\lanmanserver\parameters" /v "AutoShareServer" 2>NUL | findstr "AutoShareServer" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_17_1=AutoShareServerê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ&SET RESULT_17=ì·¨ì•½
+	SET CMT_17_1=AutoShareServer°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½&SET RESULT_17=Ãë¾à
 ) ELSE (
 	FOR /f "tokens=3 delims= " %%i IN ('REG QUERY "HKLM\SYSTEM\CurrentControlSet\Services\lanmanserver\parameters" /v "AutoShareServer" ^| findstr /i "AutoShareServer"') DO (
 		IF "%%i" == "0x0" (
-			SET CMT_17_1=AutoShareServerê°’ì´ "0x0"ë¡œ ì„¤ì •ë¨
+			SET CMT_17_1=AutoShareServer°ªÀÌ "0x0"·Î ¼³Á¤µÊ
 		) ELSE (
-			SET CMT_17_1=AutoShareServerê°’ì´ "%%i"ë¡œ ì„¤ì •ë¨&SET RESULT_17=ì·¨ì•½
+			SET CMT_17_1=AutoShareServer°ªÀÌ "%%i"·Î ¼³Á¤µÊ&SET RESULT_17=Ãë¾à
 		)
 	)
 )
 
 :17_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_17% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë¶ˆí•„ìš”í•œ ê³µìœ  í´ë”(ê¸°ë³¸ê³µìœ  ë“±) "ì œê±°"í•˜ê³  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo        AutoShareServerê°’ì´ "0x0"ë¡œ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_17% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™©2: %CMT_17_1% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_17% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ºÒÇÊ¿äÇÑ °øÀ¯ Æú´õ(±âº»°øÀ¯ µî) "Á¦°Å"ÇÏ°í >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo        AutoShareServer°ªÀÌ "0x0"·Î ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_17% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ²2: %CMT_17_1% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) wmic share list brief >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 wmic share list brief > wmic.inf
@@ -1378,12 +1378,12 @@ type wmic.inf >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) reg query "HKLM\SYSTEM\CurrentControlSet\Services\lanmanserver\parameters" /v "AutoShareServer" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 REG QUERY "HKLM\SYSTEM\CurrentControlSet\Services\lanmanserver\parameters" /v "AutoShareServer" 2>NUL | findstr /i "AutoShareServer" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [17.W-17] í•˜ë“œë””ìŠ¤í¬ ê¸°ë³¸ ê³µìœ  ì œê±° [%RESULT_17%]
+echo [17.W-17] ÇÏµåµğ½ºÅ© ±âº» °øÀ¯ Á¦°Å [%RESULT_17%]
 :17_END
 SET CMT_17=
 SET CMT_17_1=
@@ -1393,121 +1393,121 @@ SET RESULT_17=
 
 REM ==================================================
 :18_START
-echo [18.W-18] ë¶ˆí•„ìš”í•œ ì„œë¹„ìŠ¤ ì œê±° >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [18.W-18] ºÒÇÊ¿äÇÑ ¼­ºñ½º Á¦°Å >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :18_ROUTINE
-SET CMT_18=ì´ˆê¸°í™”
-SET RESULT_18=ì–‘í˜¸
+SET CMT_18=ÃÊ±âÈ­
+SET RESULT_18=¾çÈ£
 
-REM ì£¼í†µê¸°ë°˜ í•­ëª©
+REM ÁÖÅë±â¹İ Ç×¸ñ
 type services.inf | findstr /i /c:"Alerter" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo ë¶ˆí•„ìš”í•œ "Alerter" ì„œë¹„ìŠ¤ê°€ ì‹¤í–‰ ì¤‘ >> service_now.txt&SET RESULT_18=ì·¨ì•½
+	echo ºÒÇÊ¿äÇÑ "Alerter" ¼­ºñ½º°¡ ½ÇÇà Áß >> service_now.txt&SET RESULT_18=Ãë¾à
 )
 type services.inf | findstr /i /c:"Clipbook" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo ë¶ˆí•„ìš”í•œ "Clipbook" ì„œë¹„ìŠ¤ê°€ ì‹¤í–‰ ì¤‘ >> service_now.txt&SET RESULT_18=ì·¨ì•½
+	echo ºÒÇÊ¿äÇÑ "Clipbook" ¼­ºñ½º°¡ ½ÇÇà Áß >> service_now.txt&SET RESULT_18=Ãë¾à
 )
 type services.inf | findstr /i /c:"Messenger" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo ë¶ˆí•„ìš”í•œ "Messenger" ì„œë¹„ìŠ¤ê°€ ì‹¤í–‰ ì¤‘ >> service_now.txt&SET RESULT_18=ì·¨ì•½
+	echo ºÒÇÊ¿äÇÑ "Messenger" ¼­ºñ½º°¡ ½ÇÇà Áß >> service_now.txt&SET RESULT_18=Ãë¾à
 )
 type services.inf | findstr /i /c:"Simple TCP/IP Services" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo ë¶ˆí•„ìš”í•œ "Simple TCP/IP Services" ì„œë¹„ìŠ¤ê°€ ì‹¤í–‰ ì¤‘ >> service_now.txt&SET RESULT_18=ì·¨ì•½
+	echo ºÒÇÊ¿äÇÑ "Simple TCP/IP Services" ¼­ºñ½º°¡ ½ÇÇà Áß >> service_now.txt&SET RESULT_18=Ãë¾à
 )
 
-REM ê·¸ì™¸ ì¶”ê°€ í•­ëª©
+REM ±×¿Ü Ãß°¡ Ç×¸ñ
 type services.inf | findstr /i /c:"Automatic Updates" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo "Automatic Updates" : PMS ë° ìˆ˜ë™ ì—…ë°ì´íŠ¸ ì—¬ë¶€ í™•ì¸ í•„ìš” >> service_now.txt
+	echo "Automatic Updates" : PMS ¹× ¼öµ¿ ¾÷µ¥ÀÌÆ® ¿©ºÎ È®ÀÎ ÇÊ¿ä >> service_now.txt
 )
 type services.inf | findstr /i /c:"Computer Browser" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo "Computer Browser" : ë…ë¦½ PC ì—¬ë¶€ í™•ì¸ í•„ìš” >> service_now.txt
+	echo "Computer Browser" : µ¶¸³ PC ¿©ºÎ È®ÀÎ ÇÊ¿ä >> service_now.txt
 )
 REM type services.inf | findstr /i /c:"Cryptographic Services" | findstr /i "Running" >> service_cmd.txt
-REM IF NOT ERRORLEVEL 1 (echo ë¶ˆí•„ìš”í•œ "Cryptographic Services" ì„œë¹„ìŠ¤ê°€ ì‹¤í–‰ ì¤‘ >> service_now.txt&SET RESULT_21=ì·¨ì•½)
+REM IF NOT ERRORLEVEL 1 (echo ºÒÇÊ¿äÇÑ "Cryptographic Services" ¼­ºñ½º°¡ ½ÇÇà Áß >> service_now.txt&SET RESULT_21=Ãë¾à)
 type services.inf | findstr /i /c:"DHCP Client" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo "DHCP Client" : ëª¨ë€ ë˜ëŠ” DSL ì‚¬ìš© ë° ë™ì  IP ì‚¬ìš© ì—¬ë¶€ í™•ì¸ >> service_now.txt
+	echo "DHCP Client" : ¸ğµ© ¶Ç´Â DSL »ç¿ë ¹× µ¿Àû IP »ç¿ë ¿©ºÎ È®ÀÎ >> service_now.txt
 )
 type services.inf | findstr /i /c:"Distributed Link Tracking Client" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo "Distributed Link Tracking Client" : ì„œë²„ê°„ íŒŒì¼ê³µìœ  ë“± ì„œë¹„ìŠ¤ ì‚¬ìš© ì—¬ë¶€ í™•ì¸ >> service_now.txt
+	echo "Distributed Link Tracking Client" : ¼­¹ö°£ ÆÄÀÏ°øÀ¯ µî ¼­ºñ½º »ç¿ë ¿©ºÎ È®ÀÎ >> service_now.txt
 )
 type services.inf | findstr /i /c:"Distributed Link Tracking Server" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo "Distributed Link Tracking Server" : ì„œë²„ê°„ íŒŒì¼ê³µìœ  ë“± ì„œë¹„ìŠ¤ ì‚¬ìš© ì—¬ë¶€ í™•ì¸ >> service_now.txt
+	echo "Distributed Link Tracking Server" : ¼­¹ö°£ ÆÄÀÏ°øÀ¯ µî ¼­ºñ½º »ç¿ë ¿©ºÎ È®ÀÎ >> service_now.txt
 )
 type services.inf | findstr /i /c:"DNS Client" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo "DNS Client" : IPSEC ì„œë¹„ìŠ¤ ì‚¬ìš© ì—¬ë¶€ í™•ì¸ >> service_now.txt
+	echo "DNS Client" : IPSEC ¼­ºñ½º »ç¿ë ¿©ºÎ È®ÀÎ >> service_now.txt
 )
 type services.inf | findstr /i /c:"Error reporting Service" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo ë¶ˆí•„ìš”í•œ "Error reporting Service" ì„œë¹„ìŠ¤ê°€ ì‹¤í–‰ ì¤‘ >> service_now.txt&SET RESULT_18=ì·¨ì•½
+	echo ºÒÇÊ¿äÇÑ "Error reporting Service" ¼­ºñ½º°¡ ½ÇÇà Áß >> service_now.txt&SET RESULT_18=Ãë¾à
 )
 type services.inf | findstr /i /c:"Human Interface Device Access" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo ë¶ˆí•„ìš”í•œ "Human Interface Device Access" ì„œë¹„ìŠ¤ê°€ ì‹¤í–‰ ì¤‘ >> service_now.txt&SET RESULT_18=ì·¨ì•½
+	echo ºÒÇÊ¿äÇÑ "Human Interface Device Access" ¼­ºñ½º°¡ ½ÇÇà Áß >> service_now.txt&SET RESULT_18=Ãë¾à
 )
 type services.inf | findstr /i /c:"IMAPI CD-Burning COM Service" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo "IMAPI CD-Burning COM Service" : CDêµ½ê¸° ì‚¬ìš© ì—¬ë¶€ í™•ì¸  >> service_now.txt&SET RESULT_18=ì·¨ì•½
+	echo "IMAPI CD-Burning COM Service" : CD±Á±â »ç¿ë ¿©ºÎ È®ÀÎ  >> service_now.txt&SET RESULT_18=Ãë¾à
 )
 type services.inf | findstr /i /c:"NetMeeting Remote Desktop Sharing" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo ë¶ˆí•„ìš”í•œ "NetMeeting Remote Desktop Sharing" ì„œë¹„ìŠ¤ê°€ ì‹¤í–‰ ì¤‘ >> service_now.txt&SET RESULT_18=ì·¨ì•½
+	echo ºÒÇÊ¿äÇÑ "NetMeeting Remote Desktop Sharing" ¼­ºñ½º°¡ ½ÇÇà Áß >> service_now.txt&SET RESULT_18=Ãë¾à
 )
 type services.inf | findstr /i /c:"Portable Media Serial Number" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo ë¶ˆí•„ìš”í•œ "Portable Media Serial Number" ì„œë¹„ìŠ¤ê°€ ì‹¤í–‰ ì¤‘ >> service_now.txt&SET RESULT_18=ì·¨ì•½
+	echo ºÒÇÊ¿äÇÑ "Portable Media Serial Number" ¼­ºñ½º°¡ ½ÇÇà Áß >> service_now.txt&SET RESULT_18=Ãë¾à
 )
 type services.inf | findstr /i /c:"Print spooler" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo "Print spooler" : í”„ë¦°í„° ì‚¬ìš© ì—¬ë¶€ í™•ì¸ >> service_now.txt&SET RESULT_18=ì·¨ì•½
+	echo "Print spooler" : ÇÁ¸°ÅÍ »ç¿ë ¿©ºÎ È®ÀÎ >> service_now.txt&SET RESULT_18=Ãë¾à
 )
 type services.inf | findstr /i /c:"Remote Registry Service" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo ë¶ˆí•„ìš”í•œ "Remote Registry Service" ì„œë¹„ìŠ¤ê°€ ì‹¤í–‰ ì¤‘ >> service_now.txt&SET RESULT_18=ì·¨ì•½
+	echo ºÒÇÊ¿äÇÑ "Remote Registry Service" ¼­ºñ½º°¡ ½ÇÇà Áß >> service_now.txt&SET RESULT_18=Ãë¾à
 )
 type services.inf | findstr /i /c:"Wireless Zero Configuration" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo ë¶ˆí•„ìš”í•œ "Wireless Zero Configuration" ì„œë¹„ìŠ¤ê°€ ì‹¤í–‰ ì¤‘ >> service_now.txt&SET RESULT_18=ì·¨ì•½
+	echo ºÒÇÊ¿äÇÑ "Wireless Zero Configuration" ¼­ºñ½º°¡ ½ÇÇà Áß >> service_now.txt&SET RESULT_18=Ãë¾à
 )
 type services.inf | findstr /i /c:"bluetooth" | findstr /i "Running" >> service_cmd.txt
 IF NOT ERRORLEVEL 1 (
-	echo ë¶ˆí•„ìš”í•œ "bluetooth" ì„œë¹„ìŠ¤ê°€ ì‹¤í–‰ ì¤‘ >> service_now.txt&SET RESULT_18=ì·¨ì•½
+	echo ºÒÇÊ¿äÇÑ "bluetooth" ¼­ºñ½º°¡ ½ÇÇà Áß >> service_now.txt&SET RESULT_18=Ãë¾à
 )
 
-IF "%RESULT_18%" == "ì–‘í˜¸" (
+IF "%RESULT_18%" == "¾çÈ£" (
 	FOR /f %%i in ('type service_now.txt ^|findstr /r /v "^$" ^| find /c /v ""') DO (
 		IF %%i GTR 0 (
-			SET RESULT_18=ì¸í„°ë·°
-			SET CMT_18=ë¶ˆí•„ìš”í•œ ì„œë¹„ìŠ¤ê°€ ìˆìŒ
+			SET RESULT_18=ÀÎÅÍºä
+			SET CMT_18=ºÒÇÊ¿äÇÑ ¼­ºñ½º°¡ ÀÖÀ½
 		) ELSE (
-			SET CMT_18=ë¶ˆí•„ìš”í•œ ì„œë¹„ìŠ¤ê°€ ì—†ìŒ
+			SET CMT_18=ºÒÇÊ¿äÇÑ ¼­ºñ½º°¡ ¾øÀ½
 		)
 	)
 ) ELSE (
-	SET RESULT_18=ì·¨ì•½
-	SET CMT_18=ë¶ˆí•„ìš”í•œ ì„œë¹„ìŠ¤ê°€ ìˆìŒ
+	SET RESULT_18=Ãë¾à
+	SET CMT_18=ºÒÇÊ¿äÇÑ ¼­ºñ½º°¡ ÀÖÀ½
 )
 
 :18_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_18% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë¶ˆí•„ìš”í•œ ì„œë¹„ìŠ¤ "ì œê±°" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_18% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_18% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ºÒÇÊ¿äÇÑ ¼­ºñ½º "Á¦°Å" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_18% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type service_now.txt >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo (CMD) type services.inf ^| findstr /i "ë¶ˆí•„ìš”í•œ ì„œë¹„ìŠ¤ëª…" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo (CMD) type services.inf ^| findstr /i "ºÒÇÊ¿äÇÑ ¼­ºñ½º¸í" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type service_cmd.txt >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [18.W-18] ë¶ˆí•„ìš”í•œ ì„œë¹„ìŠ¤ ì œê±° [%RESULT_18%]
+echo [18.W-18] ºÒÇÊ¿äÇÑ ¼­ºñ½º Á¦°Å [%RESULT_18%]
 :18_END
 SET CMT_18=
 SET RESULT_18=
@@ -1515,37 +1515,37 @@ del service_cmd.txt
 del service_now.txt
 
 :18_ADD
-REM [ê¸°ì¤€] í™•ì‹¤í•œ ë¶ˆí•„ìš”ëŠ” ì·¨ì•½, ê·¸ì™¸ ì¸í„°ë·° (ì£¼ì„ì²˜ë¦¬ëœ ì„œë¹„ìŠ¤ëŠ” ì‚¬ìš©ì í¸ì˜ì„± ê³ ë ¤í•´ ì œì™¸)
+REM [±âÁØ] È®½ÇÇÑ ºÒÇÊ¿ä´Â Ãë¾à, ±×¿Ü ÀÎÅÍºä (ÁÖ¼®Ã³¸®µÈ ¼­ºñ½º´Â »ç¿ëÀÚ ÆíÀÇ¼º °í·ÁÇØ Á¦¿Ü)
 REM
-REM [ì£¼í†µê¸°ë°˜ í•­ëª©]
-REM Alerter : ê´€ë¦¬ìš© ê²½ê³ ë©”ì„¸ì§€ ì „ì†¡, PCëŠ” ì„œë²„ ì—­í• í•˜ì§€ ì•Šìœ¼ë¯€ë¡œ ë¶ˆí•„ìš”
-REM Clipbook : ë‹¤ë¥¸ PCì™€ ê³µìœ ê°€ëŠ¥í•œ í´ë¦½ë³´ë“œ(ì¼ë°˜ í´ë¦½ë³´ë“œì™€ ë³„ë„ ì„œë¹„ìŠ¤), ë³´ì•ˆìƒ ë¶ˆí•„ìš”
-REM Messenger : PCê°„ ê²½ê³ ë©”ì‹œì§€ ì „ë‹¬ì— ì‚¬ìš©(MSNê³¼ëŠ” ë¬´ê´€)í•˜ë¯€ë¡œ ë¶ˆí•„ìš”
-REM Simple TCP/IP Services : ìœˆë„ìš° ê¸°ë³¸ ì„¤ì¹˜ë˜ì§€ ì•ŠìŒ, ì˜¤ë˜ëœ UNIX ì„œë¹„ìŠ¤ë¡œ ë¶ˆí•„ìš”
+REM [ÁÖÅë±â¹İ Ç×¸ñ]
+REM Alerter : °ü¸®¿ë °æ°í¸Ş¼¼Áö Àü¼Û, PC´Â ¼­¹ö ¿ªÇÒÇÏÁö ¾ÊÀ¸¹Ç·Î ºÒÇÊ¿ä
+REM Clipbook : ´Ù¸¥ PC¿Í °øÀ¯°¡´ÉÇÑ Å¬¸³º¸µå(ÀÏ¹İ Å¬¸³º¸µå¿Í º°µµ ¼­ºñ½º), º¸¾È»ó ºÒÇÊ¿ä
+REM Messenger : PC°£ °æ°í¸Ş½ÃÁö Àü´Ş¿¡ »ç¿ë(MSN°ú´Â ¹«°ü)ÇÏ¹Ç·Î ºÒÇÊ¿ä
+REM Simple TCP/IP Services : À©µµ¿ì ±âº» ¼³Ä¡µÇÁö ¾ÊÀ½, ¿À·¡µÈ UNIX ¼­ºñ½º·Î ºÒÇÊ¿ä
 REM
-REM [ê·¸ì™¸ ì¶”ê°€ í•­ëª©]
-REM Automatic Updates : ìœˆë„ìš°ì¦ˆ ì‚¬ì´íŠ¸ì— ì ‘ì†í•´ ìë™ ë‹¤ìš´ ë° ì—…ë°ì´íŠ¸, PMSì‚¬ìš© ë˜ëŠ” ìˆ˜ë™ ì—…ë°ì´íŠ¸ì‹œ ë¶ˆí•„ìš”
-REM Computer Browser : ë„¤íŠ¸ì›Œí¬ PC ëª©ë¡ ì—…ë°ì´íŠ¸ ë° ê´€ë¦¬ ë˜ëŠ” íŒŒì¼ ê³µìœ  ì´ìš©ì‹œ í•„ìš”, ë…ë¦½ PCì—ëŠ” ë¶ˆí•„ìš”
-REM Cryptographic Services : ìœˆë„ìš° íŒŒì¼ ì„œëª… í™•ì¸ ì¹´íƒˆë¡œê·¸ DB ì„œë¹„ìŠ¤, ìœˆë„ìš° í”„ë¡œê·¸ë¨ ì„¤ì¹˜ì‹œ "ì¸ì¦ë˜ì§€ ì•Šì€ ë“œë¼ì´ë²„" ë©”ì„¸ì§€ë§Œ ëœ¸, ìˆ˜ë™ ì—…ë°ì´íŠ¸ ë˜ëŠ” MS ë² í¬ í”„ë¡œê·¸ë¨ ì„¤ì¹˜ì‹œ ì„œë¹„ìŠ¤ ì‚¬ìš©í•´ì•¼í•¨
-REM DHCP Client : ì¼€ì´ë¸” ëª¨ë€ì´ë‚˜ ADSL, VDSL ì„œë¹„ìŠ¤ ì‚¬ìš©ì‹œ í•„ìš”, ê·¸ì™¸ ê³ ì • IP ì‚¬ìš©ì‹œ ë¶ˆí•„ìš”
-REM Distributed Link Tracking Client : NTFS ê³µìœ  ë“œë¼ì´ë¸Œ ì‚¬ìš©ì‹œ íŒŒì¼ ì£¼ê³ ë°›ëŠ” ì„œë¹„ìŠ¤(íŒŒì¼ê³µìœ  ë“±), ë„¤íŠ¸ì›Œí¬ ë¯¸ì‚¬ìš© PCëŠ” ë¶ˆí•„ìš”
-REM DNS Client : IPSECì„ ì‚¬ìš©í•˜ëŠ” ê²½ìš°ë¥¼ ì œì™¸í•˜ê³  ì¼ë°˜ì ì¸ TCP/IPë¥¼ ì“°ëŠ” PCëŠ” ë¶ˆí•„ìš”
-REM Error reporting Service : ê°ì¢… ì—ëŸ¬ë¥¼ MSì— ë³´ê³ í•˜ëŠ” ì„œë¹„ìŠ¤ë¡œ ë¶ˆí•„ìš”
-REM Human Interface Device Access : ë³¼ë¥¨ì¡°ì ˆ ë“±ì˜ ê¸°ëŠ¥ì´ ì¶”ê°€ëœ í‚¤ë³´ë“œì˜ ë²„íŠ¼ ì œì–´ ë“±ì˜ ê¸°ëŠ¥ì œê³µ ì„œë¹„ìŠ¤
-REM IMAPI CD-Burning COM Service : XPëŠ” CDêµ½ê¸° ê¸°ë³¸ê°’, CDêµ½ê¸° í”„ë¡œê·¸ë¨ì„ ë³„ë„ë¡œ ì‚¬ìš© ë˜ëŠ” CDêµ½ê¸° ë¯¸ì‚¬ìš©ì‹œ ë¶ˆí•„ìš”
-REM NetMeeting Remote Desktop Sharing : ì·¨ì•½í•œ ì›ê²© ê´€ë¦¬ ë„êµ¬ ì„œë¹„ìŠ¤ë¡œ ë¶ˆí•„ìš”
-REM Portable Media Serial Number : PCì— ì—°ê²°ëœ ìŒì•½ì¬ìƒê¸° ë“±ë¡ì •ë³´ í™•ì¸ ì„œë¹„ìŠ¤ë¡œ ë¶ˆí•„ìš”
-REM Print spooler : í”„ë¦°í„° ë¯¸ì‚¬ìš©ì‹œ ë¶ˆí•„ìš”
-REM Remote Registry Service : ì·¨ì•½í•œ ì›ê²© ë ˆì§€ìŠ¤íŠ¸ë¦¬ ì„¤ì • ë³€ê²½ ì„œë¹„ìŠ¤ë¡œ ë¶ˆí•„ìš”
-REM Wireless Zero Configuration : ë¬´ì„  LAN ë¯¸ì‚¬ìš©ì‹œ ë¶ˆí•„ìš”
-REM bluetooth : bluetoothê´€ë ¨ ì„œë¹„ìŠ¤ë¡œ ë³´í†µ ë¶ˆí•„ìš”
+REM [±×¿Ü Ãß°¡ Ç×¸ñ]
+REM Automatic Updates : À©µµ¿ìÁî »çÀÌÆ®¿¡ Á¢¼ÓÇØ ÀÚµ¿ ´Ù¿î ¹× ¾÷µ¥ÀÌÆ®, PMS»ç¿ë ¶Ç´Â ¼öµ¿ ¾÷µ¥ÀÌÆ®½Ã ºÒÇÊ¿ä
+REM Computer Browser : ³×Æ®¿öÅ© PC ¸ñ·Ï ¾÷µ¥ÀÌÆ® ¹× °ü¸® ¶Ç´Â ÆÄÀÏ °øÀ¯ ÀÌ¿ë½Ã ÇÊ¿ä, µ¶¸³ PC¿¡´Â ºÒÇÊ¿ä
+REM Cryptographic Services : À©µµ¿ì ÆÄÀÏ ¼­¸í È®ÀÎ Ä«Å»·Î±× DB ¼­ºñ½º, À©µµ¿ì ÇÁ·Î±×·¥ ¼³Ä¡½Ã "ÀÎÁõµÇÁö ¾ÊÀº µå¶óÀÌ¹ö" ¸Ş¼¼Áö¸¸ ¶ä, ¼öµ¿ ¾÷µ¥ÀÌÆ® ¶Ç´Â MS º£Æ÷ ÇÁ·Î±×·¥ ¼³Ä¡½Ã ¼­ºñ½º »ç¿ëÇØ¾ßÇÔ
+REM DHCP Client : ÄÉÀÌºí ¸ğµ©ÀÌ³ª ADSL, VDSL ¼­ºñ½º »ç¿ë½Ã ÇÊ¿ä, ±×¿Ü °íÁ¤ IP »ç¿ë½Ã ºÒÇÊ¿ä
+REM Distributed Link Tracking Client : NTFS °øÀ¯ µå¶óÀÌºê »ç¿ë½Ã ÆÄÀÏ ÁÖ°í¹Ş´Â ¼­ºñ½º(ÆÄÀÏ°øÀ¯ µî), ³×Æ®¿öÅ© ¹Ì»ç¿ë PC´Â ºÒÇÊ¿ä
+REM DNS Client : IPSECÀ» »ç¿ëÇÏ´Â °æ¿ì¸¦ Á¦¿ÜÇÏ°í ÀÏ¹İÀûÀÎ TCP/IP¸¦ ¾²´Â PC´Â ºÒÇÊ¿ä
+REM Error reporting Service : °¢Á¾ ¿¡·¯¸¦ MS¿¡ º¸°íÇÏ´Â ¼­ºñ½º·Î ºÒÇÊ¿ä
+REM Human Interface Device Access : º¼·ıÁ¶Àı µîÀÇ ±â´ÉÀÌ Ãß°¡µÈ Å°º¸µåÀÇ ¹öÆ° Á¦¾î µîÀÇ ±â´ÉÁ¦°ø ¼­ºñ½º
+REM IMAPI CD-Burning COM Service : XP´Â CD±Á±â ±âº»°ª, CD±Á±â ÇÁ·Î±×·¥À» º°µµ·Î »ç¿ë ¶Ç´Â CD±Á±â ¹Ì»ç¿ë½Ã ºÒÇÊ¿ä
+REM NetMeeting Remote Desktop Sharing : Ãë¾àÇÑ ¿ø°İ °ü¸® µµ±¸ ¼­ºñ½º·Î ºÒÇÊ¿ä
+REM Portable Media Serial Number : PC¿¡ ¿¬°áµÈ À½¾àÀç»ı±â µî·ÏÁ¤º¸ È®ÀÎ ¼­ºñ½º·Î ºÒÇÊ¿ä
+REM Print spooler : ÇÁ¸°ÅÍ ¹Ì»ç¿ë½Ã ºÒÇÊ¿ä
+REM Remote Registry Service : Ãë¾àÇÑ ¿ø°İ ·¹Áö½ºÆ®¸® ¼³Á¤ º¯°æ ¼­ºñ½º·Î ºÒÇÊ¿ä
+REM Wireless Zero Configuration : ¹«¼± LAN ¹Ì»ç¿ë½Ã ºÒÇÊ¿ä
+REM bluetooth : bluetooth°ü·Ã ¼­ºñ½º·Î º¸Åë ºÒÇÊ¿ä
 
 REM ==================================================
 :19_START
-echo [19.W-19] ë¶ˆí•„ìš”í•œ IIS ì„œë¹„ìŠ¤ êµ¬ë™ ì ê²€ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [19.W-19] ºÒÇÊ¿äÇÑ IIS ¼­ºñ½º ±¸µ¿ Á¡°Ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :19_ROUTINE
-SET CMT_19=ì´ˆê¸°í™”&SET RESULT_19=ì¸í„°ë·°
+SET CMT_19=ÃÊ±âÈ­&SET RESULT_19=ÀÎÅÍºä
 SET NETSTAT=%CD%\netstat.inf
 
 SET IIS_FOUND=0
@@ -1557,33 +1557,33 @@ FOR /f "tokens=2 delims= " %%i IN (netstat.inf) DO (
 )
 
 IF !IIS_FOUND! EQU 0 (
-	REM IIS ì„œë¹„ìŠ¤ ì‹¤ì œ ìƒíƒœ í™•ì¸
+	REM IIS ¼­ºñ½º ½ÇÁ¦ »óÅÂ È®ÀÎ
 	sc query W3SVC 2>NUL | findstr "RUNNING" >NUL
 	IF NOT ERRORLEVEL 1 (
-		SET CMT_19=IIS ì„œë¹„ìŠ¤ê°€ í™œì„±í™”ë˜ì–´ ìˆê³  í¬íŠ¸ê°€ ì—´ë¦¼
-		SET RESULT_19=ì¸í„°ë·°
+		SET CMT_19=IIS ¼­ºñ½º°¡ È°¼ºÈ­µÇ¾î ÀÖ°í Æ÷Æ®°¡ ¿­¸²
+		SET RESULT_19=ÀÎÅÍºä
 	) ELSE (
-		SET CMT_19=IIS í¬íŠ¸ê°€ ì—´ë ¤ìˆìœ¼ë‚˜ ì„œë¹„ìŠ¤ëŠ” ë¹„í™œì„±í™” ë¨
-		SET RESULT_19=ì–‘í˜¸
+		SET CMT_19=IIS Æ÷Æ®°¡ ¿­·ÁÀÖÀ¸³ª ¼­ºñ½º´Â ºñÈ°¼ºÈ­ µÊ
+		SET RESULT_19=¾çÈ£
 	)
 ) ELSE (
-	SET CMT_19=IIS ì„œë¹„ìŠ¤ í¬íŠ¸ê°€ ë‹«í˜
-	SET RESULT_19=ì–‘í˜¸
+	SET CMT_19=IIS ¼­ºñ½º Æ÷Æ®°¡ ´İÈû
+	SET RESULT_19=¾çÈ£
 )
 
 
 :19_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : !RESULT_19! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë¶ˆí•„ìš”í•œ IIS ì›¹ì„œë¹„ìŠ¤ "ë¹„í™œì„±í™”" ë° "ì‚¬ìš© ì•ˆ í•¨", >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo        ë¶ˆí•„ìš”í•œ IIS ì›¹ì„œë¹„ìŠ¤ í¬íŠ¸ "ë‹«í˜" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : !CMT_19! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : !RESULT_19! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ºÒÇÊ¿äÇÑ IIS À¥¼­ºñ½º "ºñÈ°¼ºÈ­" ¹× "»ç¿ë ¾È ÇÔ", >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo        ºÒÇÊ¿äÇÑ IIS À¥¼­ºñ½º Æ÷Æ® "´İÈû" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : !CMT_19! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type services.inf ^| findstr /i /c:"World Wide Web Publishing" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê²°ê³¼ ì—†ìŒ ^= ì„œë¹„ìŠ¤ ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °á°ú ¾øÀ½ ^= ¼­ºñ½º ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type services.inf | findstr /i /c:"World Wide Web Publishing" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type netstat.inf >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê²°ê³¼ ì—†ìŒ ^= ì—´ë¦° í¬íŠ¸ ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °á°ú ¾øÀ½ ^= ¿­¸° Æ÷Æ® ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 FOR /f "tokens=1,2,* delims= " %%i IN ('type "%NETSTAT%"') DO (
 	echo %%j. | findstr /l ":80. :443." >NUL
 	IF NOT ERRORLEVEL 1 (
@@ -1594,50 +1594,50 @@ echo (CMD) appcmd list sites >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START
 IF EXIST %SystemRoot%\System32\inetsrv\appcmd.exe (
 	%SystemRoot%\System32\inetsrv\appcmd list sites >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) ELSE (
-	echo     appcmd.exe íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     appcmd.exe ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [19.W-19] IIS ì„œë¹„ìŠ¤ êµ¬ë™ ì ê²€ [!RESULT_19!]
+echo [19.W-19] IIS ¼­ºñ½º ±¸µ¿ Á¡°Ë [!RESULT_19!]
 :19_END
 SET CMT_19_1=
 SET RESULT_19=
 
 :19_ADD
-REM [í˜„í™©] IIS ì„œë¹„ìŠ¤ êµ¬ë™ ì ê²€
-REM IIS ê´€ë¦¬ ì„œë¹„ìŠ¤ í™œì„±í™” ì—¬ë¶€ì— ë”°ë¼ ì–‘í˜¸/ì·¨ì•½ íŒë‹¨
-REM IIS ì›¹ ì„œë¹„ìŠ¤ëŠ” ì–‘í˜¸/ì·¨ì•½ ì •ë„ë§Œ íŒŒì•… í›„ ë‹¤ìŒ í•­ëª©ë“¤ íŒë‹¨ì— ì‚¬ìš©
+REM [ÇöÈ²] IIS ¼­ºñ½º ±¸µ¿ Á¡°Ë
+REM IIS °ü¸® ¼­ºñ½º È°¼ºÈ­ ¿©ºÎ¿¡ µû¶ó ¾çÈ£/Ãë¾à ÆÇ´Ü
+REM IIS À¥ ¼­ºñ½º´Â ¾çÈ£/Ãë¾à Á¤µµ¸¸ ÆÄ¾Ç ÈÄ ´ÙÀ½ Ç×¸ñµé ÆÇ´Ü¿¡ »ç¿ë
 
 
 REM ==================================================
 :20_START
-echo [20.W-20] NetBIOS ë°”ì¸ë”© ì„œë¹„ìŠ¤ êµ¬ë™ ì ê²€ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [20.W-20] NetBIOS ¹ÙÀÎµù ¼­ºñ½º ±¸µ¿ Á¡°Ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :20_ROUTINE
-SET CMT_20=ì´ˆê¸°í™”&SET RESULT_20=ì¸í„°ë·°
-ipconfig /all 2>NUL | findstr /i "NetBIOS" | findstr /i /r "ì‚¬ìš©$ Enabled" >NUL
+SET CMT_20=ÃÊ±âÈ­&SET RESULT_20=ÀÎÅÍºä
+ipconfig /all 2>NUL | findstr /i "NetBIOS" | findstr /i /r "»ç¿ë$ Enabled" >NUL
 
 IF %ERRORLEVEL% EQU 0 (
-	SET CMT_20=NetBIOS ë°”ì¸ë”© ì„œë¹„ìŠ¤ê°€ "í™œì„±í™”"ì•ˆë¨&SET RESULT_20=ì·¨ì•½
+	SET CMT_20=NetBIOS ¹ÙÀÎµù ¼­ºñ½º°¡ "È°¼ºÈ­"¾ÈµÊ&SET RESULT_20=Ãë¾à
 ) ELSE (
-	SET CMT_20=NetBIOS ë°”ì¸ë”© ì„œë¹„ìŠ¤ê°€ "í™œì„±í™”"ë¨&SET RESULT_20=ì–‘í˜¸
+	SET CMT_20=NetBIOS ¹ÙÀÎµù ¼­ºñ½º°¡ "È°¼ºÈ­"µÊ&SET RESULT_20=¾çÈ£
 )
 
 :20_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_20% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : NetBIOS ë°”ì¸ë”© ì„œë¹„ìŠ¤ê°€ "í™œì„±í™”" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_20% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_20% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : NetBIOS ¹ÙÀÎµù ¼­ºñ½º°¡ "È°¼ºÈ­" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_20% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) ipconfig /all ^| findstr /i "NetBIOS" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* "DHCP", "ë„¤íŠ¸ì›Œí¬ íŒŒì¼ê³µìœ  ì„œë¹„ìŠ¤"ë¥¼ ì‚¬ìš©í•˜ëŠ” ê²½ìš° ì¸í„°ë·° í•„ìš” >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ì„¸ë¶€ IP ì •ë³´ëŠ” ê²°ê³¼íŒŒì¼ í•˜ë‹¨ì˜ "IP ì •ë³´" í™•ì¸ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-ipconfig /all | findstr /i "adapter ì–´ëŒ‘í„° netbios" | findstr /i /v "ì„¤ëª… Description" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* "DHCP", "³×Æ®¿öÅ© ÆÄÀÏ°øÀ¯ ¼­ºñ½º"¸¦ »ç¿ëÇÏ´Â °æ¿ì ÀÎÅÍºä ÇÊ¿ä >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* ¼¼ºÎ IP Á¤º¸´Â °á°úÆÄÀÏ ÇÏ´ÜÀÇ "IP Á¤º¸" È®ÀÎ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+ipconfig /all | findstr /i "adapter ¾î´ğÅÍ netbios" | findstr /i /v "¼³¸í Description" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [20.W-20] NetBIOS ë°”ì¸ë”© ì„œë¹„ìŠ¤ êµ¬ë™ ì ê²€ [%RESULT_20%]
+echo [20.W-20] NetBIOS ¹ÙÀÎµù ¼­ºñ½º ±¸µ¿ Á¡°Ë [%RESULT_20%]
 :20_END
 SET CMT_20=
 SET RESULT_20=
@@ -1646,36 +1646,36 @@ SET RESULT_20=
 
 REM ==================================================
 :21_START
-echo [21.W-21] ì•”í˜¸í™”ë˜ì§€ ì•ŠëŠ” FTP ì„œë¹„ìŠ¤ ë¹„í™œì„±í™” >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [21.W-21] ¾ÏÈ£È­µÇÁö ¾Ê´Â FTP ¼­ºñ½º ºñÈ°¼ºÈ­ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :21_ROUTINE
-SET CMT_21=ì´ˆê¸°í™”&SET RESULT_21=ì¸í„°ë·°
+SET CMT_21=ÃÊ±âÈ­&SET RESULT_21=ÀÎÅÍºä
 
 SET FTP_FOUND=0
 type netstat.inf | findstr ":20 :21" >NUL
 IF NOT ERRORLEVEL 1 (
 	SET FTP_FOUND=1
-	SET CMT_21=FTP ì„œë¹„ìŠ¤ í¬íŠ¸ê°€ "ì—´ë¦¼"
-	SET RESULT_21=ì·¨ì•½
+	SET CMT_21=FTP ¼­ºñ½º Æ÷Æ®°¡ "¿­¸²"
+	SET RESULT_21=Ãë¾à
 ) ELSE (
 	SET FTP_FOUND=0
-	SET CMT_21=FTP ì„œë¹„ìŠ¤ í¬íŠ¸ê°€ "ë‹«í˜"
-	SET RESULT_21=ì–‘í˜¸
+	SET CMT_21=FTP ¼­ºñ½º Æ÷Æ®°¡ "´İÈû"
+	SET RESULT_21=¾çÈ£
 )
 
 :21_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : !RESULT_21! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : FTP ì„œë¹„ìŠ¤ ë¹„í™œì„±í™” ë° SecureFTP ì‚¬ìš©, >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : !CMT_21! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : !RESULT_21! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : FTP ¼­ºñ½º ºñÈ°¼ºÈ­ ¹× SecureFTP »ç¿ë, >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : !CMT_21! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo type services.inf ^| findstr /i /c:"FTP Publishing Service" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê²°ê³¼ ì—†ìŒ ^= ì„œë¹„ìŠ¤ ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °á°ú ¾øÀ½ ^= ¼­ºñ½º ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo type services.inf ^| findstr /i /c:"Microsoft FTP Service" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê²°ê³¼ ì—†ìŒ ^= ì„œë¹„ìŠ¤ ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °á°ú ¾øÀ½ ^= ¼­ºñ½º ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type services.inf | findstr /i "FTP" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type netstat.inf >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê²°ê³¼ ì—†ìŒ ^= ì—´ë¦° í¬íŠ¸ ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °á°ú ¾øÀ½ ^= ¿­¸° Æ÷Æ® ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 FOR /f "tokens=1,2,* delims= " %%i IN ('type "%NETSTAT%"') DO (
 	echo %%j. | findstr /l ":20. :21." >NUL
 	IF NOT ERRORLEVEL 1 (
@@ -1685,7 +1685,7 @@ FOR /f "tokens=1,2,* delims= " %%i IN ('type "%NETSTAT%"') DO (
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [21.W-21] ì•”í˜¸í™”ë˜ì§€ ì•ŠëŠ” FTP ì„œë¹„ìŠ¤ ë¹„í™œì„±í™” [!RESULT_21!]
+echo [21.W-21] ¾ÏÈ£È­µÇÁö ¾Ê´Â FTP ¼­ºñ½º ºñÈ°¼ºÈ­ [!RESULT_21!]
 :21_END
 SET CMT_21_1=
 SET RESULT_21=
@@ -1694,11 +1694,11 @@ SET RESULT_21=
 
 
 :22_START
-echo [22.W-22] FTP ë””ë ‰í† ë¦¬ ì ‘ê·¼ê¶Œí•œ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [22.W-22] FTP µğ·ºÅä¸® Á¢±Ù±ÇÇÑ ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :22_ROUTINE
 REM 2008
-SET CMT_22=ì´ˆê¸°í™”&SET RESULT_22=ì–‘í˜¸
+SET CMT_22=ÃÊ±âÈ­&SET RESULT_22=¾çÈ£
 
 IF !FTP_FOUND! EQU 1 (
 	reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\InetStp" /v "VersionString" 2>NUL | findstr /i "VersionString" | findstr "5. 6.0" >NUL
@@ -1708,48 +1708,48 @@ IF !FTP_FOUND! EQU 1 (
 				FOR /f %%a IN ('%SystemRoot%\System32\inetsrv\appcmd list vdirs /app.name:%%i/ /text:physicalPath') DO (
 					cacls %%a | findstr /i "Everyone" >NUL
 					IF NOT ERRORLEVEL 1 (
-						SET CMT_22=FTP í™ˆ ë””ë ‰í„°ë¦¬ì— ë¶ˆí•„ìš”í•œ ê¶Œí•œì´ "ì¡´ì¬"í•¨ ^(Everyone^)&SET RESULT_22=ì·¨ì•½
+						SET CMT_22=FTP È¨ µğ·ºÅÍ¸®¿¡ ºÒÇÊ¿äÇÑ ±ÇÇÑÀÌ "Á¸Àç"ÇÔ ^(Everyone^)&SET RESULT_22=Ãë¾à
 					) ELSE (
-						SET CMT_22=FTP í™ˆ ë””ë ‰í„°ë¦¬ì— ë¶ˆí•„ìš”í•œ ê¶Œí•œì´ "ì¡´ì¬í•˜ì§€ ì•ŠìŒ" ^(Everyone ì™¸ ìˆ˜ë™ ì§„ë‹¨^)&SET RESULT_22=ì–‘í˜¸
+						SET CMT_22=FTP È¨ µğ·ºÅÍ¸®¿¡ ºÒÇÊ¿äÇÑ ±ÇÇÑÀÌ "Á¸ÀçÇÏÁö ¾ÊÀ½" ^(Everyone ¿Ü ¼öµ¿ Áø´Ü^)&SET RESULT_22=¾çÈ£
 					)
 				)
 			) 
 		) ELSE (
-			SET CMT_22=FTP í™ˆ ë””ë ‰í„°ë¦¬ ì¡´ì¬í•˜ì§€ ì•ŠìŒ&SET RESULT_22=ì–‘í˜¸
+			SET CMT_22=FTP È¨ µğ·ºÅÍ¸® Á¸ÀçÇÏÁö ¾ÊÀ½&SET RESULT_22=¾çÈ£
 		)
 	) ELSE (
 		FOR /f "tokens=2 delims==" %%i IN ('type C:\WINDOWS\system32\inetsrv\MetaBase.xml 2^>NUL ^| findstr /i "\<Path= ServerBindings" ^| findstr /i "path"') DO (
 			cacls %%i | findstr /i "Everyone" >NUL
 			IF NOT ERRORLEVEL 1 (
-				SET CMT_22=FTP í™ˆ ë””ë ‰í„°ë¦¬ì— ë¶ˆí•„ìš”í•œ ê¶Œí•œì´ "ì¡´ì¬"í•¨ ^(Everyone^)&SET RESULT_22=ì·¨ì•½
+				SET CMT_22=FTP È¨ µğ·ºÅÍ¸®¿¡ ºÒÇÊ¿äÇÑ ±ÇÇÑÀÌ "Á¸Àç"ÇÔ ^(Everyone^)&SET RESULT_22=Ãë¾à
 			) ELSE (
-				SET CMT_22=FTP í™ˆ ë””ë ‰í„°ë¦¬ì— ë¶ˆí•„ìš”í•œ ê¶Œí•œì´ "ì¡´ì¬í•˜ì§€ ì•ŠìŒ" ^(Everyone ì™¸ ìˆ˜ë™ ì§„ë‹¨^)&SET RESULT_22=ì–‘í˜¸
+				SET CMT_22=FTP È¨ µğ·ºÅÍ¸®¿¡ ºÒÇÊ¿äÇÑ ±ÇÇÑÀÌ "Á¸ÀçÇÏÁö ¾ÊÀ½" ^(Everyone ¿Ü ¼öµ¿ Áø´Ü^)&SET RESULT_22=¾çÈ£
 			)
 		)
 	) 
 ) ELSE (
-	SET CMT_22=FTP ì„œë¹„ìŠ¤ í¬íŠ¸ê°€ "ë‹«í˜"
-	SET RESULT_22=ì–‘í˜¸
+	SET CMT_22=FTP ¼­ºñ½º Æ÷Æ®°¡ "´İÈû"
+	SET RESULT_22=¾çÈ£
 )
 
 
 :22_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : !RESULT_22! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : FTP í™ˆ ë””ë ‰í„°ë¦¬ì— ë¶ˆí•„ìš”í•œ ê¶Œí•œ "ì¡´ì¬í•˜ì§€ ì•ŠìŒ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : !CMT_22! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : !RESULT_22! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : FTP È¨ µğ·ºÅÍ¸®¿¡ ºÒÇÊ¿äÇÑ ±ÇÇÑ "Á¸ÀçÇÏÁö ¾ÊÀ½" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : !CMT_22! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo (CMD) type "IIS ì„¤ì •íŒŒì¼" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo (CMD) type "IIS ¼³Á¤ÆÄÀÏ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 IF EXIST C:\WINDOWS\system32\inetsrv\MetaBase.xml (
 	FOR /f "tokens=2 delims==" %%i IN ('type C:\WINDOWS\system32\inetsrv\MetaBase.xml 2^>NUL ^| findstr /i "\<Path= ServerBindings" ^| findstr /i "path"') DO (
 		cacls %%i >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	)
 ) ELSE (
-	echo     MetaBase.xml íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     MetaBase.xml ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 
-echo (CMD) cacls "FTP í™ˆ ë””ë ‰í„°ë¦¬" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo (CMD) cacls "FTP È¨ µğ·ºÅÍ¸®" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF EXIST %SystemRoot%\System32\inetsrv\appcmd.exe (
 	FOR /f "tokens=2 delims= " %%i IN ('%SystemRoot%\System32\inetsrv\appcmd list sites ^| findstr /i ":21"') DO (
 		%SystemRoot%\System32\inetsrv\appcmd list sites | findstr /i ":21" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
@@ -1758,13 +1758,13 @@ IF EXIST %SystemRoot%\System32\inetsrv\appcmd.exe (
 		)
 	)
 ) ELSE (
-	echo     appcmd.exe íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     appcmd.exe ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [22.W-22] FTP ë””ë ‰í† ë¦¬ ì ‘ê·¼ê¶Œí•œ ì„¤ì • [!RESULT_22!]
+echo [22.W-22] FTP µğ·ºÅä¸® Á¢±Ù±ÇÇÑ ¼³Á¤ [!RESULT_22!]
 :22_END
 SET CMT_22=
 SET RESULT_22=
@@ -1773,181 +1773,181 @@ SET RESULT_22=
 
 REM ==================================================
 :23_START
-echo [23.W-23] ê³µìœ  ì„œë¹„ìŠ¤ì— ëŒ€í•œ ìµëª… ì ‘ê·¼ ì œí•œ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [23.W-23] °øÀ¯ ¼­ºñ½º¿¡ ´ëÇÑ ÀÍ¸í Á¢±Ù Á¦ÇÑ ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :23_ROUTINE
-SET CMT_23=ì´ˆê¸°í™”&SET RESULT_23=ì¸í„°ë·°
+SET CMT_23=ÃÊ±âÈ­&SET RESULT_23=ÀÎÅÍºä
 
 IF !FTP_FOUND! EQU 1 (
     type %systemroot%\system32\inetsrv\config\applicationHost.config | findstr /i "anonymousAuthentication" | findstr /i "enabled" | findstr /i "true" >nul
 	IF ERRORLEVEL 0 (
-		SET CMT_23=ìµëª… ì¸ì¦ ì‚¬ìš© ì„¤ì •
-		SET RESULT_23=ì·¨ì•½
+		SET CMT_23=ÀÍ¸í ÀÎÁõ »ç¿ë ¼³Á¤
+		SET RESULT_23=Ãë¾à
 	) ELSE (
-		SET CMT_23=ìµëª… ì¸ì¦ ì‚¬ìš© ì•ˆí•¨
-		SET RESULT_23=ì–‘í˜¸
+		SET CMT_23=ÀÍ¸í ÀÎÁõ »ç¿ë ¾ÈÇÔ
+		SET RESULT_23=¾çÈ£
 	)
 ) ELSE (   
-	SET CMT_23=FTP ì„œë¹„ìŠ¤ í¬íŠ¸ ë‹«í˜€ìˆìŒ
-    SET RESULT_23=ì–‘í˜¸
+	SET CMT_23=FTP ¼­ºñ½º Æ÷Æ® ´İÇôÀÖÀ½
+    SET RESULT_23=¾çÈ£
 )
 
 :23_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_23% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : anonymousAuthentication enabled="false" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_23% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_23% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : anonymousAuthentication enabled="false" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_23% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type %systemroot%\system32\inetsrv\config\applicationHost.config ^| findstr /i "anonymousAuthentication" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF EXIST %systemroot%\system32\inetsrv\config\applicationHost.config (
     type %systemroot%\system32\inetsrv\config\applicationHost.config | findstr /N "ftpServer anonymous authentication" | findstr /v "sec system" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) ELSE (
-    echo applicationHost.config ì„¤ì •íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+    echo applicationHost.config ¼³Á¤ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [23.W-23] Anonymous FTP ê¸ˆì§€ [%RESULT_23%]
+echo [23.W-23] Anonymous FTP ±İÁö [%RESULT_23%]
 :23_END
 SET CMT_23=
 SET RESULT_23=
 SET FTP_IP=
 
 :23_ADD
-REM [ê¸°ì¤€] anonymous ì¸ì¦ ì·¨ì•½ ê¸°ì¤€ -> í•´ë‹¹ ë°©ì‹ì´ ì ìš©ë˜ì§€ ì•ŠëŠ” ì¼ë¶€ OS ë•Œë¬¸ì— ì§ì ‘ ì ‘ì†í•˜ëŠ” ë°©ì‹ìœ¼ë¡œ ë³€ê²½
-REM IIS 6.0 ì´í•˜: AllowAnonymous=True ì—¬ë¶€ í™•ì¸ (metabase.xml) - WINDOWS 2008 ì´í•˜
-REM IIS 7.0 ì´ìƒ: anonymousAuthentication enabled="true" ì—¬ë¶€ í™•ì¸ (applicationHost.config)
+REM [±âÁØ] anonymous ÀÎÁõ Ãë¾à ±âÁØ -> ÇØ´ç ¹æ½ÄÀÌ Àû¿ëµÇÁö ¾Ê´Â ÀÏºÎ OS ¶§¹®¿¡ Á÷Á¢ Á¢¼ÓÇÏ´Â ¹æ½ÄÀ¸·Î º¯°æ
+REM IIS 6.0 ÀÌÇÏ: AllowAnonymous=True ¿©ºÎ È®ÀÎ (metabase.xml) - WINDOWS 2008 ÀÌÇÏ
+REM IIS 7.0 ÀÌ»ó: anonymousAuthentication enabled="true" ¿©ºÎ È®ÀÎ (applicationHost.config)
 
 REM ==================================================
 REM ==================================================
 :24_START
-echo [24.W-24] FTP ì ‘ê·¼ ì œì–´ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [24.W-24] FTP Á¢±Ù Á¦¾î ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :24_ROUTINE
-SET CMT_24=ì´ˆê¸°í™”&SET RESULT_24=ì¸í„°ë·°
+SET CMT_24=ÃÊ±âÈ­&SET RESULT_24=ÀÎÅÍºä
 
 IF !FTP_FOUND! EQU 1 (
-	REM IIS ë²„ì „ í™•ì¸ (6.0 ì´í•˜: MetaBase.xml, 7.0 ì´ìƒ: appcmd)
+	REM IIS ¹öÀü È®ÀÎ (6.0 ÀÌÇÏ: MetaBase.xml, 7.0 ÀÌ»ó: appcmd)
 	reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\InetStp" /v "VersionString" 2>NUL | findstr /i "VersionString" | findstr "5\. 6\." >NUL
 	IF NOT ERRORLEVEL 1 (
-		REM ===== IIS 6.0 ì´í•˜ (Windows Server 2003 ì´í•˜) - MetaBase.xml ì‚¬ìš© =====
+		REM ===== IIS 6.0 ÀÌÇÏ (Windows Server 2003 ÀÌÇÏ) - MetaBase.xml »ç¿ë =====
 		IF EXIST %systemroot%\system32\inetsrv\MetaBase.xml (
 			type %systemroot%\system32\inetsrv\MetaBase.xml 2>NUL | find /i "IPSecurity" | findstr /r [0-9] >NUL
 			IF ERRORLEVEL 1 (
-				REM IPSecurity ì„¤ì •ì´ ì—†ëŠ” ê²½ìš° = ALL ALLOW
-				SET CMT_24="ALL ALLOW" ì ‘ê·¼ì œì–´ ì„¤ì • ì ìš©ë¨&SET RESULT_24=ì·¨ì•½
+				REM IPSecurity ¼³Á¤ÀÌ ¾ø´Â °æ¿ì = ALL ALLOW
+				SET CMT_24="ALL ALLOW" Á¢±ÙÁ¦¾î ¼³Á¤ Àû¿ëµÊ&SET RESULT_24=Ãë¾à
 			) ELSE (
-				REM IPSecurity ì„¤ì •ì´ ìˆëŠ” ê²½ìš°
+				REM IPSecurity ¼³Á¤ÀÌ ÀÖ´Â °æ¿ì
 				type %systemroot%\system32\inetsrv\MetaBase.xml 2>NUL | find /i "IPSecurity" > ftp_ipsec.tmp
 				
-				REM 18000080200000803c íŒ¨í„´ í™•ì¸ (ì ‘ê·¼ ì œì–´ ì„¤ì • ì¡´ì¬)
+				REM 18000080200000803c ÆĞÅÏ È®ÀÎ (Á¢±Ù Á¦¾î ¼³Á¤ Á¸Àç)
 				type ftp_ipsec.tmp | findstr "18000080200000803c" >NUL
 				IF ERRORLEVEL 1 (
-					REM ì ‘ê·¼ ì œì–´ ì„¤ì •ì´ ì—†ê±°ë‚˜ ë‹¤ë¥¸ í˜•ì‹
-					SET CMT_24="ALL ALLOW" ì ‘ê·¼ì œì–´ ì„¤ì • ì ìš©ë¨^(ì¼ë¶€ IP ì ‘ê·¼ ë¶ˆê°€^)&SET RESULT_24=ì·¨ì•½
+					REM Á¢±Ù Á¦¾î ¼³Á¤ÀÌ ¾ø°Å³ª ´Ù¸¥ Çü½Ä
+					SET CMT_24="ALL ALLOW" Á¢±ÙÁ¦¾î ¼³Á¤ Àû¿ëµÊ^(ÀÏºÎ IP Á¢±Ù ºÒ°¡^)&SET RESULT_24=Ãë¾à
 				) ELSE (
-					REM ffffffff00000000 íŒ¨í„´ í™•ì¸ (ëª¨ë“  IP ì°¨ë‹¨)
+					REM ffffffff00000000 ÆĞÅÏ È®ÀÎ (¸ğµç IP Â÷´Ü)
 					type ftp_ipsec.tmp | findstr "ffffffff00000000" >NUL
 					IF NOT ERRORLEVEL 1 (
-						SET CMT_24="ALL DENY" ì ‘ê·¼ì œì–´ ì„¤ì • ì ìš©ë¨^(ëª¨ë“  IP ì ‘ê·¼ ë¶ˆê°€^)&SET RESULT_24=ì¸í„°ë·°
+						SET CMT_24="ALL DENY" Á¢±ÙÁ¦¾î ¼³Á¤ Àû¿ëµÊ^(¸ğµç IP Á¢±Ù ºÒ°¡^)&SET RESULT_24=ÀÎÅÍºä
 					) ELSE (
-						REM íŠ¹ì • IPë§Œ í—ˆìš© (í™”ì´íŠ¸ë¦¬ìŠ¤íŠ¸)
-						SET CMT_24="íŠ¹ì • IP ì£¼ì†Œì—ì„œë§Œ^(ALL DENY^)" ì ‘ê·¼ì œì–´ ì„¤ì • ì ìš©ë¨&SET RESULT_24=ì–‘í˜¸
+						REM Æ¯Á¤ IP¸¸ Çã¿ë (È­ÀÌÆ®¸®½ºÆ®)
+						SET CMT_24="Æ¯Á¤ IP ÁÖ¼Ò¿¡¼­¸¸^(ALL DENY^)" Á¢±ÙÁ¦¾î ¼³Á¤ Àû¿ëµÊ&SET RESULT_24=¾çÈ£
 					)
 				)
 				del ftp_ipsec.tmp 2>NUL
 			)
 		) ELSE (
-			SET CMT_24=MetaBase.xml íŒŒì¼ì´ "ì¡´ì¬í•˜ì§€ ì•ŠìŒ"&SET RESULT_24=ì–‘í˜¸
+			SET CMT_24=MetaBase.xml ÆÄÀÏÀÌ "Á¸ÀçÇÏÁö ¾ÊÀ½"&SET RESULT_24=¾çÈ£
 		)
 	) ELSE (
-		REM ===== IIS 7.0 ì´ìƒ (Windows Server 2008 ì´ìƒ) - appcmd ì‚¬ìš© =====
+		REM ===== IIS 7.0 ÀÌ»ó (Windows Server 2008 ÀÌ»ó) - appcmd »ç¿ë =====
 		IF EXIST %SystemRoot%\System32\inetsrv\appcmd.exe (
-			REM FTP ì‚¬ì´íŠ¸ê°€ ìˆëŠ”ì§€ í™•ì¸ (í¬íŠ¸ 21 ì‚¬ìš©)
+			REM FTP »çÀÌÆ®°¡ ÀÖ´ÂÁö È®ÀÎ (Æ÷Æ® 21 »ç¿ë)
 			%SystemRoot%\System32\inetsrv\appcmd list sites 2>NUL | findstr /i ":21" >NUL
 			IF ERRORLEVEL 1 (
-				REM FTP ì‚¬ì´íŠ¸ ì—†ìŒ
-				SET CMT_24=FTP ì„œë¹„ìŠ¤ê°€ "ì¡´ì¬í•˜ì§€ ì•ŠìŒ"&SET RESULT_24=ì–‘í˜¸
+				REM FTP »çÀÌÆ® ¾øÀ½
+				SET CMT_24=FTP ¼­ºñ½º°¡ "Á¸ÀçÇÏÁö ¾ÊÀ½"&SET RESULT_24=¾çÈ£
 			) ELSE (
-				REM FTP ì‚¬ì´íŠ¸ê°€ ì¡´ì¬í•˜ëŠ” ê²½ìš°
+				REM FTP »çÀÌÆ®°¡ Á¸ÀçÇÏ´Â °æ¿ì
 				SET FTP_FOUND=0
 				FOR /f "tokens=2 delims= " %%i IN ('%SystemRoot%\System32\inetsrv\appcmd list sites 2^>NUL ^| findstr /i ":21"') DO (
 					SET FTP_FOUND=1
-					REM allowUnlisted="false" í™•ì¸ (íŠ¹ì • IPë§Œ í—ˆìš©)
+					REM allowUnlisted="false" È®ÀÎ (Æ¯Á¤ IP¸¸ Çã¿ë)
 					%SystemRoot%\System32\inetsrv\appcmd list config %%i /section:system.ftpServer/security/ipsecurity 2>NUL | findstr /i "allowUnlisted" | findstr /i "false" >NUL
 					IF NOT ERRORLEVEL 1 (
-						SET CMT_24=ì§€ì •ë˜ì§€ ì•Šì€ í´ë¼ì´ì–¸íŠ¸ì— ëŒ€í•´ì„œ ì—‘ì„¸ìŠ¤ ê±°ë¶€ ì„¤ì • ì ìš©&SET RESULT_24=ì–‘í˜¸
+						SET CMT_24=ÁöÁ¤µÇÁö ¾ÊÀº Å¬¶óÀÌ¾ğÆ®¿¡ ´ëÇØ¼­ ¿¢¼¼½º °ÅºÎ ¼³Á¤ Àû¿ë&SET RESULT_24=¾çÈ£
 					) ELSE (
-						REM allowUnlisted="true" ë˜ëŠ” ì„¤ì • ì—†ìŒ = ALL ALLOW
-						SET CMT_24=ì§€ì •ë˜ì§€ ì•Šì€ í´ë¼ì´ì–¸íŠ¸ì— ëŒ€í•´ì„œ ì—‘ì„¸ìŠ¤ í—ˆìš© ì„¤ì • ì ìš©&SET RESULT_24=ì·¨ì•½
+						REM allowUnlisted="true" ¶Ç´Â ¼³Á¤ ¾øÀ½ = ALL ALLOW
+						SET CMT_24=ÁöÁ¤µÇÁö ¾ÊÀº Å¬¶óÀÌ¾ğÆ®¿¡ ´ëÇØ¼­ ¿¢¼¼½º Çã¿ë ¼³Á¤ Àû¿ë&SET RESULT_24=Ãë¾à
 					)
 				)
 				IF !FTP_FOUND! EQU 0 (
-					SET CMT_24=FTP ì„œë¹„ìŠ¤ê°€ "ì¡´ì¬í•˜ì§€ ì•ŠìŒ"&SET RESULT_24=ì–‘í˜¸
+					SET CMT_24=FTP ¼­ºñ½º°¡ "Á¸ÀçÇÏÁö ¾ÊÀ½"&SET RESULT_24=¾çÈ£
 				)
 			)
 		) ELSE (
-			REM appcmd.exeê°€ ì—†ëŠ” ê²½ìš° (IIS ë¯¸ì„¤ì¹˜)
-			SET CMT_24=IISê°€ ì„¤ì¹˜ë˜ì§€ ì•ŠìŒ&SET RESULT_24=ì–‘í˜¸
+			REM appcmd.exe°¡ ¾ø´Â °æ¿ì (IIS ¹Ì¼³Ä¡)
+			SET CMT_24=IIS°¡ ¼³Ä¡µÇÁö ¾ÊÀ½&SET RESULT_24=¾çÈ£
 		)
 	)
 ) ELSE (
-	SET CMT_24=FTP ì„œë¹„ìŠ¤ í¬íŠ¸ê°€ "ë‹«í˜"
-	SET RESULT_24=ì–‘í˜¸
+	SET CMT_24=FTP ¼­ºñ½º Æ÷Æ®°¡ "´İÈû"
+	SET RESULT_24=¾çÈ£
 )
 
 
 
 :24_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_24% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : "íŠ¹ì • IP ì£¼ì†Œì—ì„œë§Œ" FTP ì„œë²„ì— ì ‘ì†í•˜ë„ë¡ ì ‘ê·¼ì œì–´ ì„¤ì • ì ìš© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_24% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_24% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : "Æ¯Á¤ IP ÁÖ¼Ò¿¡¼­¸¸" FTP ¼­¹ö¿¡ Á¢¼ÓÇÏµµ·Ï Á¢±ÙÁ¦¾î ¼³Á¤ Àû¿ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_24% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
-REM IIS ë²„ì „ì— ë”°ë¥¸ ì„¤ì • ì •ë³´ ì¶œë ¥
+REM IIS ¹öÀü¿¡ µû¸¥ ¼³Á¤ Á¤º¸ Ãâ·Â
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\InetStp" /v "VersionString" 2>NUL | findstr /i "VersionString" | findstr "5\. 6\." >NUL
 IF NOT ERRORLEVEL 1 (
 	echo ^(CMD^) type %systemroot%^\system32^\inetsrv^\MetaBase.xml ^| find /i "IPSecurity" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-	echo ^*^*^*^*^* IIS 6.0 ì´í•˜ ì„¤ì • ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-	echo ^*^* IPSecurity="" : ALL ALLOW (ì·¨ì•½) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-	echo ^*^* ffffffff00000000 í¬í•¨ : ALL DENY (ì¸í„°ë·°) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-	echo ^*^* íŠ¹ì • IP í¬í•¨ : íŠ¹ì • IPë§Œ í—ˆìš© (ì–‘í˜¸) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo ^*^*^*^*^* IIS 6.0 ÀÌÇÏ ¼³Á¤ ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo ^*^* IPSecurity="" : ALL ALLOW (Ãë¾à) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo ^*^* ffffffff00000000 Æ÷ÇÔ : ALL DENY (ÀÎÅÍºä) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo ^*^* Æ¯Á¤ IP Æ÷ÇÔ : Æ¯Á¤ IP¸¸ Çã¿ë (¾çÈ£) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	echo ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	IF EXIST %systemroot%\system32\inetsrv\MetaBase.xml (
 		type %systemroot%\system32\inetsrv\MetaBase.xml 2>NUL | find /i "IPSecurity" | findstr /v "^$" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 		IF ERRORLEVEL 1 (
-			echo     IPSecurity ì„¤ì • ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+			echo     IPSecurity ¼³Á¤ ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 		)
 	) ELSE (
-		echo     MetaBase.xml íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+		echo     MetaBase.xml ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	)
 ) ELSE (
-	echo ^(CMD^) appcmd list config "FTPì‚¬ì´íŠ¸" /section:system.ftpServer/security/ipsecurity >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-	echo ^*^*^*^*^* IIS 7.0 ì´ìƒ ì„¤ì • ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-	echo ^*^* allowUnlisted="false" : ì§€ì •ë˜ì§€ ì•Šì€ í´ë¼ì´ì–¸íŠ¸ ì—‘ì„¸ìŠ¤ ê±°ë¶€ (ì–‘í˜¸) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-	echo ^*^* allowed="true" : íŠ¹ì • IP í—ˆìš© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt	
+	echo ^(CMD^) appcmd list config "FTP»çÀÌÆ®" /section:system.ftpServer/security/ipsecurity >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo ^*^*^*^*^* IIS 7.0 ÀÌ»ó ¼³Á¤ ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo ^*^* allowUnlisted="false" : ÁöÁ¤µÇÁö ¾ÊÀº Å¬¶óÀÌ¾ğÆ® ¿¢¼¼½º °ÅºÎ (¾çÈ£) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo ^*^* allowed="true" : Æ¯Á¤ IP Çã¿ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt	
 	echo ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	IF EXIST %SystemRoot%\System32\inetsrv\appcmd.exe (
 		%SystemRoot%\System32\inetsrv\appcmd list sites 2>NUL | findstr /i ":21" >NUL
 		IF NOT ERRORLEVEL 1 (
 			FOR /f "tokens=2 delims= " %%i IN ('%SystemRoot%\System32\inetsrv\appcmd list sites 2^>NUL ^| findstr /i ":21"') DO (
-				echo - FTP ì‚¬ì´íŠ¸: %%i - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+				echo - FTP »çÀÌÆ®: %%i - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 				%SystemRoot%\System32\inetsrv\appcmd list config %%i /section:system.ftpServer/security/ipsecurity 2>NUL >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 			)
 		) ELSE (
-			echo     FTP ì‚¬ì´íŠ¸ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+			echo     FTP »çÀÌÆ®°¡ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 		)
 	) ELSE (
-		echo     appcmd.exe íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+		echo     appcmd.exe ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	)
 )
 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [24.W-24] FTP ì ‘ê·¼ ì œì–´ ì„¤ì • [%RESULT_24%]
+echo [24.W-24] FTP Á¢±Ù Á¦¾î ¼³Á¤ [%RESULT_24%]
 
 :24_END
 SET CMT_24=
@@ -1955,29 +1955,29 @@ SET RESULT_24=
 SET FTP_FOUND=
 
 :24_ADD
-REM [ê¸°ì¤€] FTP ì ‘ê·¼ ì œì–´ ì„¤ì •
+REM [±âÁØ] FTP Á¢±Ù Á¦¾î ¼³Á¤
 REM 
-REM [IIS 6.0 ì´í•˜ - MetaBase.xml]
-REM - ALL ALLOW (IP ë¯¸í¬í•¨) : IPSecurity="" (ì·¨ì•½)
-REM - ALL ALLOW (IP í¬í•¨) : IPSecurity="18000080340000803c..." (ì·¨ì•½)
-REM - ALL DENY (IP ë¯¸í¬í•¨) : IPSecurity="18000080200000803c...ffffffff00000000" (ì¸í„°ë·°)
-REM - ALL DENY (IP í¬í•¨) : IPSecurity="18000080200000803c...ffffffffc0a8ab01c0a8ab02" (ì–‘í˜¸)
+REM [IIS 6.0 ÀÌÇÏ - MetaBase.xml]
+REM - ALL ALLOW (IP ¹ÌÆ÷ÇÔ) : IPSecurity="" (Ãë¾à)
+REM - ALL ALLOW (IP Æ÷ÇÔ) : IPSecurity="18000080340000803c..." (Ãë¾à)
+REM - ALL DENY (IP ¹ÌÆ÷ÇÔ) : IPSecurity="18000080200000803c...ffffffff00000000" (ÀÎÅÍºä)
+REM - ALL DENY (IP Æ÷ÇÔ) : IPSecurity="18000080200000803c...ffffffffc0a8ab01c0a8ab02" (¾çÈ£)
 REM   * ffffffff(netmask) c0a8ab01(Long IP) c0a8ab02(Long IP)
 REM   * 4294967295, 3232279297, 3232279298
 REM   * 255.255.255.255, 192.168.171.1, 192.168.171.2
 REM
-REM [IIS 7.0 ì´ìƒ - appcmd]
-REM - allowUnlisted="true" ë˜ëŠ” ì„¤ì • ì—†ìŒ : ALL ALLOW (ì·¨ì•½)
-REM - allowUnlisted="false" + IP ëª©ë¡ : íŠ¹ì • IPë§Œ í—ˆìš© (ì–‘í˜¸)
+REM [IIS 7.0 ÀÌ»ó - appcmd]
+REM - allowUnlisted="true" ¶Ç´Â ¼³Á¤ ¾øÀ½ : ALL ALLOW (Ãë¾à)
+REM - allowUnlisted="false" + IP ¸ñ·Ï : Æ¯Á¤ IP¸¸ Çã¿ë (¾çÈ£)
 
 REM ==================================================
 
 :25_START
-echo [25.W-25] DNS Zone Transfer ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [25.W-25] DNS Zone Transfer ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
-rem ë ˆì§€ìŠ¤íŠ¸ë¦¬ê°€ ìˆì–´ë„ ê°’(value not set)ì´ ì—†ì„ìˆ˜ë„ ìˆìŒ
+rem ·¹Áö½ºÆ®¸®°¡ ÀÖ¾îµµ °ª(value not set)ÀÌ ¾øÀ»¼öµµ ÀÖÀ½
 :25_ROUTINE
-SET CMT_25=ì´ˆê¸°í™”&SET RESULT_25=ì¸í„°ë·°
+SET CMT_25=ÃÊ±âÈ­&SET RESULT_25=ÀÎÅÍºä
 
 SET DNS_FOUND=0
 
@@ -1991,84 +1991,84 @@ IF NOT ERRORLEVEL 1 (
 )
 
 IF !DNS_FOUND! EQU 1 (
-    SET CMT_25=DNS ì„œë¹„ìŠ¤ í¬íŠ¸ LISTENING
-    SET RESULT_25=ì¸í„°ë·°
+    SET CMT_25=DNS ¼­ºñ½º Æ÷Æ® LISTENING
+    SET RESULT_25=ÀÎÅÍºä
 ) ELSE (
-    SET CMT_25=DNS ì„œë¹„ìŠ¤ í¬íŠ¸ ë‹«í˜€ìˆìŒ
-    SET RESULT_25=ì–‘í˜¸
+    SET CMT_25=DNS ¼­ºñ½º Æ÷Æ® ´İÇôÀÖÀ½
+    SET RESULT_25=¾çÈ£
 )
 
 
 :25_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : !RESULT_25! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : Zone Transfer "ì œí•œ" ë˜ëŠ” í—ˆìš© ì‹œ íŠ¹ì • ì„œë²„ë¡œ "ì„¤ì •" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : !CMT_25! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : !RESULT_25! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : Zone Transfer "Á¦ÇÑ" ¶Ç´Â Çã¿ë ½Ã Æ¯Á¤ ¼­¹ö·Î "¼³Á¤" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : !CMT_25! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\DNS Server\Zones" /v "SecureSecondaries" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^*^*^*^* ì„¤ì • ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^*^*^*^* ¼³Á¤ ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ^*^* [ SecureSecondaries ] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* 0 : ì˜ì—­ ì „ì†¡ í—ˆìš©(ì•„ë¬´ ì„œë²„ë¡œ) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* 1 : ì˜ì—­ ì „ì†¡ í—ˆìš©(ì´ë¦„ ì„œë²„ íƒì— ë‚˜ì—´ë¨ ì„œë²„ë¡œë§Œ) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* 2 : ì˜ì—­ ì „ì†¡ í—ˆìš©(ë‹¤ìŒ ì„œë²„ë¡œë§Œ) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* 3 : ì˜ì—­ ì „ì†¡ ì œí•œ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* 0 : ¿µ¿ª Àü¼Û Çã¿ë(¾Æ¹« ¼­¹ö·Î) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* 1 : ¿µ¿ª Àü¼Û Çã¿ë(ÀÌ¸§ ¼­¹ö ÅÃ¿¡ ³ª¿­µÊ ¼­¹ö·Î¸¸) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* 2 : ¿µ¿ª Àü¼Û Çã¿ë(´ÙÀ½ ¼­¹ö·Î¸¸) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* 3 : ¿µ¿ª Àü¼Û Á¦ÇÑ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\DNS Server\Zones" /s 2>NUL | findstr /i "\Zones SecureSecondaries" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [25.W-25] DNS Zone Transfer ì„¤ì • [!RESULT_25!]
+echo [25.W-25] DNS Zone Transfer ¼³Á¤ [!RESULT_25!]
 :25_END
 SET CMT_25=
 SET RESULT_25=
 
 :25_ADD
 REM SecureSecondaries
-REM 0 : ì˜ì—­ ì „ì†¡ í—ˆìš©(ì•„ë¬´ ì„œë²„ë¡œ)
-REM 1 : ì˜ì—­ ì „ì†¡ í—ˆìš©(ì´ë¦„ ì„œë²„ íƒì— ë‚˜ì—´ë¨ ì„œë²„ë¡œë§Œ)
-REM 2 : ì˜ì—­ ì „ì†¡ í—ˆìš©(ë‹¤ìŒ ì„œë²„ë¡œë§Œ)
-REM 3 : ì˜ì—­ ì „ì†¡ ì œí•œ
+REM 0 : ¿µ¿ª Àü¼Û Çã¿ë(¾Æ¹« ¼­¹ö·Î)
+REM 1 : ¿µ¿ª Àü¼Û Çã¿ë(ÀÌ¸§ ¼­¹ö ÅÃ¿¡ ³ª¿­µÊ ¼­¹ö·Î¸¸)
+REM 2 : ¿µ¿ª Àü¼Û Çã¿ë(´ÙÀ½ ¼­¹ö·Î¸¸)
+REM 3 : ¿µ¿ª Àü¼Û Á¦ÇÑ
 
 
 REM ==================================================
 
 :26_START
-echo [26.W-26] RDS(RemoteDataServices)ì œê±° >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [26.W-26] RDS(RemoteDataServices)Á¦°Å >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :26_ROUTINE
-SET CMT_26=ì´ˆê¸°í™”&SET RESULT_26=ì¸í„°ë·°
+SET CMT_26=ÃÊ±âÈ­&SET RESULT_26=ÀÎÅÍºä
 echo %OS_VER% 2>NUL | findstr "6.0 6.1 6.2 6.3 10.0" >NUL
 IF ERRORLEVEL 1 (
-	REM Windows 2003 ì´í•˜ (5.0)
+	REM Windows 2003 ÀÌÇÏ (5.0)
 	reg query "HKLM\SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\ADCLaunch" 2>NUL >NUL
 	IF NOT ERRORLEVEL 1 (
-		SET CMT_26=ë¶ˆí•„ìš”í•œ RDS ì„œë¹„ìŠ¤ê°€ "ì œê±°ë˜ì§€ ì•ŠìŒ"&SET RESULT_26=ì·¨ì•½
+		SET CMT_26=ºÒÇÊ¿äÇÑ RDS ¼­ºñ½º°¡ "Á¦°ÅµÇÁö ¾ÊÀ½"&SET RESULT_26=Ãë¾à
 	) ELSE (
-		SET CMT_26=ë¶ˆí•„ìš”í•œ RDS ì„œë¹„ìŠ¤ê°€ "ì œê±°"ë¨&SET RESULT_26=ì–‘í˜¸
+		SET CMT_26=ºÒÇÊ¿äÇÑ RDS ¼­ºñ½º°¡ "Á¦°Å"µÊ&SET RESULT_26=¾çÈ£
 	)
 ) ELSE (
-	REM Windows 2008 ì´ìƒ (6.0, 6.1, 6.2, 6.3, 10.0)
-	SET CMT_26=Windows 2008 ì´ìƒ ë²„ì „ì€ "í•´ë‹¹ì—†ìŒ"&SET RESULT_26=ì–‘í˜¸
+	REM Windows 2008 ÀÌ»ó (6.0, 6.1, 6.2, 6.3, 10.0)
+	SET CMT_26=Windows 2008 ÀÌ»ó ¹öÀüÀº "ÇØ´ç¾øÀ½"&SET RESULT_26=¾çÈ£
 )
 
 :26_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_26% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë¶ˆí•„ìš”í•œ RDS ì„œë¹„ìŠ¤ "ì œê±°" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_26% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_26% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ºÒÇÊ¿äÇÑ RDS ¼­ºñ½º "Á¦°Å" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_26% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) reg query "HKLM\SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\ADCLaunch" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\ADCLaunch" 2>NUL >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [26.W-26] RDS(RemoteDataServices)ì œê±° [%RESULT_26%]
+echo [26.W-26] RDS(RemoteDataServices)Á¦°Å [%RESULT_26%]
 :26_END
 SET CMT_26=
 SET RESULT_26=
@@ -2078,25 +2078,25 @@ SET RESULT_26=
 
 REM ==================================================
 :27_START
-echo [27.W-27] ìµœì‹  Windows OS Build ë²„ì „ ì ìš© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [27.W-27] ÃÖ½Å Windows OS Build ¹öÀü Àû¿ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :27_ROUTINE
-SET CMT_27=ìˆ˜ë™ì ê²€&SET RESULT_27=ì¸í„°ë·°
+SET CMT_27=¼öµ¿Á¡°Ë&SET RESULT_27=ÀÎÅÍºä
 
 :27_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_27% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ìµœì‹  ë¹Œë“œ ì„¤ì¹˜ ëœ ê²½ìš°(25ë…„ 2ì›” ë¦´ë¦¬ì¦ˆê¹Œì§€ ì–‘í˜¸) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ì°¸ê³  : Windows Server 2012 ì´í•˜ëŠ” EOS ë˜ì—ˆìœ¼ë¯€ë¡œ ì·¨ì•½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ì°¸ê³  : 2016 : 14393.7785 ~ 14393.8692 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ì°¸ê³  : 2019 : 17763.6893 ~ 17763.8148 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ì°¸ê³  : 2022 : 20348.3207 ~ 20348.4529 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ì°¸ê³  : 2025 : 26100.3194 ~ 26100.7462 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_27% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_27% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ÃÖ½Å ºôµå ¼³Ä¡ µÈ °æ¿ì(25³â 2¿ù ¸±¸®Áî±îÁö ¾çÈ£) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo Âü°í : Windows Server 2012 ÀÌÇÏ´Â EOS µÇ¾úÀ¸¹Ç·Î Ãë¾à >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo Âü°í : 2016 : 14393.7785 ~ 14393.8692 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo Âü°í : 2019 : 17763.6893 ~ 17763.8148 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo Âü°í : 2022 : 20348.3207 ~ 20348.4529 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo Âü°í : 2025 : 26100.3194 ~ 26100.7462 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_27% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) ver >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ver | findstr /v "^$" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo UBRì´ ë§ˆì´ë„ˆë²„ì „(16ì§„ìˆ˜) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo UBRÀÌ ¸¶ÀÌ³Ê¹öÀü(16Áø¼ö) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v ProductName  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v CurrentVersion  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v CurrentBuild  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
@@ -2104,22 +2104,22 @@ reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v UBR  >> [RESULT
 
 FOR /f "tokens=3 delims= " %%i IN ('reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v UBR 2^>NUL ^| findstr /i "UBR"') DO (
     SET UBR_HEX=%%i
-    REM 0x ì œê±°
+    REM 0x Á¦°Å
     SET UBR_HEX=!UBR_HEX:0x=!
     SET UBR_HEX=!UBR_HEX:0X=!
     
-    REM 16ì§„ìˆ˜ë¥¼ 10ì§„ìˆ˜ë¡œ ë³€í™˜ (PowerShell ì‚¬ìš©)
+    REM 16Áø¼ö¸¦ 10Áø¼ö·Î º¯È¯ (PowerShell »ç¿ë)
     FOR /f %%a IN ('powershell -Command "[Convert]::ToInt32('!UBR_HEX!', 16)"') DO (
         SET UBR_DEC=%%a
     )
     
-    echo UBR: 10ì§„ìˆ˜ ê³„ì‚° : ^(!UBR_DEC!^) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+    echo UBR: 10Áø¼ö °è»ê : ^(!UBR_DEC!^) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [27.W-27] ìµœì‹  ì„œë¹„ìŠ¤íŒ© ì ìš© [%RESULT_27%]
+echo [27.W-27] ÃÖ½Å ¼­ºñ½ºÆÑ Àû¿ë [%RESULT_27%]
 :27_END
 SET CMT_27=
 SET RESULT_27=
@@ -2128,71 +2128,71 @@ SET RESULT_27=
 
 REM ==================================================
 :28_START
-echo [28.W-28] í„°ë¯¸ë„ ì„œë¹„ìŠ¤ ì•”í˜¸í™” ìˆ˜ì¤€ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [28.W-28] ÅÍ¹Ì³Î ¼­ºñ½º ¾ÏÈ£È­ ¼öÁØ ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :28_ROUTINE
-SET CMT_28=ì´ˆê¸°í™”&SET RESULT_28=ì¸í„°ë·°
+SET CMT_28=ÃÊ±âÈ­&SET RESULT_28=ÀÎÅÍºä
 type services.inf 2>NUL | findstr /i /c:"Remote Desktop Services" | findstr /i "Running" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_28=ì›ê²© í„°ë¯¸ë„ ì„œë¹„ìŠ¤ë¥¼ "ì‚¬ìš©í•˜ì§€ ì•ŠìŒ"&SET RESULT_28=ì–‘í˜¸
+	SET CMT_28=¿ø°İ ÅÍ¹Ì³Î ¼­ºñ½º¸¦ "»ç¿ëÇÏÁö ¾ÊÀ½"&SET RESULT_28=¾çÈ£
 )
 IF NOT ERRORLEVEL 1 (
 	reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" /v MinEncryptionLevel 2>NUL | findstr /i "MinEncryptionLevel" >NUL
 	IF ERRORLEVEL 1 (
-		SET CMT_28=ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ&SET RESULT_28=ì¸í„°ë·°
+		SET CMT_28=·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½&SET RESULT_28=ÀÎÅÍºä
 	)
 	IF NOT ERRORLEVEL 1 (
 		reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" /v MinEncryptionLevel 2>NUL | findstr /i "MinEncryptionLevel" >NUL | findstr /i "MinEncryptionLevel" | findstr "0x1"
 		IF ERRORLEVEL 1 (
-			SET CMT_28=ì›ê²© í„°ë¯¸ë„ ì„œë¹„ìŠ¤ë¥¼ "ì‚¬ìš©"í•˜ê³  ì•”í˜¸í™” ìˆ˜ì¤€ì´ "í´ë¼ì´ì–¸íŠ¸ì™€ í˜¸í™˜ ê°€ëŠ¥^(ì¤‘ê°„^) ì´ìƒ"ìœ¼ë¡œ ì„¤ì •ë¨&SET RESULT_28=ì–‘í˜¸
+			SET CMT_28=¿ø°İ ÅÍ¹Ì³Î ¼­ºñ½º¸¦ "»ç¿ë"ÇÏ°í ¾ÏÈ£È­ ¼öÁØÀÌ "Å¬¶óÀÌ¾ğÆ®¿Í È£È¯ °¡´É^(Áß°£^) ÀÌ»ó"À¸·Î ¼³Á¤µÊ&SET RESULT_28=¾çÈ£
 		)
 		IF NOT ERRORLEVEL 1 (
-			SET CMT_28=ì›ê²© í„°ë¯¸ë„ ì„œë¹„ìŠ¤ë¥¼ "ì‚¬ìš©"í•˜ê³  ì•”í˜¸í™” ìˆ˜ì¤€ì´ "ë‚®ì€ ìˆ˜ì¤€"ìœ¼ë¡œ ì„¤ì •ë¨&SET RESULT_28=ì·¨ì•½
+			SET CMT_28=¿ø°İ ÅÍ¹Ì³Î ¼­ºñ½º¸¦ "»ç¿ë"ÇÏ°í ¾ÏÈ£È­ ¼öÁØÀÌ "³·Àº ¼öÁØ"À¸·Î ¼³Á¤µÊ&SET RESULT_28=Ãë¾à
 		)
 	)
 )
 
 :28_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_28% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ì›ê²© í„°ë¯¸ë„ ì„œë¹„ìŠ¤ "ì‚¬ìš©í•˜ì§€ ì•ŠìŒ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo        ë˜ëŠ” ì‚¬ìš© ì‹œ ì•”í˜¸í™” ìˆ˜ì¤€ "í´ë¼ì´ì–¸íŠ¸ì™€ í˜¸í™˜ ê°€ëŠ¥(ì¤‘ê°„) ì´ìƒ" ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_28% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_28% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ¿ø°İ ÅÍ¹Ì³Î ¼­ºñ½º "»ç¿ëÇÏÁö ¾ÊÀ½" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo        ¶Ç´Â »ç¿ë ½Ã ¾ÏÈ£È­ ¼öÁØ "Å¬¶óÀÌ¾ğÆ®¿Í È£È¯ °¡´É(Áß°£) ÀÌ»ó" ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_28% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type services.inf ^| findstr /i /c:"Remote Desktop Services" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê²°ê³¼ ì—†ìŒ ^= ì„œë¹„ìŠ¤ ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °á°ú ¾øÀ½ ^= ¼­ºñ½º ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type services.inf | findstr /i /c:"Remote Desktop Services" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^*^*^*^* ì„¤ì • ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ë‚®ì€ ìˆ˜ì¤€ (ì·¨ì•½)           : 0x01 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* í´ë¼ì´ì–¸íŠ¸ í˜¸í™˜ ê°€ëŠ¥ (ì–‘í˜¸) : 0x02 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ë†’ì€ ìˆ˜ì¤€ (ì–‘í˜¸)           : 0x03 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^*^*^*^* ¼³Á¤ ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* ³·Àº ¼öÁØ (Ãë¾à)           : 0x01 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* Å¬¶óÀÌ¾ğÆ® È£È¯ °¡´É (¾çÈ£) : 0x02 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* ³ôÀº ¼öÁØ (¾çÈ£)           : 0x03 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
-echo (CMD) ê·¸ë£¹ ì •ì±… í™•ì¸ (ìµœìš°ì„ )>> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo (CMD) ±×·ì Á¤Ã¥ È®ÀÎ (ÃÖ¿ì¼±)>> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" /v MinEncryptionLevel 2>NUL | findstr /i "MinEncryptionLevel" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
-echo (CMD) ë¡œì»¬ ì„¤ì • í™•ì¸ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo (CMD) ·ÎÄÃ ¼³Á¤ È®ÀÎ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v "MinEncryptionLevel" 2>NUL | findstr /i "MinEncryptionLevel" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [28.W-28] í„°ë¯¸ë„ ì„œë¹„ìŠ¤ ì•”í˜¸í™” ìˆ˜ì¤€ ì„¤ì • [%RESULT_28%]
+echo [28.W-28] ÅÍ¹Ì³Î ¼­ºñ½º ¾ÏÈ£È­ ¼öÁØ ¼³Á¤ [%RESULT_28%]
 :28_END
 SET CMT_28=
 SET RESULT_28=
 
 :28_ADD
-REM [ê¸°ì¤€] MinEncryptionLevel ê°’ì´ 1ì´ë©´ ë‚®ì€ ìˆ˜ì¤€(ì·¨ì•½), 2ì´ë©´ í´ë¼ì´ì–¸íŠ¸ í˜¸í™˜ ê°€ëŠ¥(ì–‘í˜¸), 3ì´ë©´ ë†’ì€ ìˆ˜ì¤€(ì–‘í˜¸)
+REM [±âÁØ] MinEncryptionLevel °ªÀÌ 1ÀÌ¸é ³·Àº ¼öÁØ(Ãë¾à), 2ÀÌ¸é Å¬¶óÀÌ¾ğÆ® È£È¯ °¡´É(¾çÈ£), 3ÀÌ¸é ³ôÀº ¼öÁØ(¾çÈ£)
 
 REM ==================================================
 :29_START
-echo [29.W-29] ë¶ˆí•„ìš”í•œ SNMP ì„œë¹„ìŠ¤ êµ¬ë™ ì ê²€ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-SET CMT_29=ì´ˆê¸°í™”&SET RESULT_29=ì¸í„°ë·°
+echo [29.W-29] ºÒÇÊ¿äÇÑ SNMP ¼­ºñ½º ±¸µ¿ Á¡°Ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+SET CMT_29=ÃÊ±âÈ­&SET RESULT_29=ÀÎÅÍºä
 SET CMT_29_1=
 
 :29_ROUTINE
@@ -2202,26 +2202,26 @@ FOR /f "tokens=2 delims= " %%i IN (netstat.inf) DO (
 	IF NOT ERRORLEVEL 1 SET SNMP_FOUND=1
 )
 IF !SNMP_FOUND! EQU 1 (
-	SET CMT_29=SNMP í¬íŠ¸ê°€ "ì—´ë¦¼"
-	SET RESULT_29=ì·¨ì•½
+	SET CMT_29=SNMP Æ÷Æ®°¡ "¿­¸²"
+	SET RESULT_29=Ãë¾à
 ) ELSE (
-	SET CMT_29=SNMP í¬íŠ¸ê°€ "ë‹«í˜"
-	SET RESULT_29=ì–‘í˜¸
+	SET CMT_29=SNMP Æ÷Æ®°¡ "´İÈû"
+	SET RESULT_29=¾çÈ£
 )
 
 :29_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : !RESULT_29! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë¶ˆí•„ìš”í•œ SNMP ì„œë¹„ìŠ¤ "ë¹„í™œì„±í™”" ë° "ì‚¬ìš© ì•ˆ í•¨", >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo        ë¶ˆí•„ìš”í•œ SNMP ì„œë¹„ìŠ¤ í¬íŠ¸ "ë‹«í˜" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : !CMT_29! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : !RESULT_29! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ºÒÇÊ¿äÇÑ SNMP ¼­ºñ½º "ºñÈ°¼ºÈ­" ¹× "»ç¿ë ¾È ÇÔ", >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo        ºÒÇÊ¿äÇÑ SNMP ¼­ºñ½º Æ÷Æ® "´İÈû" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : !CMT_29! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo type services.inf ^| findstr /i "snmp" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ ì—†ìŒ ^= ì„œë¹„ìŠ¤ ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-type services.inf | findstr /i "snmp" | findstr /i /v "trap íŠ¸ë©" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú ¾øÀ½ ^= ¼­ºñ½º ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+type services.inf | findstr /i "snmp" | findstr /i /v "trap Æ®·¦" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo type netstat.inf >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ ì—†ìŒ ^= ì—´ë¦° í¬íŠ¸ ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú ¾øÀ½ ^= ¿­¸° Æ÷Æ® ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 FOR /f "tokens=1,2,* delims= " %%i IN (netstat.inf) DO (
 	echo %%j | findstr /c:":161" >NUL
 	IF NOT ERRORLEVEL 1 (
@@ -2231,7 +2231,7 @@ FOR /f "tokens=1,2,* delims= " %%i IN (netstat.inf) DO (
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [29.W-29] ë¶ˆí•„ìš”í•œ SNMP ì„œë¹„ìŠ¤ êµ¬ë™ ì ê²€ [!RESULT_29!]
+echo [29.W-29] ºÒÇÊ¿äÇÑ SNMP ¼­ºñ½º ±¸µ¿ Á¡°Ë [!RESULT_29!]
 :29_END
 SET CMT_29_1=
 SET RESULT_29=
@@ -2240,55 +2240,55 @@ SET RESULT_29=
 REM ==================================================
 
 :30_START
-echo [30.W-30] SNMP Community String ë³µì¡ì„± ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [30.W-30] SNMP Community String º¹Àâ¼º ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :30_ROUTINE
-SET CMT_30=ì´ˆê¸°í™”&SET RESULT_30=ì¸í„°ë·°
+SET CMT_30=ÃÊ±âÈ­&SET RESULT_30=ÀÎÅÍºä
 
 IF !SNMP_FOUND! EQU 1 (
 	reg query "HKLM\SYSTEM\CurrentControlSet\services\SNMP\Parameters\ValidCommunities" | findstr "public private" >NUL 2>NUL
 	IF ERRORLEVEL 1 (
-		SET CMT_30=community string ê°’ì´ public ë˜ëŠ” privateê°€ ì•„ë‹Œê°’ìœ¼ë¡œ ì„¤ì •
-		SET RESULT_30=ì–‘í˜¸
+		SET CMT_30=community string °ªÀÌ public ¶Ç´Â private°¡ ¾Æ´Ñ°ªÀ¸·Î ¼³Á¤
+		SET RESULT_30=¾çÈ£
 	) ELSE (
-		SET CMT_30=community string ê°’ì´ public ë˜ëŠ” privateë¡œ ì„¤ì •
-		SET RESULT_30=ì·¨ì•½
+		SET CMT_30=community string °ªÀÌ public ¶Ç´Â private·Î ¼³Á¤
+		SET RESULT_30=Ãë¾à
 	)
 ) ELSE (
-	SET CMT_30=SNMP í¬íŠ¸ê°€ "ë‹«í˜"
-	SET RESULT_30=ì–‘í˜¸
+	SET CMT_30=SNMP Æ÷Æ®°¡ "´İÈû"
+	SET RESULT_30=¾çÈ£
 )
 
 
 :30_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : !RESULT_30! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : "ìœ ì¶”ë¶ˆê°€"í•œ SNMP Community string ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo        ì˜ë¬¸+ìˆ«ì 10ìë¦¬ ì´ìƒ, ì˜ë¬¸+ìˆ«ì+íŠ¹ìˆ˜ 8ìë¦¬ ì´ìƒ>> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo        ì—‘ì„¸ìŠ¤ ê¶Œí•œ "RO ReadOnly ì„¤ì •" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : !CMT_30! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : !RESULT_30! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : "À¯ÃßºÒ°¡"ÇÑ SNMP Community string ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo        ¿µ¹®+¼ıÀÚ 10ÀÚ¸® ÀÌ»ó, ¿µ¹®+¼ıÀÚ+Æ¯¼ö 8ÀÚ¸® ÀÌ»ó>> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo        ¿¢¼¼½º ±ÇÇÑ "RO ReadOnly ¼³Á¤" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : !CMT_30! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo reg query "HKLM\SYSTEM\CurrentControlSet\services\SNMP\Parameters\ValidCommunities" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^*^*^*^* ì„¤ì • ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* [Access ê¶Œí•œ] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^*^*^*^* ¼³Á¤ ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* [Access ±ÇÇÑ] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ^*^* NONE        : 0x0001 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ^*^* NOTIFY      : 0x0002 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ^*^* READ ONLY   : 0x0004 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ^*^* READ/WRITE  : 0x0008 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ^*^* READ/CREATE : 0x0010 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ë‹¤ìŒì˜ íŠ¹ìˆ˜ë¬¸ì ì™¸ ë‹¤ë¥¸ íŠ¹ìˆ˜ë¬¸ì í¬í•¨ ì‹œ, ìˆ˜ë™ì§„ë‹¨ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* ´ÙÀ½ÀÇ Æ¯¼ö¹®ÀÚ ¿Ü ´Ù¸¥ Æ¯¼ö¹®ÀÚ Æ÷ÇÔ ½Ã, ¼öµ¿Áø´Ü >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\SYSTEM\CurrentControlSet\services\SNMP\Parameters\ValidCommunities" >NUL 2>NUL
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) ELSE (
-	reg query "HKLM\SYSTEM\CurrentControlSet\services\SNMP\Parameters\ValidCommunities" 2>NUL | findstr /i /v "ValidCommunities" | findstr /v "^$ localhost ê²€ìƒ‰" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	reg query "HKLM\SYSTEM\CurrentControlSet\services\SNMP\Parameters\ValidCommunities" 2>NUL | findstr /i /v "ValidCommunities" | findstr /v "^$ localhost °Ë»ö" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [30.W-30] SNMP ì„œë¹„ìŠ¤ ì»¤ë®¤ë‹ˆí‹°ìŠ¤íŠ¸ë§ì˜ ë³µì¡ì„± ì„¤ì • [!RESULT_30!]
+echo [30.W-30] SNMP ¼­ºñ½º Ä¿¹Â´ÏÆ¼½ºÆ®¸µÀÇ º¹Àâ¼º ¼³Á¤ [!RESULT_30!]
 :30_END
 SET CMT_30=
 SET CMT_30_1=
@@ -2298,12 +2298,12 @@ SET NOW_30=
 SET C_30=
 
 :30_ADD
-REM [ê¸°ì¤€] ì˜ë¬¸+ìˆ«ì 10ì ì´ìƒ ë˜ëŠ” ì˜ë¬¸+ìˆ«ì+íŠ¹ìˆ˜ 8ì ì´ìƒ (2021.01 ê¸°ì¤€ ë³€ê²½)
-REM [ì„¤ëª…] Windows 2016ê¹Œì§€ SNMP v3 ë¯¸ì§€ì›, ì›í•  ì‹œ ë³„ë„ ì†”ë£¨ì…˜ì„ ì‚¬ìš©í•´ì•¼ í•¨
-REM SNMP v3ì˜ ê²½ìš° ë³„ë„ ì¸ì¦ ê¸°ëŠ¥ì„ ì‚¬ìš©í•˜ê³ , í•´ë‹¹ ë¹„ë°€ë²ˆí˜¸ê°€ ë³µì¡ë„ë¥¼ ë§Œì¡±í•  ê²½ìš° "ì–‘í˜¸"ë¡œ íŒë‹¨
-REM [ì„¤ëª…] ìœ íš¨ ì»¤ë®¤ë‹ˆí‹° (ValidCommunities) : snmp ì»¤ë®¤ë‹ˆí‹° ë° ê¶Œí•œ
-REM [ì„¤ëª…] íŠ¸ë©êµ¬ì„± (TrapConfiguration\ì»¤ë®¤ë‹ˆí‹°ëª…) : trap ì „ì†¡ ëª©ë¡
-REM [ì„¤ëª…] Access ê¶Œí•œ
+REM [±âÁØ] ¿µ¹®+¼ıÀÚ 10ÀÚ ÀÌ»ó ¶Ç´Â ¿µ¹®+¼ıÀÚ+Æ¯¼ö 8ÀÚ ÀÌ»ó (2021.01 ±âÁØ º¯°æ)
+REM [¼³¸í] Windows 2016±îÁö SNMP v3 ¹ÌÁö¿ø, ¿øÇÒ ½Ã º°µµ ¼Ö·ç¼ÇÀ» »ç¿ëÇØ¾ß ÇÔ
+REM SNMP v3ÀÇ °æ¿ì º°µµ ÀÎÁõ ±â´ÉÀ» »ç¿ëÇÏ°í, ÇØ´ç ºñ¹Ğ¹øÈ£°¡ º¹Àâµµ¸¦ ¸¸Á·ÇÒ °æ¿ì "¾çÈ£"·Î ÆÇ´Ü
+REM [¼³¸í] À¯È¿ Ä¿¹Â´ÏÆ¼ (ValidCommunities) : snmp Ä¿¹Â´ÏÆ¼ ¹× ±ÇÇÑ
+REM [¼³¸í] Æ®·¦±¸¼º (TrapConfiguration\Ä¿¹Â´ÏÆ¼¸í) : trap Àü¼Û ¸ñ·Ï
+REM [¼³¸í] Access ±ÇÇÑ
 REM     NONE ? 0x0001
 REM     NOTIFY ? 0x0002
 REM     READ ONLY ? 0x0004
@@ -2312,38 +2312,38 @@ REM     READ/CREATE ? 0x0010
 
 REM ==================================================
 :31_START
-echo [31.W-31] SNMP Access control ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [31.W-31] SNMP Access control ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 :31_ROUTINE
-SET CMT_31=ì´ˆê¸°í™”
-SET RESULT_31=ì¸í„°ë·°
+SET CMT_31=ÃÊ±âÈ­
+SET RESULT_31=ÀÎÅÍºä
 
 IF !SNMP_FOUND! EQU 1 (
-	REM ë ˆì§€ìŠ¤íŠ¸ë¦¬ ê°’ í™•ì¸ (ìˆ«ìë¡œ ëœ í•­ëª©ì´ ìˆëŠ”ì§€)
+	REM ·¹Áö½ºÆ®¸® °ª È®ÀÎ (¼ıÀÚ·Î µÈ Ç×¸ñÀÌ ÀÖ´ÂÁö)
 	reg query "HKLM\SYSTEM\CurrentControlSet\Services\SNMP\Parameters\PermittedManagers" 2>NUL | findstr /i /v "PermittedManagers HKEY" | findstr /r "REG_SZ" >NUL 2>NUL
 	IF ERRORLEVEL 1 (
-		SET CMT_31="ëª¨ë“  í˜¸ìŠ¤íŠ¸"ë¡œë¶€í„° SNMP íŒ¨í‚·ì„ ë°›ì•„ë“¤ì„
-		SET RESULT_31=ì·¨ì•½
+		SET CMT_31="¸ğµç È£½ºÆ®"·ÎºÎÅÍ SNMP ÆĞÅ¶À» ¹Ş¾ÆµéÀÓ
+		SET RESULT_31=Ãë¾à
 	) ELSE (
-		SET CMT_31="íŠ¹ì • í˜¸ìŠ¤íŠ¸"ë¡œë¶€í„°ë§Œ SNMP íŒ¨í‚·ì„ ë°›ì•„ë“¤ì„
-		SET RESULT_31=ì–‘í˜¸
+		SET CMT_31="Æ¯Á¤ È£½ºÆ®"·ÎºÎÅÍ¸¸ SNMP ÆĞÅ¶À» ¹Ş¾ÆµéÀÓ
+		SET RESULT_31=¾çÈ£
 	)
 ) ELSE (
-	SET CMT_31=SNMP í¬íŠ¸ê°€ "ë‹«í˜"
-	SET RESULT_31=ì–‘í˜¸
+	SET CMT_31=SNMP Æ÷Æ®°¡ "´İÈû"
+	SET RESULT_31=¾çÈ£
 )
 
 :31_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : !RESULT_31! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : "íŠ¹ì • í˜¸ìŠ¤íŠ¸"ë¡œë¶€í„°ë§Œ SNMP íŒ¨í‚·ì„ ë°›ì•„ë“¤ì„ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ì°¸ê³  : ë ˆì§€ìŠ¤íŠ¸ë¦¬ ê°’ì´ ì—†ì„ë•ŒëŠ” ì·¨ì•½ì„ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : !CMT_31! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : !RESULT_31! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : "Æ¯Á¤ È£½ºÆ®"·ÎºÎÅÍ¸¸ SNMP ÆĞÅ¶À» ¹Ş¾ÆµéÀÓ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo Âü°í : ·¹Áö½ºÆ®¸® °ªÀÌ ¾øÀ»¶§´Â Ãë¾àÀÓ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : !CMT_31! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) reg query "HKLM\SYSTEM\CurrentControlSet\Services\SNMP\Parameters\PermittedManagers" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 reg query "HKLM\SYSTEM\CurrentControlSet\Services\SNMP\Parameters\PermittedManagers" >NUL 2>NUL
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) ELSE (
 	reg query "HKLM\SYSTEM\CurrentControlSet\Services\SNMP\Parameters\PermittedManagers" 2>NUL >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
@@ -2351,7 +2351,7 @@ IF ERRORLEVEL 1 (
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [31.W-31] SNMP Access control ì„¤ì • [!RESULT_31!]
+echo [31.W-31] SNMP Access control ¼³Á¤ [!RESULT_31!]
 :31_END
 SET CMT_31=
 SET RESULT_31=
@@ -2361,44 +2361,44 @@ SET RESULT_31=
 
 REM ==================================================
 :32_START
-echo [32.W-32] DNS ì„œë¹„ìŠ¤ êµ¬ë™ ì ê²€ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [32.W-32] DNS ¼­ºñ½º ±¸µ¿ Á¡°Ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :32_ROUTINE
-SET CMT_32=ì´ˆê¸°í™”&SET RESULT_32=ì¸í„°ë·°
+SET CMT_32=ÃÊ±âÈ­&SET RESULT_32=ÀÎÅÍºä
 
 IF !DNS_FOUND! EQU 1 (
 	dnscmd /ExportSettings 2>NUL >NUL
 	IF EXIST %systemroot%\system32\dns\DnsSettings.txt (
 		type %systemroot%\system32\dns\DnsSettings.txt 2>NUL | findstr /i "AllowUpdate" | findstr /i /v "DWORD" | findstr /i "=1" >NUL
 		IF ERRORLEVEL 1 (
-			SET CMT_32=ë™ì  ì—…ë°ì´íŠ¸ ê¸°ëŠ¥ì´ ë¹„í™œì„±í™”ë¨&SET RESULT_32=ì–‘í˜¸
+			SET CMT_32=µ¿Àû ¾÷µ¥ÀÌÆ® ±â´ÉÀÌ ºñÈ°¼ºÈ­µÊ&SET RESULT_32=¾çÈ£
 		) ELSE (
-			SET CMT_32=ë™ì  ì—…ë°ì´íŠ¸ ê¸°ëŠ¥ì´ í™œì„±í™”ë¨&SET RESULT_32=ì·¨ì•½
+			SET CMT_32=µ¿Àû ¾÷µ¥ÀÌÆ® ±â´ÉÀÌ È°¼ºÈ­µÊ&SET RESULT_32=Ãë¾à
 		)
 	) ELSE (
-		SET CMT_32=DNS ì„¤ì •íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ&SET RESULT_32=ì¸í„°ë·°
+		SET CMT_32=DNS ¼³Á¤ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½&SET RESULT_32=ÀÎÅÍºä
 	)
 
 ) ELSE (
-	SET CMT_32=DNS ì„œë¹„ìŠ¤ í¬íŠ¸ê°€ ë‹«í˜
-	SET RESULT_32=ì–‘í˜¸
+	SET CMT_32=DNS ¼­ºñ½º Æ÷Æ®°¡ ´İÈû
+	SET RESULT_32=¾çÈ£
 )
 
 
 
 :32_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : !RESULT_32! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë¶ˆí•„ìš”í•œ DNS ì„œë¹„ìŠ¤ "ë¹„í™œì„±í™”" ë° "ì‚¬ìš© ì•ˆ í•¨", >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo        ë¶ˆí•„ìš”í•œ DNS ì„œë¹„ìŠ¤ í¬íŠ¸ "ë‹«í˜" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo        ë˜ëŠ” ë™ì  ì—…ë°ì´íŠ¸ "ì‚¬ìš© ì•ˆ í•¨" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : !CMT_32! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : !RESULT_32! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ºÒÇÊ¿äÇÑ DNS ¼­ºñ½º "ºñÈ°¼ºÈ­" ¹× "»ç¿ë ¾È ÇÔ", >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo        ºÒÇÊ¿äÇÑ DNS ¼­ºñ½º Æ÷Æ® "´İÈû" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo        ¶Ç´Â µ¿Àû ¾÷µ¥ÀÌÆ® "»ç¿ë ¾È ÇÔ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : !CMT_32! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type services.inf ^| findstr /i "dns" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê²°ê³¼ ì—†ìŒ ^= ì„œë¹„ìŠ¤ ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °á°ú ¾øÀ½ ^= ¼­ºñ½º ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type services.inf 2>NUL | findstr /i "dns" | findstr /i /v /c:"DNS Client" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type netstat.inf >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê²°ê³¼ ì—†ìŒ ^= ì—´ë¦° í¬íŠ¸ ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °á°ú ¾øÀ½ ^= ¿­¸° Æ÷Æ® ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 FOR /f "tokens=1,2,* delims= " %%i IN (netstat.inf) DO (
 	echo %%j | findstr ":53" | findstr "LISTENING">NUL
@@ -2410,12 +2410,12 @@ echo (CMD) type %systemroot%\system32\dns\DnsSettings.txt >> [RESULT]%COMPUTERNA
 
 type %systemroot%\system32\dns\DnsSettings.txt 2>NUL | findstr /i "AllowUpdate [" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     DNS ì„¤ì •íŒŒì¼ì´ "ì¡´ì¬í•˜ì§€ ì•ŠìŒ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     DNS ¼³Á¤ÆÄÀÏÀÌ "Á¸ÀçÇÏÁö ¾ÊÀ½" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [32.W-32] DNS ì„œë¹„ìŠ¤ êµ¬ë™ ì ê²€ [!RESULT_32!]
+echo [32.W-32] DNS ¼­ºñ½º ±¸µ¿ Á¡°Ë [!RESULT_32!]
 :32_END
 SET CMT_32_1=
 SET CMT_32_2=
@@ -2425,57 +2425,57 @@ SET RESULT_32=
 
 REM ==================================================
 :33_START
-echo [33.W-33] HTTP/FTP/SMTP ë°°ë„ˆ ì°¨ë‹¨ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [33.W-33] HTTP/FTP/SMTP ¹è³Ê Â÷´Ü >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :33_ROUTINE
-SET CMT_33=ì´ˆê¸°í™”&SET RESULT_33=ì¸í„°ë·°
+SET CMT_33=ÃÊ±âÈ­&SET RESULT_33=ÀÎÅÍºä
 SET CMT_33_1=
 SET CMT_33_2=
 
-REM ===== HTTP ë°°ë„ˆ ì²´í¬ =====
+REM ===== HTTP ¹è³Ê Ã¼Å© =====
 
 type services.inf 2>NUL | findstr /i /c:"World Wide Web Publishing" | findstr /i "Running" >NUL
 IF ERRORLEVEL 1 (
-    SET CMT_33=HTTP ì„œë¹„ìŠ¤ê°€ "ë¹„í™œì„±í™”"ë¨
+    SET CMT_33=HTTP ¼­ºñ½º°¡ "ºñÈ°¼ºÈ­"µÊ
 ) ELSE (
     FOR /f "tokens=2 delims= " %%i IN (netstat.inf) DO (
         echo %%i. | findstr /l ":80." >NUL
         IF NOT ERRORLEVEL 1 (
-            SET CMT_33=HTTP ë°°ë„ˆì— ë…¸ì¶œë˜ëŠ” ì •ë³´ ì¡´ì¬ ì—¬ë¶€ ìˆ˜ë™ ì§„ë‹¨
-            SET RESULT_33=ì¸í„°ë·°
+            SET CMT_33=HTTP ¹è³Ê¿¡ ³ëÃâµÇ´Â Á¤º¸ Á¸Àç ¿©ºÎ ¼öµ¿ Áø´Ü
+            SET RESULT_33=ÀÎÅÍºä
             curl -s -D curl_http.txt 127.0.0.1 -o nul >NUL 2>NUL
             type curl_http.txt 2>NUL | findstr /i "x- server" >NUL
             IF ERRORLEVEL 1 (
-                SET CMT_33=HTTP ë°°ë„ˆì— ë…¸ì¶œë˜ëŠ” ì •ë³´ "ì—†ìŒ"
+                SET CMT_33=HTTP ¹è³Ê¿¡ ³ëÃâµÇ´Â Á¤º¸ "¾øÀ½"
             )
             GOTO :33_CHECK_FTP
         )
     )
-    SET CMT_33=HTTP ë°°ë„ˆì— ë…¸ì¶œë˜ëŠ” ì •ë³´ ì¡´ì¬ ì—¬ë¶€ ìˆ˜ë™ ì§„ë‹¨^(í¬íŠ¸ ë³€ê²½ë¨^)
-    SET RESULT_33=ì¸í„°ë·°
+    SET CMT_33=HTTP ¹è³Ê¿¡ ³ëÃâµÇ´Â Á¤º¸ Á¸Àç ¿©ºÎ ¼öµ¿ Áø´Ü^(Æ÷Æ® º¯°æµÊ^)
+    SET RESULT_33=ÀÎÅÍºä
 )
 
 :33_CHECK_FTP
-REM ===== FTP ë°°ë„ˆ ì²´í¬ =====
+REM ===== FTP ¹è³Ê Ã¼Å© =====
 rem del ftp_result.txt 2>NUL
 
 type services.inf 2>NUL | findstr /i /c:"FTP Publishing Service" /c:"Microsoft FTP Service" | findstr /i "Running" >NUL
 IF ERRORLEVEL 1 (
-    SET CMT_33_1=FTP ì„œë¹„ìŠ¤ê°€ "ë¹„í™œì„±í™”"ë¨
+    SET CMT_33_1=FTP ¼­ºñ½º°¡ "ºñÈ°¼ºÈ­"µÊ
 ) ELSE (
     FOR /f "tokens=2 delims= " %%i IN (netstat.inf) DO (
         echo %%i. | findstr /l ":21. :20." >NUL
         IF NOT ERRORLEVEL 1 (
-            SET CMT_33_1=FTP ë°°ë„ˆì— ë…¸ì¶œë˜ëŠ” ì •ë³´ ì¡´ì¬ ì—¬ë¶€ ìˆ˜ë™ ì§„ë‹¨
-            SET RESULT_33=ì¸í„°ë·°
+            SET CMT_33_1=FTP ¹è³Ê¿¡ ³ëÃâµÇ´Â Á¤º¸ Á¸Àç ¿©ºÎ ¼öµ¿ Áø´Ü
+            SET RESULT_33=ÀÎÅÍºä
             FOR /f "tokens=2 delims=:^(" %%a IN ('ipconfig /all ^| findstr /i "ipv4"') DO (
                 SET FTP_IP=%%a
                 SET FTP_IP=!FTP_IP: =!
                 ftp /i /s:ftp.txt !FTP_IP! 2>NUL > ftp_result.txt
                 type ftp_result.txt 2>NUL | findstr "220" | findstr /i "ftp" >NUL
                 IF NOT ERRORLEVEL 1 (
-                    SET CMT_33_1=FTP ë°°ë„ˆì— ë…¸ì¶œë˜ëŠ” ì •ë³´ "ìˆìŒ"
-                    SET RESULT_33=ì·¨ì•½
+                    SET CMT_33_1=FTP ¹è³Ê¿¡ ³ëÃâµÇ´Â Á¤º¸ "ÀÖÀ½"
+                    SET RESULT_33=Ãë¾à
                     GOTO :33_CHECK_SMTP
                 )
             )
@@ -2485,71 +2485,71 @@ IF ERRORLEVEL 1 (
 )
 
 :33_CHECK_SMTP
-REM ===== SMTP ë°°ë„ˆ ì²´í¬ =====
+REM ===== SMTP ¹è³Ê Ã¼Å© =====
 type services.inf 2>NUL | findstr /i /c:"Simple Mail Transfer Protocol" | findstr /i "Running" >NUL
 IF ERRORLEVEL 1 (
-    SET CMT_33_2=SMTP ì„œë¹„ìŠ¤ê°€ "ë¹„í™œì„±í™”"ë¨
+    SET CMT_33_2=SMTP ¼­ºñ½º°¡ "ºñÈ°¼ºÈ­"µÊ
 ) ELSE (
     FOR /f "tokens=2 delims= " %%i IN (netstat.inf) DO (
         echo %%i. | findstr /l ":25." >NUL
         IF NOT ERRORLEVEL 1 (
-            SET CMT_33_2=SMTP ë°°ë„ˆì— ë…¸ì¶œë˜ëŠ” ì •ë³´ ì¡´ì¬ ì—¬ë¶€ ìˆ˜ë™ ì§„ë‹¨
-            SET RESULT_33=ì¸í„°ë·°
+            SET CMT_33_2=SMTP ¹è³Ê¿¡ ³ëÃâµÇ´Â Á¤º¸ Á¸Àç ¿©ºÎ ¼öµ¿ Áø´Ü
+            SET RESULT_33=ÀÎÅÍºä
             curl -v -D curl_smtp.txt smtp://127.0.0.1 -o nul >NUL 2>NUL
             type curl_smtp.txt 2>NUL | findstr /i "220" | findstr /i "SMTP Mail Version" >NUL
             IF ERRORLEVEL 1 (
-                SET CMT_33_2=SMTP ë°°ë„ˆì— ë…¸ì¶œë˜ëŠ” ì •ë³´ "ì—†ìŒ"
+                SET CMT_33_2=SMTP ¹è³Ê¿¡ ³ëÃâµÇ´Â Á¤º¸ "¾øÀ½"
             )
             GOTO :33_PRINT
         )
     )
-    SET CMT_33_2=SMTP ë°°ë„ˆì— ë…¸ì¶œë˜ëŠ” ì •ë³´ ì¡´ì¬ ì—¬ë¶€ ìˆ˜ë™ ì§„ë‹¨^(í¬íŠ¸ ë³€ê²½ë¨^)
-    SET RESULT_33=ì¸í„°ë·°
+    SET CMT_33_2=SMTP ¹è³Ê¿¡ ³ëÃâµÇ´Â Á¤º¸ Á¸Àç ¿©ºÎ ¼öµ¿ Áø´Ü^(Æ÷Æ® º¯°æµÊ^)
+    SET RESULT_33=ÀÎÅÍºä
 )
 
 :33_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : !RESULT_33! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë¶ˆí•„ìš”í•œ ì„œë¹„ìŠ¤ "ë¹„í™œì„±í™”" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo        ë˜ëŠ” ê° ì„œë¹„ìŠ¤ë³„ ë°°ë„ˆì— ë…¸ì¶œë˜ëŠ” ì •ë³´ "ì—†ìŒ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : !CMT_33! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™©2: !CMT_33_1! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™©3: !CMT_33_2! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : !RESULT_33! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ºÒÇÊ¿äÇÑ ¼­ºñ½º "ºñÈ°¼ºÈ­" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo        ¶Ç´Â °¢ ¼­ºñ½ºº° ¹è³Ê¿¡ ³ëÃâµÇ´Â Á¤º¸ "¾øÀ½" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : !CMT_33! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ²2: !CMT_33_1! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ²3: !CMT_33_2! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type curl_http.txt >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo **ê²°ê³¼ ì—†ìŒ = ë…¸ì¶œ ì •ë³´ ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo **°á°ú ¾øÀ½ = ³ëÃâ Á¤º¸ ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF EXIST curl_http.txt (
 	type curl_http.txt | findstr /v "^$" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	IF ERRORLEVEL 1 (
-		echo     ì—°ê²°ë˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+		echo     ¿¬°áµÇÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	) 
 ) ELSE (
-	echo     curl_http.txt íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     curl_http.txt ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 echo (CMD) ftp -A 127.0.0.1 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF EXIST ftp_result.txt (
 	type ftp_result.txt | findstr /v "^$" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	IF ERRORLEVEL 1 (
-		echo     ì—°ê²°ë˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+		echo     ¿¬°áµÇÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	) 
 ) ELSE (
-	echo     ftp_result.txt íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ftp_result.txt ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 echo (CMD) type curl_http.txt >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF EXIST curl_smtp.txt (
 	type curl_smtp.txt | findstr /v "^$" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	IF ERRORLEVEL 1 (
-		echo     ì—°ê²°ë˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+		echo     ¿¬°áµÇÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	) 
 ) ELSE (
-	echo     curl_smtp.txt íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     curl_smtp.txt ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 echo (CMD) type services.inf ^| findstr /i /c:"Simple Mail Transfer Protocol" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê²°ê³¼ ì—†ìŒ ^= ì„œë¹„ìŠ¤ ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °á°ú ¾øÀ½ ^= ¼­ºñ½º ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type services.inf | findstr /i /c:"Simple Mail Transfer Protocol" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type netstat.inf ^| findstr ":25" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê´€ë ¨ í¬íŠ¸ ëª©ë¡ : 25(ì¼ë°˜ SMTP),465(SMTPS),587(MSA SMTP),993(IMAP),995(POP3) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê²°ê³¼ ì—†ìŒ ^= ì—´ë¦° í¬íŠ¸ ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °ü·Ã Æ÷Æ® ¸ñ·Ï : 25(ÀÏ¹İ SMTP),465(SMTPS),587(MSA SMTP),993(IMAP),995(POP3) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °á°ú ¾øÀ½ ^= ¿­¸° Æ÷Æ® ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 FOR /f "tokens=1,2,* delims= " %%i IN (netstat.inf) DO (
 	echo %%j. | findstr /l ":25. :465. :587. :993. :995." >NUL
 	IF NOT ERRORLEVEL 1 (
@@ -2559,78 +2559,78 @@ FOR /f "tokens=1,2,* delims= " %%i IN (netstat.inf) DO (
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [33.W-33] HTTP/FTP/SMTP ë°°ë„ˆ ì°¨ë‹¨ [!RESULT_33!]
+echo [33.W-33] HTTP/FTP/SMTP ¹è³Ê Â÷´Ü [!RESULT_33!]
 :33_END
 SET CMT_33_1=
 SET CMT_33_2=
 SET RESULT_33=
 
 :33_ADD
-REM [ì„¤ì •] IIS 7.0 ì´ìƒ ë²„ì „ rewrite ë£°ì„ ì ìš©í•´ í—¤ë”ì •ë³´ í•„í„°ë§
-REM IIS 10.0 ì´ìƒ ë²„ì „ removeServerHeader ì˜µì…˜ì´ trueë¡œ ì„¤ì •
+REM [¼³Á¤] IIS 7.0 ÀÌ»ó ¹öÀü rewrite ·êÀ» Àû¿ëÇØ Çì´õÁ¤º¸ ÇÊÅÍ¸µ
+REM IIS 10.0 ÀÌ»ó ¹öÀü removeServerHeader ¿É¼ÇÀÌ true·Î ¼³Á¤
 
 REM ==================================================
 :34_START
-echo [34.W-34] Telnet ë¹„í™œì„±í™” >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [34.W-34] Telnet ºñÈ°¼ºÈ­ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :34_ROUTINE
-SET CMT_34=ì´ˆê¸°í™”&SET RESULT_34=ì¸í„°ë·°
-SET CMT_34_1=ì´ˆê¸°í™”
-SET CMT_34_2=ì´ˆê¸°í™”
+SET CMT_34=ÃÊ±âÈ­&SET RESULT_34=ÀÎÅÍºä
+SET CMT_34_1=ÃÊ±âÈ­
+SET CMT_34_2=ÃÊ±âÈ­
 
 echo %OS_VER% 2>NUL | findstr "10.0" >NUL
 IF ERRORLEVEL 1 (
-	REM Windows 2012 ì´í•˜
+	REM Windows 2012 ÀÌÇÏ
 	FOR /f "tokens=2 delims= " %%i IN (netstat.inf) DO (
 		echo %%i. | findstr /l ":23." >NUL
 		IF NOT ERRORLEVEL 1 (
-			SET CMT_34_1=Telnet ì„œë¹„ìŠ¤ í¬íŠ¸ê°€ "ì—´ë¦¼"
-			echo !CMT_34! 2>NUL | findstr "ë¹„í™œì„±í™”" >NUL
+			SET CMT_34_1=Telnet ¼­ºñ½º Æ÷Æ®°¡ "¿­¸²"
+			echo !CMT_34! 2>NUL | findstr "ºñÈ°¼ºÈ­" >NUL
 			IF NOT ERRORLEVEL 1 (
-				SET CMT_34_1=ë¶ˆí•„ìš”í•œ í¬íŠ¸ê°€ "ì—´ë¦¼"&SET RESULT_34=ì¸í„°ë·°
+				SET CMT_34_1=ºÒÇÊ¿äÇÑ Æ÷Æ®°¡ "¿­¸²"&SET RESULT_34=ÀÎÅÍºä
 			)
 		) ELSE (
-			SET CMT_34_1=Telnet ì„œë¹„ìŠ¤ í¬íŠ¸ê°€ "ë‹«í˜"
-			echo !CMT_34! 2>NUL | findstr "í™œì„±í™”" | findstr /v "ë¹„í™œì„±í™”" >NUL
+			SET CMT_34_1=Telnet ¼­ºñ½º Æ÷Æ®°¡ "´İÈû"
+			echo !CMT_34! 2>NUL | findstr "È°¼ºÈ­" | findstr /v "ºñÈ°¼ºÈ­" >NUL
 			IF NOT ERRORLEVEL 1 (
-				SET CMT_34_1=ë””í´íŠ¸ í¬íŠ¸ê°€ ì•„ë‹Œ "ì„ì˜ì˜ í¬íŠ¸"ë¥¼ ì‚¬ìš©í•¨
+				SET CMT_34_1=µğÆúÆ® Æ÷Æ®°¡ ¾Æ´Ñ "ÀÓÀÇÀÇ Æ÷Æ®"¸¦ »ç¿ëÇÔ
 			)
 		)
 	)
-	echo !CMT_34! 2>NUL | findstr /i "ë¹„í™œì„±í™”" >NUL
+	echo !CMT_34! 2>NUL | findstr /i "ºñÈ°¼ºÈ­" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET CMT_34_2=.&GOTO :34_PRINT
 	)
 	reg query "HKLM\Software\Microsoft\TelnetServer\1.0" /v "SecurityMechanism" 2>NUL | findstr /i "SecurityMechanism" >NUL
 	IF ERRORLEVEL 1 (
-		SET CMT_34_2=ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ&SET RESULT_34=ì¸í„°ë·°& GOTO :34_PRINT
+		SET CMT_34_2=¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½&SET RESULT_34=ÀÎÅÍºä& GOTO :34_PRINT
 	)
 	reg query "HKLM\Software\Microsoft\TelnetServer\1.0" /v "SecurityMechanism" 2>NUL | findstr /i "SecurityMechanism" | findstr "2" >NUL
 	IF NOT ERRORLEVEL 1 (
-		SET CMT_34_2=passwd ì¸ì¦ë°©ì‹ì„ ì œì™¸í•œ "NTLM ì¸ì¦ë°©ì‹ë§Œ" ì‚¬ìš©í•¨&SET RESULT_34=ì–‘í˜¸
+		SET CMT_34_2=passwd ÀÎÁõ¹æ½ÄÀ» Á¦¿ÜÇÑ "NTLM ÀÎÁõ¹æ½Ä¸¸" »ç¿ëÇÔ&SET RESULT_34=¾çÈ£
 	)
 	IF ERRORLEVEL 1 (
-		SET CMT_34_2=ì·¨ì•½í•œ "passwd ì¸ì¦ë°©ì‹"ì„ ì‚¬ìš©í•¨&SET RESULT_34=ì·¨ì•½
+		SET CMT_34_2=Ãë¾àÇÑ "passwd ÀÎÁõ¹æ½Ä"À» »ç¿ëÇÔ&SET RESULT_34=Ãë¾à
 	)
 ) ELSE (
-	REM Windows 2016 ì´ìƒ (10.0)
-	SET CMT_34=Windows 2016 ì´ìƒ ë²„ì „ì€ "í•´ë‹¹ì—†ìŒ"&SET RESULT_34=ì–‘í˜¸
+	REM Windows 2016 ÀÌ»ó (10.0)
+	SET CMT_34=Windows 2016 ÀÌ»ó ¹öÀüÀº "ÇØ´ç¾øÀ½"&SET RESULT_34=¾çÈ£
 )
 
 :34_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : !RESULT_34! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë¶ˆí•„ìš”í•œ Telnet ì„œë¹„ìŠ¤ ë¹„í™œì„±í™” >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo        ë˜ëŠ” í™œì„±í™” ì‹œ passwd ì¸ì¦ë°©ì‹ì„ ì œì™¸í•œ "NTLM ì¸ì¦ë°©ì‹ë§Œ" ì‚¬ìš© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : !CMT_34! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™©2: !CMT_34_1! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™©3: !CMT_34_2! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : !RESULT_34! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ºÒÇÊ¿äÇÑ Telnet ¼­ºñ½º ºñÈ°¼ºÈ­ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo        ¶Ç´Â È°¼ºÈ­ ½Ã passwd ÀÎÁõ¹æ½ÄÀ» Á¦¿ÜÇÑ "NTLM ÀÎÁõ¹æ½Ä¸¸" »ç¿ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : !CMT_34! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ²2: !CMT_34_1! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ²3: !CMT_34_2! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type services.inf ^| findstr /i "Telnet" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê²°ê³¼ ì—†ìŒ ^= ì„œë¹„ìŠ¤ ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °á°ú ¾øÀ½ ^= ¼­ºñ½º ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type services.inf | findstr /i "Telnet" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type netstat.inf >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê²°ê³¼ ì—†ìŒ ^= ì—´ë¦° í¬íŠ¸ ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °á°ú ¾øÀ½ ^= ¿­¸° Æ÷Æ® ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 FOR /f "tokens=1,2,* delims= " %%i IN (netstat.inf) DO (
 	echo %%j. | findstr /l ":23." >NUL
 	IF NOT ERRORLEVEL 1 (
@@ -2640,75 +2640,75 @@ FOR /f "tokens=1,2,* delims= " %%i IN (netstat.inf) DO (
 echo (CMD) tlntadmn config >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 where tlntadmn 2>NUL >NUL
 IF NOT ERRORLEVEL 1 (
-	tlntadmn config 2>NUL | findstr /i "Authentication ì¸ì¦" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	tlntadmn config 2>NUL | findstr /i "Authentication ÀÎÁõ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) ELSE (
-	echo     í•´ë‹¹ ëª…ë ¹ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ÇØ´ç ¸í·ÉÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 echo (CMD) reg query "HKLM\Software\Microsoft\TelnetServer\1.0" /v "SecurityMechanism" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^*^*^*^* ì„¤ì • ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* 0x2 (ì–‘í˜¸) : NTLM ë°©ì‹ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* 0x4 (ì·¨ì•½) : passwd ë°©ì‹ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* 0x6 (ì·¨ì•½) : NTLM, passwd ë°©ì‹>> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^*^*^*^* ¼³Á¤ ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* 0x2 (¾çÈ£) : NTLM ¹æ½Ä >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* 0x4 (Ãë¾à) : passwd ¹æ½Ä >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* 0x6 (Ãë¾à) : NTLM, passwd ¹æ½Ä>> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\Software\Microsoft\TelnetServer\1.0" /v "SecurityMechanism" 2>NUL | findstr /i "SecurityMechanism" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [34.W-34] Telnet ì„œë¹„ìŠ¤ ë¹„í™œì„±í™” [!RESULT_34!]
+echo [34.W-34] Telnet ¼­ºñ½º ºñÈ°¼ºÈ­ [!RESULT_34!]
 :34_END
 SET CMT_34_1=
 SET CMT_34_2=
 SET RESULT_34=
 
 :34_ADD
-REM [ì„¤ì •] telnet ì¸ì¦ë°©ì‹
-REM echo SecurityMechanism = TELNET ì„œë¹„ìŠ¤ ì¸ì¦ë°©ì‹ì„¤ì •
-REM echo SecurityMechanism = 6 ë‘˜ë‹¤
-REM echo SecurityMechanism = 4 passwd ì¸ì¦ë°©ì‹
-REM echo SecurityMechanism = 2 (passwd ì¸ì¦ ë°©ì‹ì„ ì œì™¸í•˜ê³  NTLM ì¸ì¦ë°©ì‹ ë§Œ ì‚¬ìš©)
+REM [¼³Á¤] telnet ÀÎÁõ¹æ½Ä
+REM echo SecurityMechanism = TELNET ¼­ºñ½º ÀÎÁõ¹æ½Ä¼³Á¤
+REM echo SecurityMechanism = 6 µÑ´Ù
+REM echo SecurityMechanism = 4 passwd ÀÎÁõ¹æ½Ä
+REM echo SecurityMechanism = 2 (passwd ÀÎÁõ ¹æ½ÄÀ» Á¦¿ÜÇÏ°í NTLM ÀÎÁõ¹æ½Ä ¸¸ »ç¿ë)
 REM
-REM [ë³´ì•ˆì„¤ì •] CMD : tlntadmn config sec = +NTLM-passwd
+REM [º¸¾È¼³Á¤] CMD : tlntadmn config sec = +NTLM-passwd
 
 REM ==================================================
 :35_START
-echo [35.W-35] ë¶ˆí•„ìš”í•œ ODBC/OLE-DB ë°ì´í„° ì†ŒìŠ¤ì™€ ë“œë¼ì´ë¸Œ ì œê±° >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [35.W-35] ºÒÇÊ¿äÇÑ ODBC/OLE-DB µ¥ÀÌÅÍ ¼Ò½º¿Í µå¶óÀÌºê Á¦°Å >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :35_ROUTINE
-SET CMT_35=ì´ˆê¸°í™”&SET RESULT_35=ì¸í„°ë·°
+SET CMT_35=ÃÊ±âÈ­&SET RESULT_35=ÀÎÅÍºä
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\ODBC\ODBC.INI\ODBC Data Sources" 2>NUL | findstr /i "REG_SZ" >NUL
 IF NOT ERRORLEVEL 1 (
-	SET CMT_35=ë¶ˆí•„ìš”í•œ ODBC Data Sources ì¡´ì¬&SET RESULT_35=ì·¨ì•½
+	SET CMT_35=ºÒÇÊ¿äÇÑ ODBC Data Sources Á¸Àç&SET RESULT_35=Ãë¾à
 )
 reg query "HKLM\SOFTWARE\ODBC\ODBC.INI\ODBC Data Sources" 2>NUL | findstr /i "REG_SZ" >NUL
 IF NOT ERRORLEVEL 1 (
-	SET CMT_35=ë¶ˆí•„ìš”í•œ ODBC Data Sources ì¡´ì¬&SET RESULT_35=ì·¨ì•½
+	SET CMT_35=ºÒÇÊ¿äÇÑ ODBC Data Sources Á¸Àç&SET RESULT_35=Ãë¾à
 )
 
 :35_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_35% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë¶ˆí•„ìš”í•œ ODBC Data Sources "ì¡´ì¬í•˜ì§€ ì•ŠìŒ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_35% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_35% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ºÒÇÊ¿äÇÑ ODBC Data Sources "Á¸ÀçÇÏÁö ¾ÊÀ½" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_35% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo (CMD) reg query "ë°ì´í„°ì†ŒìŠ¤" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo (CMD) reg query "µ¥ÀÌÅÍ¼Ò½º" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo - 32bit - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\ODBC\ODBC.INI\ODBC Data Sources" 2>NUL | findstr /i "REG_SZ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo - 64bit - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\SOFTWARE\ODBC\ODBC.INI\ODBC Data Sources" 2>NUL | findstr /i "REG_SZ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [35.W-35] ë¶ˆí•„ìš”í•œ ODBC/OLE-DB ë°ì´í„° ì†ŒìŠ¤ì™€ ë“œë¼ì´ë¸Œ ì œê±° [%RESULT_35%]
+echo [35.W-35] ºÒÇÊ¿äÇÑ ODBC/OLE-DB µ¥ÀÌÅÍ ¼Ò½º¿Í µå¶óÀÌºê Á¦°Å [%RESULT_35%]
 :32_END
 SET CMT_35=
 SET RESULT_35=
@@ -2717,30 +2717,30 @@ SET RESULT_35=
 
 REM ==================================================
 batch:36_START
-echo [36.W-36] ì›ê²© í„°ë¯¸ë„ ì ‘ì† íƒ€ì„ì•„ì›ƒ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [36.W-36] ¿ø°İ ÅÍ¹Ì³Î Á¢¼Ó Å¸ÀÓ¾Æ¿ô ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 :36_ROUTINE
-SET CMT_36=ì´ˆê¸°í™”
-SET RESULT_36=ì¸í„°ë·°
+SET CMT_36=ÃÊ±âÈ­
+SET RESULT_36=ÀÎÅÍºä
 
-REM 1. RDP ì„œë¹„ìŠ¤ í™œì„±í™” ì—¬ë¶€ í™•ì¸
+REM 1. RDP ¼­ºñ½º È°¼ºÈ­ ¿©ºÎ È®ÀÎ
 reg query "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections 2>NUL | findstr "0x0" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_36=ì›ê²© ë°ìŠ¤í¬í†±ì´ "ë¹„í™œì„±í™”"ë¨
-	SET RESULT_36=ì–‘í˜¸
+	SET CMT_36=¿ø°İ µ¥½ºÅ©ÅéÀÌ "ºñÈ°¼ºÈ­"µÊ
+	SET RESULT_36=¾çÈ£
 	GOTO :36_PRINT
 )
 
-REM 2. íƒ€ì„ì•„ì›ƒ ì„¤ì • í™•ì¸ (ê·¸ë£¹ ì •ì±… ìš°ì„ )
+REM 2. Å¸ÀÓ¾Æ¿ô ¼³Á¤ È®ÀÎ (±×·ì Á¤Ã¥ ¿ì¼±)
 SET TIMEOUT_SET=0
 
-REM 2-1. ê·¸ë£¹ ì •ì±… í™•ì¸ (ìš°ì„ ìˆœìœ„ ë†’ìŒ)
+REM 2-1. ±×·ì Á¤Ã¥ È®ÀÎ (¿ì¼±¼øÀ§ ³ôÀ½)
 FOR /f "tokens=3 delims= " %%i IN ('reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" 2^>NUL ^| findstr /i "MaxIdleTime"') DO (
 	IF NOT "%%i" EQU "0x0" (
 		SET TIMEOUT_SET=1
 	)
 )
 
-REM 2-2. ê·¸ë£¹ ì •ì±…ì— ì—†ìœ¼ë©´ ë¡œì»¬ ë ˆì§€ìŠ¤íŠ¸ë¦¬ í™•ì¸
+REM 2-2. ±×·ì Á¤Ã¥¿¡ ¾øÀ¸¸é ·ÎÄÃ ·¹Áö½ºÆ®¸® È®ÀÎ
 IF !TIMEOUT_SET! EQU 0 (
 	FOR /f "tokens=3 delims= " %%i IN ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" 2^>NUL ^| findstr /i "MaxIdleTime" ^| findstr /v "fInherit"') DO (
 		IF NOT "%%i" EQU "0x0" (
@@ -2750,51 +2750,51 @@ IF !TIMEOUT_SET! EQU 0 (
 )
 
 IF !TIMEOUT_SET! EQU 1 (
-	SET CMT_36=ì›ê²© ë°ìŠ¤í¬í†±ì´ í™œì„±í™”ë˜ì–´ ìˆê³  íƒ€ì„ì•„ì›ƒ "ì„¤ì •"ë¨
-	SET RESULT_36=ì–‘í˜¸
+	SET CMT_36=¿ø°İ µ¥½ºÅ©ÅéÀÌ È°¼ºÈ­µÇ¾î ÀÖ°í Å¸ÀÓ¾Æ¿ô "¼³Á¤"µÊ
+	SET RESULT_36=¾çÈ£
 ) ELSE (
-	SET CMT_36=ì›ê²© ë°ìŠ¤í¬í†±ì´ í™œì„±í™”ë˜ì–´ ìˆìœ¼ë‚˜ íƒ€ì„ì•„ì›ƒ "ë¯¸ì„¤ì •"
-	SET RESULT_36=ì·¨ì•½
+	SET CMT_36=¿ø°İ µ¥½ºÅ©ÅéÀÌ È°¼ºÈ­µÇ¾î ÀÖÀ¸³ª Å¸ÀÓ¾Æ¿ô "¹Ì¼³Á¤"
+	SET RESULT_36=Ãë¾à
 )
 
 :36_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : !RESULT_36! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ì›ê²© í„°ë¯¸ë„ ì‚¬ìš© ì‹œ íƒ€ì„ì•„ì›ƒ "ì„¤ì •" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : !CMT_36! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : !RESULT_36! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ¿ø°İ ÅÍ¹Ì³Î »ç¿ë ½Ã Å¸ÀÓ¾Æ¿ô "¼³Á¤" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : !CMT_36! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^*^*^*^* ì„¤ì • ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* MaxIdleTime : 1800000(ms) = 0x1b7740 = 30ë¶„ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* MaxIdleTime : 900000(ms) = 0xdbba0 = 15ë¶„ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^*^*^*^* ¼³Á¤ ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* MaxIdleTime : 1800000(ms) = 0x1b7740 = 30ºĞ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* MaxIdleTime : 900000(ms) = 0xdbba0 = 15ºĞ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 echo (CMD) reg query "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections 2>NUL >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* 0x0 = í—ˆìš©, 0x1 = ê±°ë¶€ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* 0x0 = Çã¿ë, 0x1 = °ÅºÎ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ** ê·¸ë£¹ ì •ì±… ì„¤ì • (ìš°ì„ ìˆœìœ„ ë†’ìŒ) ** >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ** ±×·ì Á¤Ã¥ ¼³Á¤ (¿ì¼±¼øÀ§ ³ôÀ½) ** >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" /v MaxIdleTime >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
-echo - ìœ íœ´ ì„¸ì…˜ ì œí•œ (ê·¸ë£¹ ì •ì±…) - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo - À¯ÈŞ ¼¼¼Ç Á¦ÇÑ (±×·ì Á¤Ã¥) - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" /v MaxIdleTime 2>NUL >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ê·¸ë£¹ ì •ì±… ë¯¸ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ±×·ì Á¤Ã¥ ¹Ì¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ** ë¡œì»¬ ë ˆì§€ìŠ¤íŠ¸ë¦¬ ì„¤ì • ** >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ** ·ÎÄÃ ·¹Áö½ºÆ®¸® ¼³Á¤ ** >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) reg query "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
-echo - ìœ íœ´ ì„¸ì…˜ ì œí•œ (ë¡œì»¬) - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo - À¯ÈŞ ¼¼¼Ç Á¦ÇÑ (·ÎÄÃ) - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" 2>NUL | findstr /i "MaxIdleTime" | findstr /v "fInherit" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë¡œì»¬ ì„¤ì • ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·ÎÄÃ ¼³Á¤ ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [36.W-36] ì›ê²©í„°ë¯¸ë„ ì ‘ì† íƒ€ì„ì•„ì›ƒ ì„¤ì • [!RESULT_36!]
+echo [36.W-36] ¿ø°İÅÍ¹Ì³Î Á¢¼Ó Å¸ÀÓ¾Æ¿ô ¼³Á¤ [!RESULT_36!]
 
 :36_END
 SET CMT_36=
@@ -2802,34 +2802,34 @@ SET RESULT_36=
 SET TIMEOUT_SET=
 
 :36_ADD
-REM [ê¸°ì¤€] ë³„ë„ ì •í•´ì§„ ê¸°ì¤€ì€ ì—†ìŒ (ìˆ«ì ì„¤ì •ì‹œ ì–‘í˜¸)
-REM ì‹œê°„ê°’ 1ë¶„ = 60000  10ë¶„ = 600000  15ë¶„ = 900000  1ì‹œê°„ = 3600000
-REM ì‚¬ìš© ì•ˆí•¨(0x0), 1ë¶„(0xea60), 5ë¶„(0x493e0), 10ë¶„(0x927c0), 15ë¶„(0xdbba0), 30ë¶„(0x1b7740), 1ì‹œê°„(0x36ee80), 2ì‹œê°„(0x6ddd00)
-REM MaxDisconnectionTime = ì—°ê²° ëŠí‚¨ ì„¸ì…˜ ëë‚´ê¸°(ì—°ê²°ì´ ëŠì–´ì§„ ì‚¬ìš©ìëŠ” ì„¸ì…˜ì€ ë¶™ì–´ìˆìœ¼ë‚˜ ì´ ì‹œê°„ì´ ì§€ë‚˜ë©´ ì„¸ì…˜ì„ ëŠì–´ì§)
-REM MaxConnectionTime = í™œì„± ì„¸ì…˜ ì œí•œ(ì ‘ì†í•œ ì‚¬ìš©ìëŠ” ì–´ë–¤ ì—…ë¬´ë¥¼ í•˜ë˜ê°„ì— ì´ ì‹œê°„ì´ ì§€ë‚˜ë©´ ì—°ê²°ì´ ëŠì–´ì§)
-REM MaxIdleTime = ìœ íœ´ ì„¸ì…˜ ì œí•œ(ì„œë²„ì— ì—°ê²°í•´ì„œ ì•„ë¬´ëŸ° í–‰ë™ì„ í•˜ì§€ ì•Šì„ ì‹œ ê°’ì„ ì´ˆê³¼í•˜ëŠ” ê²½ìš° ëŠì–´ì§)
+REM [±âÁØ] º°µµ Á¤ÇØÁø ±âÁØÀº ¾øÀ½ (¼ıÀÚ ¼³Á¤½Ã ¾çÈ£)
+REM ½Ã°£°ª 1ºĞ = 60000  10ºĞ = 600000  15ºĞ = 900000  1½Ã°£ = 3600000
+REM »ç¿ë ¾ÈÇÔ(0x0), 1ºĞ(0xea60), 5ºĞ(0x493e0), 10ºĞ(0x927c0), 15ºĞ(0xdbba0), 30ºĞ(0x1b7740), 1½Ã°£(0x36ee80), 2½Ã°£(0x6ddd00)
+REM MaxDisconnectionTime = ¿¬°á ²÷Å² ¼¼¼Ç ³¡³»±â(¿¬°áÀÌ ²÷¾îÁø »ç¿ëÀÚ´Â ¼¼¼ÇÀº ºÙ¾îÀÖÀ¸³ª ÀÌ ½Ã°£ÀÌ Áö³ª¸é ¼¼¼ÇÀ» ²÷¾îÁü)
+REM MaxConnectionTime = È°¼º ¼¼¼Ç Á¦ÇÑ(Á¢¼ÓÇÑ »ç¿ëÀÚ´Â ¾î¶² ¾÷¹«¸¦ ÇÏ´ø°£¿¡ ÀÌ ½Ã°£ÀÌ Áö³ª¸é ¿¬°áÀÌ ²÷¾îÁü)
+REM MaxIdleTime = À¯ÈŞ ¼¼¼Ç Á¦ÇÑ(¼­¹ö¿¡ ¿¬°áÇØ¼­ ¾Æ¹«·± Çàµ¿À» ÇÏÁö ¾ÊÀ» ½Ã °ªÀ» ÃÊ°úÇÏ´Â °æ¿ì ²÷¾îÁü)
 REM
-REM [ì„¤ëª…] AZURE VM ì›ê²© ë°ìŠ¤í¬í†± -> fInherití¬í•¨
+REM [¼³¸í] AZURE VM ¿ø°İ µ¥½ºÅ©Åé -> fInheritÆ÷ÇÔ
 
 REM ==================================================
 :37_START
-echo [37.W-37] ì˜ˆì•½ëœ ì‘ì—…ì— ì˜ì‹¬ìŠ¤ëŸ¬ìš´ ëª…ë ¹ì´ ë“±ë¡ë˜ì–´ ìˆëŠ”ì§€ ì ê²€ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [37.W-37] ¿¹¾àµÈ ÀÛ¾÷¿¡ ÀÇ½É½º·¯¿î ¸í·ÉÀÌ µî·ÏµÇ¾î ÀÖ´ÂÁö Á¡°Ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :37_ROUTINE
-SET CMT_37=ìˆ˜ë™ì ê²€&SET RESULT_37=ì¸í„°ë·°
+SET CMT_37=¼öµ¿Á¡°Ë&SET RESULT_37=ÀÎÅÍºä
 
 :37_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_37% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë¶ˆí•„ìš”í•œ ì˜ˆì•½ ì‘ì—… "ì¡´ì¬í•˜ì§€ ì•ŠìŒ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_37% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_37% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ºÒÇÊ¿äÇÑ ¿¹¾à ÀÛ¾÷ "Á¸ÀçÇÏÁö ¾ÊÀ½" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_37% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) schtasks >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-schtasks /query | findstr /i /v "^$ N/A = status ìƒíƒœ Folder í´ë” INFO: ì •ë³´" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+schtasks /query | findstr /i /v "^$ N/A = status »óÅÂ Folder Æú´õ INFO: Á¤º¸" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [37.W-37] ì˜ˆì•½ëœ ì‘ì—…ì— ì˜ì‹¬ìŠ¤ëŸ¬ìš´ ëª…ë ¹ì´ ë“±ë¡ë˜ì–´ ìˆëŠ”ì§€ ì ê²€ [%RESULT_37%]
+echo [37.W-37] ¿¹¾àµÈ ÀÛ¾÷¿¡ ÀÇ½É½º·¯¿î ¸í·ÉÀÌ µî·ÏµÇ¾î ÀÖ´ÂÁö Á¡°Ë [%RESULT_37%]
 :37_END
 SET CMT_37=
 SET RESULT_37=
@@ -2842,38 +2842,38 @@ REM ==================================================
 REM ==================================================
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ----------------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo  3. íŒ¨ì¹˜ê´€ë¦¬  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo  3. ÆĞÄ¡°ü¸®  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ----------------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo.
 echo.
-echo 3. íŒ¨ì¹˜ê´€ë¦¬
+echo 3. ÆĞÄ¡°ü¸®
 echo --------------
 
 REM ==================================================
 :38_START
-echo [38.W-38] ì£¼ê¸°ì ì¸ ë³´ì•ˆ íŒ¨ì¹˜ ë° ë²¤ë” ê¶Œê³ ì‚¬í•­ ì ìš© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [38.W-38] ÁÖ±âÀûÀÎ º¸¾È ÆĞÄ¡ ¹× º¥´õ ±Ç°í»çÇ× Àû¿ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :38_ROUTINE
-SET CMT_38=ìˆ˜ë™ ì ê²€&SET RESULT_38=ì¸í„°ë·°
+SET CMT_38=¼öµ¿ Á¡°Ë&SET RESULT_38=ÀÎÅÍºä
 
 wmic qfe get installedon > wmic.inf
 type wmic.inf | findstr /l \/ >NUL
 
 :38_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_38% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ì£¼ê¸°ì ìœ¼ë¡œ ë³´ì•ˆíŒ¨ì¹˜ ì ìš© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_38% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_38% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ÁÖ±âÀûÀ¸·Î º¸¾ÈÆĞÄ¡ Àû¿ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_38% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) wmic qfe get hotfixid, installedon >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ** ì„¤ì¹˜ ë‚ ì§œê°€ ì¼ë°˜ ë‚ ì§œ í˜•ì‹ì´ ì•„ë‹Œ ê²½ìš°, ì œì–´íŒ ^> ë³´ì•ˆ ^> Windows Update ^> ì—…ë°ì´íŠ¸ ë³´ê¸° >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ** ¼³Ä¡ ³¯Â¥°¡ ÀÏ¹İ ³¯Â¥ Çü½ÄÀÌ ¾Æ´Ñ °æ¿ì, Á¦¾îÆÇ ^> º¸¾È ^> Windows Update ^> ¾÷µ¥ÀÌÆ® º¸±â >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 wmic qfe get hotfixid, installedon > wmic.inf
 type wmic.inf >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [38.W-38] ì£¼ê¸°ì ì¸ ë³´ì•ˆ íŒ¨ì¹˜ ë° ë²¤ë” ê¶Œê³ ì‚¬í•­ ì ìš© [%RESULT_38%]
+echo [38.W-38] ÁÖ±âÀûÀÎ º¸¾È ÆĞÄ¡ ¹× º¥´õ ±Ç°í»çÇ× Àû¿ë [%RESULT_38%]
 :38_END
 SET CMT_38=
 SET RESULT_38=
@@ -2885,17 +2885,17 @@ SET NOW_38_month=
 REM ==================================================
 REM ==================================================
 :39_START
-echo [39.W-39] ë°±ì‹  í”„ë¡œê·¸ë¨ ì—…ë°ì´íŠ¸ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [39.W-39] ¹é½Å ÇÁ·Î±×·¥ ¾÷µ¥ÀÌÆ® >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :39_ROUTINE
-SET CMT_39=ì´ˆê¸°í™”
+SET CMT_39=ÃÊ±âÈ­
 SET CMT_39_1=
-SET RESULT_39=ì¸í„°ë·°
+SET RESULT_39=ÀÎÅÍºä
 SET AV_FOUND=0
 SET AV_NAMES=
 
 REM ========================================
-REM ë°©ë²• 1: SecurityCenter2 í™•ì¸ (Windows í´ë¼ì´ì–¸íŠ¸ìš©)
+REM ¹æ¹ı 1: SecurityCenter2 È®ÀÎ (Windows Å¬¶óÀÌ¾ğÆ®¿ë)
 REM ========================================
 wmic /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get displayName >NUL 2>NUL
 IF NOT ERRORLEVEL 1 (
@@ -2906,7 +2906,7 @@ IF NOT ERRORLEVEL 1 (
 )
 
 REM ========================================
-REM ë°©ë²• 2: ì£¼ìš” ë°±ì‹  ì„œë¹„ìŠ¤ í™•ì¸ (Windows Serverìš©)
+REM ¹æ¹ı 2: ÁÖ¿ä ¹é½Å ¼­ºñ½º È®ÀÎ (Windows Server¿ë)
 REM ========================================
 FOR %%s IN (
 	"AVP:Kaspersky" 
@@ -2939,112 +2939,112 @@ FOR %%s IN (
 )
 
 REM ========================================
-REM ë°©ë²• 3: ë°±ì‹  í”„ë¡œì„¸ìŠ¤ í™•ì¸
+REM ¹æ¹ı 3: ¹é½Å ÇÁ·Î¼¼½º È®ÀÎ
 REM ========================================
 
 tasklist 2>NUL | findstr /i "v3l v3medic alyac mcshield avp ekrn tmlisten ntrtscan pccntmon avasvc avgui" >NUL
 IF NOT ERRORLEVEL 1 (
 	SET AV_FOUND=1
-	SET CMT_39=ë°±ì‹  í”„ë¡œê·¸ë¨ í”„ë¡œì„¸ìŠ¤ í™•ì¸
-	SET RESULT_39=ì–‘í˜¸
+	SET CMT_39=¹é½Å ÇÁ·Î±×·¥ ÇÁ·Î¼¼½º È®ÀÎ
+	SET RESULT_39=¾çÈ£
 )
 
 REM ========================================
-REM ë°±ì‹  ì„¤ì¹˜ ì—¬ë¶€ íŒì •
+REM ¹é½Å ¼³Ä¡ ¿©ºÎ ÆÇÁ¤
 REM ========================================
 IF !AV_FOUND! EQU 0 (
-	SET CMT_39=ë°±ì‹  í”„ë¡œê·¸ë¨ "ì„¤ì¹˜ ì•ˆ ë¨"
+	SET CMT_39=¹é½Å ÇÁ·Î±×·¥ "¼³Ä¡ ¾È µÊ"
 	SET CMT_39_1=
-	SET RESULT_39=ì·¨ì•½
+	SET RESULT_39=Ãë¾à
 	GOTO :39_PRINT
 )
 
 REM ========================================
-REM SecurityCenter2ë¡œ ìƒì„¸ ìƒíƒœ í™•ì¸ (ê°€ëŠ¥í•œ ê²½ìš°)
+REM SecurityCenter2·Î »ó¼¼ »óÅÂ È®ÀÎ (°¡´ÉÇÑ °æ¿ì)
 REM ========================================
 wmic /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get productState >NUL 2>NUL
 IF ERRORLEVEL 1 (
-	REM SecurityCenter2 ì ‘ê·¼ ë¶ˆê°€ (Windows Server ë“±)
-	SET CMT_39=ë°±ì‹  í”„ë¡œê·¸ë¨ "ì„¤ì¹˜"ë¨ - ìˆ˜ë™ìœ¼ë¡œ ì—…ë°ì´íŠ¸ ìƒíƒœ í™•ì¸ í•„ìš”
-	SET CMT_39_1=SecurityCenter2 ë¯¸ì§€ì› í™˜ê²½ (ì„¤ì¹˜ëœ ë°±ì‹ : !AV_NAMES!)
+	REM SecurityCenter2 Á¢±Ù ºÒ°¡ (Windows Server µî)
+	SET CMT_39=¹é½Å ÇÁ·Î±×·¥ "¼³Ä¡"µÊ - ¼öµ¿À¸·Î ¾÷µ¥ÀÌÆ® »óÅÂ È®ÀÎ ÇÊ¿ä
+	SET CMT_39_1=SecurityCenter2 ¹ÌÁö¿ø È¯°æ (¼³Ä¡µÈ ¹é½Å: !AV_NAMES!)
 )
 
-REM productState ê°œìˆ˜ í™•ì¸
+REM productState °³¼ö È®ÀÎ
 FOR /f "skip=1" %%i IN ('wmic /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get productState 2^>NUL ^| findstr /r /v "^$" ^| find /c /v ""') DO (
 	IF %%i LEQ 0 (
-		SET CMT_39=ë°±ì‹  í”„ë¡œê·¸ë¨ "ì„¤ì¹˜ ì•ˆ ë¨"
+		SET CMT_39=¹é½Å ÇÁ·Î±×·¥ "¼³Ä¡ ¾È µÊ"
 	)
 )
 
 REM ========================================
-REM productState ê°’ìœ¼ë¡œ ë°±ì‹  ìƒíƒœ ë¶„ì„
+REM productState °ªÀ¸·Î ¹é½Å »óÅÂ ºĞ¼®
 REM ========================================
-SET RESULT_39=ì–‘í˜¸
+SET RESULT_39=¾çÈ£
 SET STATE_INFO=
 FOR /f "tokens=1 skip=1" %%i IN ('wmic /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get productState 2^>NUL ^|findstr /r /v "^$"') DO (
 	SET STATE=%%i
 	SET /A ENABLED=%%i %% 16
 	SET /A OUTDATED=^(%%i / 256^) %% 16
 	
-	REM ë°±ì‹  ë¹„í™œì„±í™” ì²´í¬
+	REM ¹é½Å ºñÈ°¼ºÈ­ Ã¼Å©
 	IF !ENABLED! EQU 0 (
-		SET CMT_39=!CMT_39![%%i]ë°±ì‹  "ì„¤ì¹˜"ë¨ í•˜ì§€ë§Œ "ë¹„í™œì„±í™”"ë¨
-		SET RESULT_39=ì·¨ì•½
-		SET STATE_INFO=!STATE_INFO![%%i:ë¹„í™œì„±]
+		SET CMT_39=!CMT_39![%%i]¹é½Å "¼³Ä¡"µÊ ÇÏÁö¸¸ "ºñÈ°¼ºÈ­"µÊ
+		SET RESULT_39=Ãë¾à
+		SET STATE_INFO=!STATE_INFO![%%i:ºñÈ°¼º]
 	) ELSE (
-		REM ì—…ë°ì´íŠ¸ ìƒíƒœ ì²´í¬
+		REM ¾÷µ¥ÀÌÆ® »óÅÂ Ã¼Å©
 		IF !OUTDATED! GEQ 1 (
-			SET CMT_39=!CMT_39![%%i]ë°±ì‹  "í™œì„±í™”" ë° "ì—…ë°ì´íŠ¸ ë¯¸ì§„í–‰"
-			SET RESULT_39=ì·¨ì•½
-			SET STATE_INFO=!STATE_INFO![%%i:ì—…ë°ì´íŠ¸í•„ìš”]
+			SET CMT_39=!CMT_39![%%i]¹é½Å "È°¼ºÈ­" ¹× "¾÷µ¥ÀÌÆ® ¹ÌÁøÇà"
+			SET RESULT_39=Ãë¾à
+			SET STATE_INFO=!STATE_INFO![%%i:¾÷µ¥ÀÌÆ®ÇÊ¿ä]
 		) ELSE (
-			SET CMT_39=!CMT_39![%%i]ë°±ì‹  "í™œì„±í™”" ë° "ì—…ë°ì´íŠ¸ ìµœì‹ "
-			SET STATE_INFO=!STATE_INFO![%%i:ì •ìƒ]
+			SET CMT_39=!CMT_39![%%i]¹é½Å "È°¼ºÈ­" ¹× "¾÷µ¥ÀÌÆ® ÃÖ½Å"
+			SET STATE_INFO=!STATE_INFO![%%i:Á¤»ó]
 		)
 	)
 )
 
-REM ì‹ ê·œ ProductState ê°’ ìˆ˜ì§‘ (ë””ë²„ê¹…ìš©)
+REM ½Å±Ô ProductState °ª ¼öÁı (µğ¹ö±ë¿ë)
 :39_PRINT_1
-SET CMT_39_1=** ProductState ê°’:
+SET CMT_39_1=** ProductState °ª:
 FOR /f "tokens=1 skip=1" %%i IN ('wmic /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get productState 2^>NUL ^|findstr /r /v "^$"') DO (
-	REM ì•Œë ¤ì§„ ê°’ ëª©ë¡ (í™œì„±í™” + ìµœì‹ )
+	REM ¾Ë·ÁÁø °ª ¸ñ·Ï (È°¼ºÈ­ + ÃÖ½Å)
 	echo %%i | findstr "262144 266240 327680 331776 393216 397312 393472 397568 458752 462848" >NUL
 	IF NOT ERRORLEVEL 1 GOTO :39_KNOWN
 	
-	REM ì•Œë ¤ì§„ ê°’ ëª©ë¡ (í™œì„±í™” + ì˜¤ë˜ë¨)
+	REM ¾Ë·ÁÁø °ª ¸ñ·Ï (È°¼ºÈ­ + ¿À·¡µÊ)
 	echo %%i | findstr "262160 266256 331792 327696 393232 397328 397584 393488 462864 458768" >NUL
 	IF NOT ERRORLEVEL 1 GOTO :39_KNOWN
 	
-	REM ì•Œë ¤ì§„ ê°’ ëª©ë¡ (ë¹„í™œì„±í™”)
+	REM ¾Ë·ÁÁø °ª ¸ñ·Ï (ºñÈ°¼ºÈ­)
 	echo %%i | findstr "262128 327664 393200 458736 262112 327648 393184 458720" >NUL
 	IF NOT ERRORLEVEL 1 GOTO :39_KNOWN
 	
-	REM ì‹ ê·œ ê°’ ë°œê²¬
-	SET CMT_39_1=!CMT_39_1! "%%i"(ì‹ ê·œ)
-	SET RESULT_39=ì¸í„°ë·°
+	REM ½Å±Ô °ª ¹ß°ß
+	SET CMT_39_1=!CMT_39_1! "%%i"(½Å±Ô)
+	SET RESULT_39=ÀÎÅÍºä
 	
 :39_KNOWN
 )
-IF "%CMT_39_1%" == "** ProductState ê°’:" (SET CMT_39_1=** ProductState ê°’: ëª¨ë‘ ì•Œë ¤ì§„ ê°’)
+IF "%CMT_39_1%" == "** ProductState °ª:" (SET CMT_39_1=** ProductState °ª: ¸ğµÎ ¾Ë·ÁÁø °ª)
 
 REM ========================================
-REM ê²°ê³¼ ì¶œë ¥
+REM °á°ú Ãâ·Â
 REM ========================================
 :39_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : !RESULT_39! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë°±ì‹  í”„ë¡œê·¸ë¨ ì„¤ì¹˜ ë° ìµœì‹  ì—…ë°ì´íŠ¸ ìœ ì§€ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ì°¸ê³  : ìœˆë„ìš° ê¸°ë³¸ ë°±ì‹ í”„ë¡œê·¸ë¨ì¸ Windows Defender(MsMpEng.exe)ë§Œ ì¡´ì¬í•  ê²½ìš° ì·¨ì•½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : !CMT_39! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™©2 : !CMT_39_1! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : !RESULT_39! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ¹é½Å ÇÁ·Î±×·¥ ¼³Ä¡ ¹× ÃÖ½Å ¾÷µ¥ÀÌÆ® À¯Áö >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo Âü°í : À©µµ¿ì ±âº» ¹é½ÅÇÁ·Î±×·¥ÀÎ Windows Defender(MsMpEng.exe)¸¸ Á¸ÀçÇÒ °æ¿ì Ãë¾à >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : !CMT_39! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ²2 : !CMT_39_1! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
-REM SecurityCenter2 ë°±ì‹  ëª©ë¡
-echo (1) SecurityCenter2 ë“±ë¡ ë°±ì‹ : >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+REM SecurityCenter2 ¹é½Å ¸ñ·Ï
+echo (1) SecurityCenter2 µî·Ï ¹é½Å: >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 wmic /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get displayName 2>NUL | findstr /r /v "^$ displayName" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt 2>NUL
 IF ERRORLEVEL 1 (
-	echo     SecurityCenter2 ë¯¸ì§€ì› í™˜ê²½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     SecurityCenter2 ¹ÌÁö¿ø È¯°æ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 
 REM SecurityCenter2 ProductState
@@ -3054,12 +3054,12 @@ FOR /f "skip=1 tokens=*" %%i IN ('wmic /Namespace:\\root\SecurityCenter2 Path An
 	echo     %%i >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 IF ERRORLEVEL 1 (
-	echo     SecurityCenter2 ë¯¸ì§€ì› í™˜ê²½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     SecurityCenter2 ¹ÌÁö¿ø È¯°æ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 
-REM ë°±ì‹  ì„œë¹„ìŠ¤ ëª©ë¡
+REM ¹é½Å ¼­ºñ½º ¸ñ·Ï
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo (3) ì‹¤í–‰ ì¤‘ì¸ ë°±ì‹  ì„œë¹„ìŠ¤: >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo (3) ½ÇÇà ÁßÀÎ ¹é½Å ¼­ºñ½º: >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 sc query state= all 2>NUL | findstr /i "SERVICE_NAME RUNNING" | findstr /i /b "SERVICE_NAME" > temp_svc.txt
 FOR /f "tokens=2 delims=: " %%i IN (temp_svc.txt) DO (
 	echo %%i | findstr /i "avp ekrn mcafee trend eset avg avast ahnlab v3 windefend sophos webroot msmpeng" >NUL
@@ -3069,27 +3069,27 @@ FOR /f "tokens=2 delims=: " %%i IN (temp_svc.txt) DO (
 )
 IF EXIST temp_svc.txt del temp_svc.txt
 
-REM ë°±ì‹  í”„ë¡œì„¸ìŠ¤ ëª©ë¡
+REM ¹é½Å ÇÁ·Î¼¼½º ¸ñ·Ï
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo (4) ë°±ì‹  í”„ë¡œì„¸ìŠ¤: >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo (4) ¹é½Å ÇÁ·Î¼¼½º: >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 tasklist 2>NUL | findstr /i "v3l v3medic alyac mcshield avp ekrn tmlisten ntrtscan pccntmon avasvc avgui msmpeng" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë°±ì‹  í”„ë¡œì„¸ìŠ¤ ë¯¸ë°œê²¬ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¹é½Å ÇÁ·Î¼¼½º ¹Ì¹ß°ß >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 
-REM ProductState ì„¤ëª…
+REM ProductState ¼³¸í
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ** ProductState ê°’ ì„¤ëª…: >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo    - ë§ˆì§€ë§‰ ìë¦¬ 0 = ë¹„í™œì„±í™”, ë§ˆì§€ë§‰ ìë¦¬ 0ì´ ì•„ë‹˜ = í™œì„±í™” >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo    - ì¤‘ê°„ ìë¦¬ 0 = ì—…ë°ì´íŠ¸ ìµœì‹ , ì¤‘ê°„ ìë¦¬ 1 = ì—…ë°ì´íŠ¸ ì˜¤ë˜ë¨ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo    - ì˜ˆì‹œ: 397312(0x061000) = ì •ìƒ/ìµœì‹ /í™œì„±í™” (ì–‘í˜¸) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo    - ì˜ˆì‹œ: 397328(0x061010) = ì •ìƒ/ì˜¤ë˜ë¨/í™œì„±í™” (ì·¨ì•½) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo    - ì˜ˆì‹œ: 393200(0x060000) = ì •ìƒ/ìµœì‹ /ë¹„í™œì„±í™” (ì·¨ì•½) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ** ProductState °ª ¼³¸í: >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo    - ¸¶Áö¸· ÀÚ¸® 0 = ºñÈ°¼ºÈ­, ¸¶Áö¸· ÀÚ¸® 0ÀÌ ¾Æ´Ô = È°¼ºÈ­ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo    - Áß°£ ÀÚ¸® 0 = ¾÷µ¥ÀÌÆ® ÃÖ½Å, Áß°£ ÀÚ¸® 1 = ¾÷µ¥ÀÌÆ® ¿À·¡µÊ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo    - ¿¹½Ã: 397312(0x061000) = Á¤»ó/ÃÖ½Å/È°¼ºÈ­ (¾çÈ£) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo    - ¿¹½Ã: 397328(0x061010) = Á¤»ó/¿À·¡µÊ/È°¼ºÈ­ (Ãë¾à) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo    - ¿¹½Ã: 393200(0x060000) = Á¤»ó/ÃÖ½Å/ºñÈ°¼ºÈ­ (Ãë¾à) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [39.W-39] ë°±ì‹  í”„ë¡œê·¸ë¨ ì—…ë°ì´íŠ¸ [!RESULT_39!]
+echo [39.W-39] ¹é½Å ÇÁ·Î±×·¥ ¾÷µ¥ÀÌÆ® [!RESULT_39!]
 
 :39_END
 SET CMT_39=
@@ -3108,93 +3108,93 @@ REM ==================================================
 REM ==================================================
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ----------------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo  4. ë¡œê·¸ê´€ë¦¬  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo  4. ·Î±×°ü¸®  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ----------------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo.
 echo.
-echo 4. ë¡œê·¸ê´€ë¦¬
+echo 4. ·Î±×°ü¸®
 echo --------------
 
 REM ==================================================
 :40_START
-echo [40.W-40] ì •ì±…ì— ë”°ë¥¸ ì‹œìŠ¤í…œ ë¡œê¹… ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [40.W-40] Á¤Ã¥¿¡ µû¸¥ ½Ã½ºÅÛ ·Î±ë ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :40_ROUTINE
-SET CMT_40=ì´ˆê¸°í™”&SET RESULT_40=ì¸í„°ë·°
+SET CMT_40=ÃÊ±âÈ­&SET RESULT_40=ÀÎÅÍºä
 type secpol.inf | findstr /i "AuditAccountManage" | findstr "2 3" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_40=ë³´ì•ˆ ê°ì‚¬ ì„¤ì •ì´ ì ì ˆí•˜ê²Œ "ì ìš©ë˜ì§€ ì•ŠìŒ"&SET RESULT_40=ì·¨ì•½& GOTO :40_PRINT
+	SET CMT_40=º¸¾È °¨»ç ¼³Á¤ÀÌ ÀûÀıÇÏ°Ô "Àû¿ëµÇÁö ¾ÊÀ½"&SET RESULT_40=Ãë¾à& GOTO :40_PRINT
 )
 type secpol.inf | findstr /i "AuditLogonEvents" | findstr "3" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_40=ë³´ì•ˆ ê°ì‚¬ ì„¤ì •ì´ ì ì ˆí•˜ê²Œ "ì ìš©ë˜ì§€ ì•ŠìŒ"&SET RESULT_40=ì·¨ì•½& GOTO :40_PRINT
+	SET CMT_40=º¸¾È °¨»ç ¼³Á¤ÀÌ ÀûÀıÇÏ°Ô "Àû¿ëµÇÁö ¾ÊÀ½"&SET RESULT_40=Ãë¾à& GOTO :40_PRINT
 )
 type secpol.inf | findstr /i "AuditPrivilegeUse" | findstr "3" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_40=ë³´ì•ˆ ê°ì‚¬ ì„¤ì •ì´ ì ì ˆí•˜ê²Œ "ì ìš©ë˜ì§€ ì•ŠìŒ"&SET RESULT_40=ì·¨ì•½& GOTO :40_PRINT
+	SET CMT_40=º¸¾È °¨»ç ¼³Á¤ÀÌ ÀûÀıÇÏ°Ô "Àû¿ëµÇÁö ¾ÊÀ½"&SET RESULT_40=Ãë¾à& GOTO :40_PRINT
 )
 type secpol.inf | findstr /i "AuditDSAccess" | findstr "2 3" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_40=ë³´ì•ˆ ê°ì‚¬ ì„¤ì •ì´ ì ì ˆí•˜ê²Œ "ì ìš©ë˜ì§€ ì•ŠìŒ"&SET RESULT_40=ì·¨ì•½& GOTO :40_PRINT
+	SET CMT_40=º¸¾È °¨»ç ¼³Á¤ÀÌ ÀûÀıÇÏ°Ô "Àû¿ëµÇÁö ¾ÊÀ½"&SET RESULT_40=Ãë¾à& GOTO :40_PRINT
 )
 type secpol.inf | findstr /i "AuditAccountLogon" | findstr "3" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_40=ë³´ì•ˆ ê°ì‚¬ ì„¤ì •ì´ ì ì ˆí•˜ê²Œ "ì ìš©ë˜ì§€ ì•ŠìŒ"&SET RESULT_40=ì·¨ì•½& GOTO :40_PRINT
+	SET CMT_40=º¸¾È °¨»ç ¼³Á¤ÀÌ ÀûÀıÇÏ°Ô "Àû¿ëµÇÁö ¾ÊÀ½"&SET RESULT_40=Ãë¾à& GOTO :40_PRINT
 )
 type secpol.inf | findstr /i "AuditPolicyChange" | findstr "3" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_40=ë³´ì•ˆ ê°ì‚¬ ì„¤ì •ì´ ì ì ˆí•˜ê²Œ "ì ìš©ë˜ì§€ ì•ŠìŒ"&SET RESULT_40=ì·¨ì•½& GOTO :40_PRINT
+	SET CMT_40=º¸¾È °¨»ç ¼³Á¤ÀÌ ÀûÀıÇÏ°Ô "Àû¿ëµÇÁö ¾ÊÀ½"&SET RESULT_40=Ãë¾à& GOTO :40_PRINT
 )
-SET CMT_40=ë³´ì•ˆ ê°ì‚¬ ì„¤ì •ì´ ì ì ˆí•¨&SET RESULT_40=ì–‘í˜¸
+SET CMT_40=º¸¾È °¨»ç ¼³Á¤ÀÌ ÀûÀıÇÔ&SET RESULT_40=¾çÈ£
 
 :40_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_40% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë³´ì•ˆ ê°ì‚¬ ì„¤ì • ì ì ˆí•˜ê²Œ "ì ìš©" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_40% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_40% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : º¸¾È °¨»ç ¼³Á¤ ÀûÀıÇÏ°Ô "Àû¿ë" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_40% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^*^*^*^* ì„¤ì • ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* AuditAccountManage        = ê³„ì • ê´€ë¦¬ ê°ì‚¬(ì‹¤íŒ¨) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* AuditLogonEvents          = ê³„ì • ë¡œê·¸ì˜¨ ì´ë²¤íŠ¸ ê°ì‚¬(ì„±ê³µ/ì‹¤íŒ¨) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* AuditPrivilegeUse         = ê¶Œí•œ ì‚¬ìš© ê°ì‚¬(ì‹¤íŒ¨) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* AuditDSAccess             = ë””ë ‰í„°ë¦¬ ì„œë¹„ìŠ¤ ì•¡ì„¸ìŠ¤ ê°ì‚¬(ì‹¤íŒ¨) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* AuditAccountLogon         = ë¡œê·¸ì˜¨, ì´ë²¤íŠ¸ ê°ì‚¬(ì„±ê³µ/ì‹¤íŒ¨) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* AuditPolicyChange         = ì •ì±… ë³€ê²½ ê°ì‚¬(ì„±ê³µ/ì‹¤íŒ¨) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^*^*^*^* ¼³Á¤ ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* AuditAccountManage        = °èÁ¤ °ü¸® °¨»ç(½ÇÆĞ) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* AuditLogonEvents          = °èÁ¤ ·Î±×¿Â ÀÌº¥Æ® °¨»ç(¼º°ø/½ÇÆĞ) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* AuditPrivilegeUse         = ±ÇÇÑ »ç¿ë °¨»ç(½ÇÆĞ) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* AuditDSAccess             = µğ·ºÅÍ¸® ¼­ºñ½º ¾×¼¼½º °¨»ç(½ÇÆĞ) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* AuditAccountLogon         = ·Î±×¿Â, ÀÌº¥Æ® °¨»ç(¼º°ø/½ÇÆĞ) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* AuditPolicyChange         = Á¤Ã¥ º¯°æ °¨»ç(¼º°ø/½ÇÆĞ) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
-echo (CMD) type secpol.inf | findstr /i "ê°ì‚¬ëª…" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo (CMD) type secpol.inf | findstr /i "°¨»ç¸í" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "^Audit" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [40.W-40] ì •ì±…ì— ë”°ë¥¸ ì‹œìŠ¤í…œ ë¡œê¹… ì„¤ì • [%RESULT_40%]
+echo [40.W-40] Á¤Ã¥¿¡ µû¸¥ ½Ã½ºÅÛ ·Î±ë ¼³Á¤ [%RESULT_40%]
 :40_END
 SET CMT_40=
 SET RESULT_40=
 
 :40_ADD
-REM 0 : ê°ì‚¬ ì•ˆ í•¨
-REM 1 : ì„±ê³µë§Œ ê¸°ë¡
-REM 2 : ì‹¤íŒ¨ë§Œ ê¸°ë¡
-REM 3 : ì„±ê³µê³¼ ì‹¤íŒ¨ ëª¨ë‘ ê¸°ë¡
+REM 0 : °¨»ç ¾È ÇÔ
+REM 1 : ¼º°ø¸¸ ±â·Ï
+REM 2 : ½ÇÆĞ¸¸ ±â·Ï
+REM 3 : ¼º°ø°ú ½ÇÆĞ ¸ğµÎ ±â·Ï
 
 REM ==================================================
 
 REM ==================================================
 :41_START
-echo [41.W-41] NTP ë° ì‹œê° ë™ê¸°í™” ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [41.W-41] NTP ¹× ½Ã°¢ µ¿±âÈ­ ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :41_ROUTINE
-SET CMT_41=ìˆ˜ë™ê²€ì‚¬&SET RESULT_41=ì¸í„°ë·°
+SET CMT_41=¼öµ¿°Ë»ç&SET RESULT_41=ÀÎÅÍºä
 
 :41_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_41% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : NTP ì„œë²„ì™€ ë™ê¸°í™” ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ì°¸ê³  : Typeì´ NoSync ì´ë©´ ì·¨ì•½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_41% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_41% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : NTP ¼­¹ö¿Í µ¿±âÈ­ ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo Âü°í : TypeÀÌ NoSync ÀÌ¸é Ãë¾à >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_41% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) sc query w32time >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 sc query w32time >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
@@ -3204,7 +3204,7 @@ w32tm /query /configuration  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [41.W-41] NTP ë° ì‹œê° ë™ê¸°í™” ì„¤ì • [%RESULT_41%]
+echo [41.W-41] NTP ¹× ½Ã°¢ µ¿±âÈ­ ¼³Á¤ [%RESULT_41%]
 :41_END
 SET CMT_41=
 SET RESULT_41=
@@ -3213,52 +3213,52 @@ SET RESULT_41=
 
 REM ==================================================
 :42_START
-echo [42.W-42] ì´ë²¤íŠ¸ ë¡œê·¸ ê´€ë¦¬ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [42.W-42] ÀÌº¥Æ® ·Î±× °ü¸® ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :42_ROUTINE
-SET RESULT_42=ì–‘í˜¸
-SET CMT_42=ë¡œê·¸ íŒŒì¼ í¬ê¸° ì œí•œì´ ì ì ˆí•˜ê²Œ "ì„¤ì •"ë¨,
-SET CMT_42_1=í•„ìš”í•œ ê²½ìš° ë®ì–´ì“°ê¸° "ì„¤ì •"ë¨
+SET RESULT_42=¾çÈ£
+SET CMT_42=·Î±× ÆÄÀÏ Å©±â Á¦ÇÑÀÌ ÀûÀıÇÏ°Ô "¼³Á¤"µÊ,
+SET CMT_42_1=ÇÊ¿äÇÑ °æ¿ì µ¤¾î¾²±â "¼³Á¤"µÊ
 
-REM ë¡œê·¸ íŒŒì¼ í¬ê¸° ì²´í¬ (10MB = 10485760 bytes = 10240KB)
+REM ·Î±× ÆÄÀÏ Å©±â Ã¼Å© (10MB = 10485760 bytes = 10240KB)
 FOR /f "tokens=2 delims= " %%i IN ('wevtutil gl "application" ^| findstr /i "maxSize"') DO (
 	IF %%i LSS 10485760 (
-		SET CMT_42=ë¡œê·¸ íŒŒì¼ í¬ê¸° ì œí•œì´ ì ì ˆí•˜ê²Œ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"^(10MB ì´ìƒ ê¶Œì¥^),
-		SET RESULT_42=ì·¨ì•½
+		SET CMT_42=·Î±× ÆÄÀÏ Å©±â Á¦ÇÑÀÌ ÀûÀıÇÏ°Ô "¼³Á¤µÇÁö ¾ÊÀ½"^(10MB ÀÌ»ó ±ÇÀå^),
+		SET RESULT_42=Ãë¾à
 	)
 )
 
-REM í•„ìš”í•œ ê²½ìš° ë®ì–´ì“°ê¸° ì„¤ì • ì²´í¬
-REM retention: false = ë¡œê·¸ ê°€ë“ ì°¨ë©´ ì˜¤ë˜ëœ ê²ƒë¶€í„° ë®ì–´ì”€ (ì–‘í˜¸)
-REM retention: true = ë®ì–´ì“°ì§€ ì•ŠìŒ (ì·¨ì•½ - ë¡œê·¸ ê°€ë“ ì°¨ë©´ ìƒˆ ì´ë²¤íŠ¸ ê¸°ë¡ ì•ˆë¨)
+REM ÇÊ¿äÇÑ °æ¿ì µ¤¾î¾²±â ¼³Á¤ Ã¼Å©
+REM retention: false = ·Î±× °¡µæ Â÷¸é ¿À·¡µÈ °ÍºÎÅÍ µ¤¾î¾¸ (¾çÈ£)
+REM retention: true = µ¤¾î¾²Áö ¾ÊÀ½ (Ãë¾à - ·Î±× °¡µæ Â÷¸é »õ ÀÌº¥Æ® ±â·Ï ¾ÈµÊ)
 wevtutil gl "application" 2>NUL | findstr /i "retention" | findstr /i "true" >NUL
 IF NOT ERRORLEVEL 1 (
-	SET CMT_42_1=í•„ìš”í•œ ê²½ìš° ë®ì–´ì“°ê¸° "ì„¤ì •ë˜ì§€ ì•ŠìŒ"^(retention: true^)
-	SET RESULT_42=ì·¨ì•½
+	SET CMT_42_1=ÇÊ¿äÇÑ °æ¿ì µ¤¾î¾²±â "¼³Á¤µÇÁö ¾ÊÀ½"^(retention: true^)
+	SET RESULT_42=Ãë¾à
 ) ELSE (
 	wevtutil gl "application" 2>NUL | findstr /i "retention" | findstr /i "false" >NUL
 	IF NOT ERRORLEVEL 1 (
-		SET CMT_42_1=í•„ìš”í•œ ê²½ìš° ë®ì–´ì“°ê¸° "ì„¤ì •"ë¨^(retention: false^)
+		SET CMT_42_1=ÇÊ¿äÇÑ °æ¿ì µ¤¾î¾²±â "¼³Á¤"µÊ^(retention: false^)
 	) ELSE (
-		SET CMT_42_1=retention ì„¤ì •ê°’ í™•ì¸ í•„ìš”
-		SET RESULT_42=ì¸í„°ë·°
+		SET CMT_42_1=retention ¼³Á¤°ª È®ÀÎ ÇÊ¿ä
+		SET RESULT_42=ÀÎÅÍºä
 	)
 )
 
 :42_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_42% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë¡œê·¸ íŒŒì¼ í¬ê¸° ì œí•œì´ ì ì ˆí•˜ê²Œ "ì„¤ì •" ë° ì´ë²¤íŠ¸ ì—ì–´ì“°ì§€ ì•ŠìŒ "ì„¤ì •" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_42% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™©2: %CMT_42_1% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_42% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ·Î±× ÆÄÀÏ Å©±â Á¦ÇÑÀÌ ÀûÀıÇÏ°Ô "¼³Á¤" ¹× ÀÌº¥Æ® ¾ş¾î¾²Áö ¾ÊÀ½ "¼³Á¤" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_42% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ²2: %CMT_42_1% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo (CMD) wevtutil gl "ë¡œê·¸ëª…" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^*^*^*^* ì„¤ì • ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ìµœëŒ€ ë¡œê·¸íŒŒì¼ í¬ê¸° (MaxSize)             ^> 10240KB("10485760") >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* retention: "true", autobackup: "true"   = ì´ë²¤íŠ¸ ë®ì–´ì“°ì§€ ì•ŠìŒ, ë¡œê·¸ ë³´ê´€ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* retention: "true", autobackup: "false"  = ì´ë²¤íŠ¸ ë®ì–´ì“°ì§€ ì•ŠìŒ, ìˆ˜ë™ ë¡œê·¸ ì§€ìš°ê¸° >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* retention: "false", autobackup: "false" = ì´ë²¤íŠ¸ ë®ì–´ì”€, ìˆ˜ë™ ë¡œê·¸ ì§€ìš°ê¸° >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo (CMD) wevtutil gl "·Î±×¸í" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^*^*^*^* ¼³Á¤ ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* ÃÖ´ë ·Î±×ÆÄÀÏ Å©±â (MaxSize)             ^> 10240KB("10485760") >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* retention: "true", autobackup: "true"   = ÀÌº¥Æ® µ¤¾î¾²Áö ¾ÊÀ½, ·Î±× º¸°ü >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* retention: "true", autobackup: "false"  = ÀÌº¥Æ® µ¤¾î¾²Áö ¾ÊÀ½, ¼öµ¿ ·Î±× Áö¿ì±â >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* retention: "false", autobackup: "false" = ÀÌº¥Æ® µ¤¾î¾¸, ¼öµ¿ ·Î±× Áö¿ì±â >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 wevtutil gl "application" 2>NUL | findstr /i "name retention autoBackup maxSize" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 wevtutil gl "Security" 2>NUL | findstr /i "name retention autoBackup maxSize" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
@@ -3266,7 +3266,7 @@ wevtutil gl "System" 2>NUL | findstr /i "name retention autoBackup maxSize" >> [
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [42.W-42] ì´ë²¤íŠ¸ ë¡œê·¸ ê´€ë¦¬ ì„¤ì • [%RESULT_42%]
+echo [42.W-42] ÀÌº¥Æ® ·Î±× °ü¸® ¼³Á¤ [%RESULT_42%]
 :42_END
 SET CMT_42=
 SET CMT_42_1=
@@ -3276,39 +3276,39 @@ SET RESULT_42=
 
 REM ==================================================
 :43_START
-echo [43.W-43] ì´ë²¤íŠ¸ ë¡œê·¸ íŒŒì¼ ì ‘ê·¼ í†µì œ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [43.W-43] ÀÌº¥Æ® ·Î±× ÆÄÀÏ Á¢±Ù ÅëÁ¦ ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :43_ROUTINE
-SET CMT_43=ì´ˆê¸°í™”&SET RESULT_43=ì¸í„°ë·°
+SET CMT_43=ÃÊ±âÈ­&SET RESULT_43=ÀÎÅÍºä
 
 cacls "%systemroot%\system32\logfiles" 2>NUL | findstr /i "everyone" >NUL
 IF NOT ERRORLEVEL 1 (
-	SET CMT_43=ì´ë²¤íŠ¸ íŒŒì¼ì— ëŒ€í•œ Everyone ê¶Œí•œì´ "ì¡´ì¬"í•¨&SET RESULT_43=ì·¨ì•½&goto :43_PRINT
+	SET CMT_43=ÀÌº¥Æ® ÆÄÀÏ¿¡ ´ëÇÑ Everyone ±ÇÇÑÀÌ "Á¸Àç"ÇÔ&SET RESULT_43=Ãë¾à&goto :43_PRINT
 )
 cacls "%systemroot%\system32\config" 2>NUL | findstr /i "everyone" >NUL
 IF NOT ERRORLEVEL 1 (
-	SET CMT_43=ì´ë²¤íŠ¸ íŒŒì¼ì— ëŒ€í•œ Everyone ê¶Œí•œì´ "ì¡´ì¬"í•¨&SET RESULT_43=ì·¨ì•½&goto :43_PRINT
+	SET CMT_43=ÀÌº¥Æ® ÆÄÀÏ¿¡ ´ëÇÑ Everyone ±ÇÇÑÀÌ "Á¸Àç"ÇÔ&SET RESULT_43=Ãë¾à&goto :43_PRINT
 )
 cacls "%SystemRoot%\System32\Winevt\Logs" 2>NUL | findstr /i "everyone" >NUL
 IF NOT ERRORLEVEL 1 (
-	SET CMT_43=ì´ë²¤íŠ¸ íŒŒì¼ì— ëŒ€í•œ Everyone ê¶Œí•œì´ "ì¡´ì¬"í•¨&SET RESULT_43=ì·¨ì•½&goto :43_PRINT
+	SET CMT_43=ÀÌº¥Æ® ÆÄÀÏ¿¡ ´ëÇÑ Everyone ±ÇÇÑÀÌ "Á¸Àç"ÇÔ&SET RESULT_43=Ãë¾à&goto :43_PRINT
 )
-SET CMT_43=ì´ë²¤íŠ¸ íŒŒì¼ì— ëŒ€í•œ Everyone ê¶Œí•œ ì—†ìŒ&SET RESULT_43=ì–‘í˜¸
+SET CMT_43=ÀÌº¥Æ® ÆÄÀÏ¿¡ ´ëÇÑ Everyone ±ÇÇÑ ¾øÀ½&SET RESULT_43=¾çÈ£
 
 :43_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_43% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë¡œê·¸ ë””ë ‰í„°ë¦¬ì— ëŒ€í•œ Everyone ê¶Œí•œ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_43% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_43% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ·Î±× µğ·ºÅÍ¸®¿¡ ´ëÇÑ Everyone ±ÇÇÑ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_43% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo (CMD) cacls "ë¡œê·¸íŒŒì¼ ë””ë ‰í„°ë¦¬" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo (CMD) cacls "·Î±×ÆÄÀÏ µğ·ºÅÍ¸®" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 cacls "%systemroot%\system32\logfiles" 2>NUL | findstr /r /v "^$" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 cacls "%systemroot%\system32\config" 2>NUL | findstr /r /v "^$" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 cacls "%SystemRoot%\System32\Winevt\Logs" 2>NUL | findstr /r /v "^$" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [43.W-43] ì´ë²¤íŠ¸ ë¡œê·¸ íŒŒì¼ ì ‘ê·¼ í†µì œ ì„¤ì • [%RESULT_43%]
+echo [43.W-43] ÀÌº¥Æ® ·Î±× ÆÄÀÏ Á¢±Ù ÅëÁ¦ ¼³Á¤ [%RESULT_43%]
 :43_END
 SET CMT_43=
 SET RESULT_43=
@@ -3319,87 +3319,87 @@ REM ==================================================
 REM ==================================================
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ----------------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo  5. ë³´ì•ˆê´€ë¦¬  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo  5. º¸¾È°ü¸®  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ----------------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo.
 echo.
-echo 5. ë³´ì•ˆê´€ë¦¬
+echo 5. º¸¾È°ü¸®
 echo --------------
 REM ==================================================
 :44_START
-echo [44.W-44] ì›ê²©ìœ¼ë¡œ ì•¡ì„¸ìŠ¤í•  ìˆ˜ ìˆëŠ” ë ˆì§€ìŠ¤íŠ¸ë¦¬ ê²½ë¡œ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [44.W-44] ¿ø°İÀ¸·Î ¾×¼¼½ºÇÒ ¼ö ÀÖ´Â ·¹Áö½ºÆ®¸® °æ·Î >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :44_ROUTINE
-SET CMT_44=ì´ˆê¸°í™”
-SET RESULT_44=ì¸í„°ë·°
+SET CMT_44=ÃÊ±âÈ­
+SET RESULT_44=ÀÎÅÍºä
 
 REM ========================================
-REM Remote Registry ì„œë¹„ìŠ¤ ìƒíƒœ í™•ì¸
+REM Remote Registry ¼­ºñ½º »óÅÂ È®ÀÎ
 REM ========================================
 
-REM 1. ì„œë¹„ìŠ¤ê°€ ì‹¤í–‰ ì¤‘ì¸ì§€ í™•ì¸
+REM 1. ¼­ºñ½º°¡ ½ÇÇà ÁßÀÎÁö È®ÀÎ
 type services.inf | findstr /i /c:"Remote Registry" | findstr /i "Running" >NUL
 IF NOT ERRORLEVEL 1 (
-	SET CMT_44=ì›ê²© ë ˆì§€ìŠ¤íŠ¸ë¦¬ ì„œë¹„ìŠ¤ê°€ "ì‹¤í–‰ ì¤‘"
-	SET RESULT_44=ì·¨ì•½
+	SET CMT_44=¿ø°İ ·¹Áö½ºÆ®¸® ¼­ºñ½º°¡ "½ÇÇà Áß"
+	SET RESULT_44=Ãë¾à
 	GOTO :44_PRINT
 )
 
-REM 2. ì„œë¹„ìŠ¤ê°€ ì¤‘ì§€ë˜ì–´ ìˆëŠ” ê²½ìš° - ì‹œì‘ ìœ í˜• í™•ì¸
+REM 2. ¼­ºñ½º°¡ ÁßÁöµÇ¾î ÀÖ´Â °æ¿ì - ½ÃÀÛ À¯Çü È®ÀÎ
 type services.inf | findstr /i /c:"Remote Registry" | findstr /i "Disabled" >NUL
 IF NOT ERRORLEVEL 1 (
-	SET CMT_44=ì›ê²© ë ˆì§€ìŠ¤íŠ¸ë¦¬ ì„œë¹„ìŠ¤ê°€ "ì‚¬ìš© ì•ˆ í•¨" ë° "ì¤‘ì§€ë¨" 
-	SET RESULT_44=ì–‘í˜¸
+	SET CMT_44=¿ø°İ ·¹Áö½ºÆ®¸® ¼­ºñ½º°¡ "»ç¿ë ¾È ÇÔ" ¹× "ÁßÁöµÊ" 
+	SET RESULT_44=¾çÈ£
 	GOTO :44_PRINT
 )
 
-REM 3. ì„œë¹„ìŠ¤ê°€ ì¤‘ì§€ë˜ì–´ ìˆì§€ë§Œ ì‹œì‘ ìœ í˜•ì´ ìˆ˜ë™ ë˜ëŠ” ìë™
+REM 3. ¼­ºñ½º°¡ ÁßÁöµÇ¾î ÀÖÁö¸¸ ½ÃÀÛ À¯ÇüÀÌ ¼öµ¿ ¶Ç´Â ÀÚµ¿
 type services.inf | findstr /i /c:"Remote Registry" | findstr /i "Stopped" >NUL
 IF NOT ERRORLEVEL 1 (
-	SET CMT_44=ì›ê²© ë ˆì§€ìŠ¤íŠ¸ë¦¬ ì„œë¹„ìŠ¤ê°€ "ì¤‘ì§€ë¨"
-	SET RESULT_44=ì–‘í˜¸
+	SET CMT_44=¿ø°İ ·¹Áö½ºÆ®¸® ¼­ºñ½º°¡ "ÁßÁöµÊ"
+	SET RESULT_44=¾çÈ£
 	GOTO :44_PRINT
 )
 
-REM 4. ì„œë¹„ìŠ¤ ì •ë³´ë¥¼ ì°¾ì„ ìˆ˜ ì—†ëŠ” ê²½ìš°
-SET CMT_44=ì›ê²© ë ˆì§€ìŠ¤íŠ¸ë¦¬ ì„œë¹„ìŠ¤ ì •ë³´ í™•ì¸ í•„ìš”
-SET RESULT_44=ì¸í„°ë·°
+REM 4. ¼­ºñ½º Á¤º¸¸¦ Ã£À» ¼ö ¾ø´Â °æ¿ì
+SET CMT_44=¿ø°İ ·¹Áö½ºÆ®¸® ¼­ºñ½º Á¤º¸ È®ÀÎ ÇÊ¿ä
+SET RESULT_44=ÀÎÅÍºä
 
 :44_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : !RESULT_44! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : Remote Registry Service "ì‚¬ìš© ì•ˆ í•¨" ë° "ì¤‘ì§€" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : !CMT_44! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : !RESULT_44! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : Remote Registry Service "»ç¿ë ¾È ÇÔ" ¹× "ÁßÁö" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : !CMT_44! >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
-REM Remote Registry ì„œë¹„ìŠ¤ ìƒíƒœ ì¶œë ¥
+REM Remote Registry ¼­ºñ½º »óÅÂ Ãâ·Â
 echo (CMD) type services.inf ^| findstr /i /c:"Remote Registry" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type services.inf | findstr /i /c:"Remote Registry" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     Remote Registry ì„œë¹„ìŠ¤ ì •ë³´ ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     Remote Registry ¼­ºñ½º Á¤º¸ ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 
-REM sc queryë¡œ í˜„ì¬ ìƒíƒœ í™•ì¸
+REM sc query·Î ÇöÀç »óÅÂ È®ÀÎ
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) sc query "RemoteRegistry" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 sc query "RemoteRegistry" 2>NUL >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„œë¹„ìŠ¤ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼­ºñ½º¸¦ Ã£À» ¼ö ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 
-REM sc qcë¡œ ì‹œì‘ ìœ í˜• í™•ì¸
+REM sc qc·Î ½ÃÀÛ À¯Çü È®ÀÎ
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) sc qc "RemoteRegistry" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 sc qc "RemoteRegistry" 2>NUL >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„œë¹„ìŠ¤ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼­ºñ½º¸¦ Ã£À» ¼ö ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [44.W-44] ì›ê²©ìœ¼ë¡œ ì•¡ì„¸ìŠ¤í•  ìˆ˜ ìˆëŠ” ë ˆì§€ìŠ¤íŠ¸ë¦¬ ê²½ë¡œ [!RESULT_44!]
+echo [44.W-44] ¿ø°İÀ¸·Î ¾×¼¼½ºÇÒ ¼ö ÀÖ´Â ·¹Áö½ºÆ®¸® °æ·Î [!RESULT_44!]
 
 :44_END
 SET CMT_44=
@@ -3410,76 +3410,76 @@ SET RESULT_44=
 
 REM ==================================================
 :45_START
-SET CMT_45=ì´ˆê¸°í™”
-SET RESULT_45=ì¸í„°ë·°
+SET CMT_45=ÃÊ±âÈ­
+SET RESULT_45=ÀÎÅÍºä
 
 IF !AV_FOUND! EQU 0 (
-	SET CMT_45=ìƒìš© ë°±ì‹  í”„ë¡œê·¸ë¨ ì—†ìŒ
-	SET RESULT_45=ì·¨ì•½
+	SET CMT_45=»ó¿ë ¹é½Å ÇÁ·Î±×·¥ ¾øÀ½
+	SET RESULT_45=Ãë¾à
 ) ELSE (
-	SET CMT_45=ìƒìš© ë°±ì‹  í”„ë¡œê·¸ë¨,í”„ë¡œì„¸ìŠ¤ ì¡´ì¬í•¨(!AV_NAMES!)
-	SET RESULT_45=ì–‘í˜¸
+	SET CMT_45=»ó¿ë ¹é½Å ÇÁ·Î±×·¥,ÇÁ·Î¼¼½º Á¸ÀçÇÔ(!AV_NAMES!)
+	SET RESULT_45=¾çÈ£
 )
 
 :45_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_45% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë°±ì‹  í”„ë¡œê·¸ë¨ "ì„¤ì¹˜" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_45% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ì°¸ê³  : w-39 ì°¸ê³  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_45% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ¹é½Å ÇÁ·Î±×·¥ "¼³Ä¡" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_45% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo Âü°í : w-39 Âü°í >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [45.W-45] ë°±ì‹  í”„ë¡œê·¸ë¨ ì„¤ì¹˜ [%RESULT_45%]
+echo [45.W-45] ¹é½Å ÇÁ·Î±×·¥ ¼³Ä¡ [%RESULT_45%]
 :45_END
 SET CMT_45=
 SET CMT_45_1=
 SET RESULT_45=
 
 :45_ADD
-REM [í•­ëª©] ë°”ì´ëŸ¬ìŠ¤ ë°±ì‹  í”„ë¡œê·¸ë¨ ì„¤ì¹˜ ë° ì£¼ê¸°ì  ì—…ë°ì´íŠ¸
-REM Windows Defenderë¥¼ ì œì™¸í•œ ë°±ì‹  ì„¤ì¹˜ì‹œ ì–‘í˜¸
+REM [Ç×¸ñ] ¹ÙÀÌ·¯½º ¹é½Å ÇÁ·Î±×·¥ ¼³Ä¡ ¹× ÁÖ±âÀû ¾÷µ¥ÀÌÆ®
+REM Windows Defender¸¦ Á¦¿ÜÇÑ ¹é½Å ¼³Ä¡½Ã ¾çÈ£
 REM
-REM [ì§„ë‹¨] ProductStateë¥¼ 2ì§„ìˆ˜ë¡œ ë³€í™˜ í›„ ê¸°ì¤€ì— ë”°ë¼ íŒë‹¨
-REM enable(ë°”ì´ë„ˆë¦¬ ì˜¤ë¥¸ìª½ì—ì„œ 19ë²ˆì§¸)
-REM active(ë°”ì´ë„ˆë¦¬ ì˜¤ë¥¸ìª½ì—ì„œ 13ë²ˆì§¸)
-REM uptodate(ë°”ì´ë„ˆë¦¬ ì˜¤ë¥¸ìª½ì—ì„œ 5ë²ˆì§¸)
+REM [Áø´Ü] ProductState¸¦ 2Áø¼ö·Î º¯È¯ ÈÄ ±âÁØ¿¡ µû¶ó ÆÇ´Ü
+REM enable(¹ÙÀÌ³Ê¸® ¿À¸¥ÂÊ¿¡¼­ 19¹øÂ°)
+REM active(¹ÙÀÌ³Ê¸® ¿À¸¥ÂÊ¿¡¼­ 13¹øÂ°)
+REM uptodate(¹ÙÀÌ³Ê¸® ¿À¸¥ÂÊ¿¡¼­ 5¹øÂ°)
 REM
-REM [ì—…ë°ì´íŠ¸]
-REM ì‹ ê·œ ProductState ë°œê²¬ì‹œ ìˆ˜ë™ì§„ë‹¨ ë° ìŠ¤í¬ë¦½íŠ¸ ì—…ë°ì´íŠ¸í•˜ê¸°
+REM [¾÷µ¥ÀÌÆ®]
+REM ½Å±Ô ProductState ¹ß°ß½Ã ¼öµ¿Áø´Ü ¹× ½ºÅ©¸³Æ® ¾÷µ¥ÀÌÆ®ÇÏ±â
 
 REM ==================================================
 
 :46_START
-echo [46.W-46] SAM íŒŒì¼ ì ‘ê·¼í†µì œ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [46.W-46] SAM ÆÄÀÏ Á¢±ÙÅëÁ¦ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :46_ROUTINE
-SET CMT_46=ì´ˆê¸°í™”&SET RESULT_46=ì¸í„°ë·°
+SET CMT_46=ÃÊ±âÈ­&SET RESULT_46=ÀÎÅÍºä
 
 cacls %systemroot%\system32\config\SAM 2>NUL | findstr /i /v " ^$ SYSTEM Administrators" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_46=SAM íŒŒì¼ ì ‘ê·¼ ê¶Œí•œì´ Administrator, System ê·¸ë£¹ì—ê²Œë§Œ "ë¶€ì—¬"ë¨&SET RESULT_46=ì–‘í˜¸
+	SET CMT_46=SAM ÆÄÀÏ Á¢±Ù ±ÇÇÑÀÌ Administrator, System ±×·ì¿¡°Ô¸¸ "ºÎ¿©"µÊ&SET RESULT_46=¾çÈ£
 )
 IF NOT ERRORLEVEL 1 (
-	SET CMT_46=SAM íŒŒì¼ ì ‘ê·¼ ê¶Œí•œì´ Administrator, System ê·¸ë£¹ì—ê²Œë§Œ "ë¶€ì—¬ë˜ì§€ ì•ŠìŒ"&SET RESULT_46=ì¸í„°ë·°
+	SET CMT_46=SAM ÆÄÀÏ Á¢±Ù ±ÇÇÑÀÌ Administrator, System ±×·ì¿¡°Ô¸¸ "ºÎ¿©µÇÁö ¾ÊÀ½"&SET RESULT_46=ÀÎÅÍºä
 )
 
 :46_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_46% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : SAM íŒŒì¼ ì ‘ê·¼ ê¶Œí•œì„ Administrator, System ê·¸ë£¹ì—ê²Œë§Œ "ë¶€ì—¬" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_46% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : SAM ÆÄÀÏ Á¢±Ù ±ÇÇÑÀ» Administrator, System ±×·ì¿¡°Ô¸¸ "ºÎ¿©" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo : %CMT_46% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) cacls %systemroot%\system32\config\SAM >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 cacls %systemroot%\system32\config\SAM | findstr /v "^$" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) net localgroup "Administrators" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê´€ë¦¬ì ê·¸ë£¹ ë‚´ë¶€ ê³„ì •ì´ ì¡´ì¬í•˜ë©´ ì œì™¸ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ê³„ì • 10ê°œ ì´ìƒì¼ ê²½ìš°, 10ê°œë¥¼ ì œì™¸í•œ ë‚˜ë¨¸ì§€ëŠ” ìƒëµ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °ü¸®ÀÚ ±×·ì ³»ºÎ °èÁ¤ÀÌ Á¸ÀçÇÏ¸é Á¦¿Ü >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* °èÁ¤ 10°³ ÀÌ»óÀÏ °æ¿ì, 10°³¸¦ Á¦¿ÜÇÑ ³ª¸ÓÁö´Â »ı·« >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 SET count=0
-FOR /f %%i IN ('net localgroup "Administrators" ^| findstr /i /v "^$ ë³„ì¹­ Alias ëª…ë ¹ completed ì„¤ëª… Comment êµ¬ì„±ì› Members -"') DO (
-	net user %%i 2>NUL | findstr /i "í™œì„± active" | findstr /i "ì•„ë‹ˆìš” No" >NUL
+FOR /f %%i IN ('net localgroup "Administrators" ^| findstr /i /v "^$ º°Äª Alias ¸í·É completed ¼³¸í Comment ±¸¼º¿ø Members -"') DO (
+	net user %%i 2>NUL | findstr /i "È°¼º active" | findstr /i "¾Æ´Ï¿ä No" >NUL
 	IF NOT ERRORLEVEL 1 (
 		echo     ^(inactive^)%%i >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	)
@@ -3496,7 +3496,7 @@ FOR /f %%i IN ('net localgroup "Administrators" ^| findstr /i /v "^$ ë³„ì¹­ Alia
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [46.W-46] SAM íŒŒì¼ ì ‘ê·¼í†µì œ [%RESULT_46%]
+echo [46.W-46] SAM ÆÄÀÏ Á¢±ÙÅëÁ¦ [%RESULT_46%]
 :46_END
 SET CMT_46=
 SET RESULT_46=
@@ -3507,49 +3507,49 @@ REM APPLICATION PACKAGE AUTHORITY : Windows sandboxing packages
 
 REM ==================================================
 :47_START
-echo [47.W-47] í™”ë©´ë³´í˜¸ê¸° ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [47.W-47] È­¸éº¸È£±â ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :47_ROUTINE
-SET CMT_47=ì´ˆê¸°í™”&SET RESULT_47=ì¸í„°ë·°
+SET CMT_47=ÃÊ±âÈ­&SET RESULT_47=ÀÎÅÍºä
 
 reg query "HKCU\Control Panel\Desktop" 2>NUL | findstr /i "ScreenSaveActive" | findstr "1" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_47=í™”ë©´ë³´í˜¸ê¸°ë¥¼ "ì‚¬ìš©í•˜ì§€ ì•ŠìŒ"&SET RESULT_47=ì·¨ì•½& GOTO :47_PRINT
+	SET CMT_47=È­¸éº¸È£±â¸¦ "»ç¿ëÇÏÁö ¾ÊÀ½"&SET RESULT_47=Ãë¾à& GOTO :47_PRINT
 )
 reg query "HKCU\Control Panel\Desktop" 2>NUL | findstr /i "ScreenSaverIsSecure" | findstr "1" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_47=í™”ë©´ë³´í˜¸ê¸°ë¥¼  "ì‚¬ìš©"í•˜ì§€ë§Œ "ìë™ ì‹œì‘ë˜ì§€ ì•ŠìŒ"&SET RESULT_47=ì·¨ì•½& GOTO :47_PRINT
+	SET CMT_47=È­¸éº¸È£±â¸¦  "»ç¿ë"ÇÏÁö¸¸ "ÀÚµ¿ ½ÃÀÛµÇÁö ¾ÊÀ½"&SET RESULT_47=Ãë¾à& GOTO :47_PRINT
 )
 FOR /f "tokens=3 delims= " %%i IN ('reg query "HKCU\Control Panel\Desktop" ^| findstr /i "ScreenSaveTimeOut"') DO (
 	IF %%i GTR 600 (
-		SET CMT_47=í™”ë©´ë³´í˜¸ê¸°ë¥¼ "ì‚¬ìš©" ë° "ìë™ì‹œì‘", ëŒ€ê¸°ì‹œê°„ 10ë¶„^(600^) ì´í•˜ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"&SET RESULT_47=ì·¨ì•½
+		SET CMT_47=È­¸éº¸È£±â¸¦ "»ç¿ë" ¹× "ÀÚµ¿½ÃÀÛ", ´ë±â½Ã°£ 10ºĞ^(600^) ÀÌÇÏ "¼³Á¤µÇÁö ¾ÊÀ½"&SET RESULT_47=Ãë¾à
 	) ELSE (
-		SET CMT_47=í™”ë©´ë³´í˜¸ê¸°ë¥¼ "ì‚¬ìš©" ë° "ìë™ì‹œì‘", ëŒ€ê¸°ì‹œê°„ 10ë¶„^(600^) ì´í•˜ "ì„¤ì •"&SET RESULT_47=ì–‘í˜¸
+		SET CMT_47=È­¸éº¸È£±â¸¦ "»ç¿ë" ¹× "ÀÚµ¿½ÃÀÛ", ´ë±â½Ã°£ 10ºĞ^(600^) ÀÌÇÏ "¼³Á¤"&SET RESULT_47=¾çÈ£
 	)
 )
 
 :47_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_47% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : í™”ë©´ë³´í˜¸ê¸° "ì‚¬ìš©", "ìë™ ì‹œì‘", ì•”í˜¸ "ì„¤ì •" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo        ë° ëŒ€ê¸°ì‹œê°„ "10ë¶„ ì´í•˜" ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_47% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : È­¸éº¸È£±â "»ç¿ë", "ÀÚµ¿ ½ÃÀÛ", ¾ÏÈ£ "¼³Á¤" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo        ¹× ´ë±â½Ã°£ "10ºĞ ÀÌÇÏ" ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo : %CMT_47% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) reg query "HKCU\Control Panel\Desktop" /v "ScreenSave" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^*^*^*^* ì„¤ì • ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ScreenSaveActive    : ì‚¬ìš© ì—¬ë¶€ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ScreenSaverIsSecure : ìë™ ì‹œì‘ ì—¬ë¶€ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ScreenSaveTimeOut   : ëŒ€ê¸° ì‹œê°„(ì´ˆ) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^*^*^*^* ¼³Á¤ ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* ScreenSaveActive    : »ç¿ë ¿©ºÎ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* ScreenSaverIsSecure : ÀÚµ¿ ½ÃÀÛ ¿©ºÎ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* ScreenSaveTimeOut   : ´ë±â ½Ã°£(ÃÊ) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKCU\Control Panel\Desktop" 2>NUL | findstr /i "ScreenSave" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [47.W-47] í™”ë©´ë³´í˜¸ê¸° ì„¤ì • [%RESULT_47%]
+echo [47.W-47] È­¸éº¸È£±â ¼³Á¤ [%RESULT_47%]
 :47_END
 SET CMT_47=
 SET RESULT_47=
@@ -3559,39 +3559,39 @@ SET RESULT_47=
 
 REM ==================================================
 :48_START
-echo [48.W-48] ë¡œê·¸ì˜¨í•˜ì§€ ì•Šê³  ì‹œìŠ¤í…œ ì¢…ë£Œ í—ˆìš© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [48.W-48] ·Î±×¿ÂÇÏÁö ¾Ê°í ½Ã½ºÅÛ Á¾·á Çã¿ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :48_ROUTINE
-SET CMT_48=ì´ˆê¸°í™”&SET RESULT_48=ì¸í„°ë·°
+SET CMT_48=ÃÊ±âÈ­&SET RESULT_48=ÀÎÅÍºä
 
 type secpol.inf | findstr /i "ShutdownWithoutLogon" | findstr /i "4,1" >NUL
 IF NOT ERRORLEVEL 1 (
-	SET CMT_48=ë¡œê·¸ì˜¨í•˜ì§€ ì•Šê³  ì‹œìŠ¤í…œ ì¢…ë£Œ í—ˆìš©ì„ "ì‚¬ìš©"í•¨&SET RESULT_48=ì·¨ì•½&goto :48_PRINT
+	SET CMT_48=·Î±×¿ÂÇÏÁö ¾Ê°í ½Ã½ºÅÛ Á¾·á Çã¿ëÀ» "»ç¿ë"ÇÔ&SET RESULT_48=Ãë¾à&goto :48_PRINT
 )
 
-SET CMT_48=ë¡œê·¸ì˜¨í•˜ì§€ ì•Šê³  ì‹œìŠ¤í…œ ì¢…ë£Œ í—ˆìš©ì„ ì‚¬ìš© ì•ˆ í•¨&SET RESULT_48=ì–‘í˜¸
+SET CMT_48=·Î±×¿ÂÇÏÁö ¾Ê°í ½Ã½ºÅÛ Á¾·á Çã¿ëÀ» »ç¿ë ¾È ÇÔ&SET RESULT_48=¾çÈ£
 
 :48_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_48% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë¡œê·¸ì˜¨í•˜ì§€ ì•Šê³  ì‹œìŠ¤í…œ ì¢…ë£Œ í—ˆìš© "ì‚¬ìš© ì•ˆ í•¨" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_48% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ·Î±×¿ÂÇÏÁö ¾Ê°í ½Ã½ºÅÛ Á¾·á Çã¿ë "»ç¿ë ¾È ÇÔ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo : %CMT_48% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "ShutdownWithoutLogon" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "ShutdownWithoutLogon" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo (CMD) reg query "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "ShutdownWithoutLogon" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "ShutdownWithoutLogon" 2>NUL | findstr /i "ShutdownWithoutLogon" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [48.W-48] ë¡œê·¸ì˜¨í•˜ì§€ ì•Šê³  ì‹œìŠ¤í…œ ì¢…ë£Œ í—ˆìš© [%RESULT_48%]
+echo [48.W-48] ·Î±×¿ÂÇÏÁö ¾Ê°í ½Ã½ºÅÛ Á¾·á Çã¿ë [%RESULT_48%]
 :48_END
 SET CMT_48=
 SET RESULT_48=
@@ -3601,125 +3601,125 @@ SET RESULT_48=
 
 REM ==================================================
 :49_START
-echo [49.W-49] ì›ê²© ì‹œìŠ¤í…œì—ì„œ ê°•ì œë¡œ ì‹œìŠ¤í…œ ì¢…ë£Œ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [49.W-49] ¿ø°İ ½Ã½ºÅÛ¿¡¼­ °­Á¦·Î ½Ã½ºÅÛ Á¾·á >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :49_ROUTINE
-SET CMT_49=ì´ˆê¸°í™”&SET RESULT_49=ì¸í„°ë·°
+SET CMT_49=ÃÊ±âÈ­&SET RESULT_49=ÀÎÅÍºä
 SET CMT_49_1=
 SET NOW_49_group=
 
 FOR /f "tokens=3 delims= " %%i IN ('type "%SECPOL%" ^| findstr /i "SeRemoteShutdownPrivilege"') DO (
 	SET NOW_49_group=%%i
 
-	REM ëª¨ë“ ì‚¬ìš©ì S-1-1-0 (ì·¨ì•½)
+	REM ¸ğµç»ç¿ëÀÚ S-1-1-0 (Ãë¾à)
 	echo !NOW_49_group! 2>NUL | findstr /i "S-1-1-0" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_49_group=!NOW_49_group:S-1-1-0=Everyone!
-		SET CMT_49=ì›ê²© ì‹œìŠ¤í…œì—ì„œ ê°•ì œ ì‹œìŠ¤í…œì¢…ë£Œë¥¼ Administratorsë§Œ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"&SET RESULT_49=ì·¨ì•½
+		SET CMT_49=¿ø°İ ½Ã½ºÅÛ¿¡¼­ °­Á¦ ½Ã½ºÅÛÁ¾·á¸¦ Administrators¸¸ "¼³Á¤µÇÁö ¾ÊÀ½"&SET RESULT_49=Ãë¾à
 		SET CMT_49_1=!CMT_49_1! "Everyone"
 		goto :49_PRINT
 	)
 
-	REM ê´€ë¦¬ì ê·¸ë£¹ S-1-5-32-544 (ì–‘í˜¸)
+	REM °ü¸®ÀÚ ±×·ì S-1-5-32-544 (¾çÈ£)
 	echo !NOW_49_group! 2>NUL | findstr /i "S-1-5-32-544" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_49_group=!NOW_49_group:S-1-5-32-544=Administrators!
 	)
 
-	REM IUSR_ ì‚¬ìš©ì ì§€ì • ê·¸ë£¹ (ì·¨ì•½)
+	REM IUSR_ »ç¿ëÀÚ ÁöÁ¤ ±×·ì (Ãë¾à)
 	echo !NOW_49_group! 2>NUL | findstr /i "IUSR S-1-5-17" >NUL
 	IF NOT ERRORLEVEL 1 (
-		SET NOW_49_group=!NOW_49_group:IUSR=ì‚¬ìš©ìì§€ì • IUSR!
-		SET NOW_49_group=!NOW_49_group:S-1-5-17=ì‚¬ìš©ìì§€ì • IUSR!
-		SET CMT_49=ì›ê²© ì‹œìŠ¤í…œì—ì„œ ê°•ì œ ì‹œìŠ¤í…œì¢…ë£Œë¥¼ Administratorsë§Œ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"&SET RESULT_49=ì·¨ì•½
-		SET CMT_49_1=!CMT_49_1! "ì‚¬ìš©ìì§€ì • IUSR"
+		SET NOW_49_group=!NOW_49_group:IUSR=»ç¿ëÀÚÁöÁ¤ IUSR!
+		SET NOW_49_group=!NOW_49_group:S-1-5-17=»ç¿ëÀÚÁöÁ¤ IUSR!
+		SET CMT_49=¿ø°İ ½Ã½ºÅÛ¿¡¼­ °­Á¦ ½Ã½ºÅÛÁ¾·á¸¦ Administrators¸¸ "¼³Á¤µÇÁö ¾ÊÀ½"&SET RESULT_49=Ãë¾à
+		SET CMT_49_1=!CMT_49_1! "»ç¿ëÀÚÁöÁ¤ IUSR"
 		goto :49_PRINT
 	)
 
-	REM ë°±ì—…ìš´ì˜ìê·¸ë£¹ S-1-5-32-551 (ì·¨ì•½)
+	REM ¹é¾÷¿î¿µÀÚ±×·ì S-1-5-32-551 (Ãë¾à)
 	echo !NOW_49_group! 2>NUL | findstr /i "S-1-5-32-551" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_49_group=!NOW_49_group:S-1-5-32-551=Backup Operators!
-		SET CMT_49=ì›ê²© ì‹œìŠ¤í…œì—ì„œ ê°•ì œ ì‹œìŠ¤í…œì¢…ë£Œë¥¼ Administratorsë§Œ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"&SET RESULT_49=ì·¨ì•½
+		SET CMT_49=¿ø°İ ½Ã½ºÅÛ¿¡¼­ °­Á¦ ½Ã½ºÅÛÁ¾·á¸¦ Administrators¸¸ "¼³Á¤µÇÁö ¾ÊÀ½"&SET RESULT_49=Ãë¾à
 		SET CMT_49_1=!CMT_49_1! "Backup Operators"
 		goto :49_PRINT
 	)
 
-  REM ì„œë²„ìš´ì˜ìê·¸ë£¹ S-1-5-32-549 (ì·¨ì•½)
+  REM ¼­¹ö¿î¿µÀÚ±×·ì S-1-5-32-549 (Ãë¾à)
 	echo !NOW_49_group! 2>NUL | findstr /i "S-1-5-32-549" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_49_group=!NOW_49_group:S-1-5-32-549=Server Operators!
-		SET CMT_49=ì›ê²© ì‹œìŠ¤í…œì—ì„œ ê°•ì œ ì‹œìŠ¤í…œì¢…ë£Œë¥¼ Administratorsë§Œ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"&SET RESULT_49=ì·¨ì•½
+		SET CMT_49=¿ø°İ ½Ã½ºÅÛ¿¡¼­ °­Á¦ ½Ã½ºÅÛÁ¾·á¸¦ Administrators¸¸ "¼³Á¤µÇÁö ¾ÊÀ½"&SET RESULT_49=Ãë¾à
 		SET CMT_49_1=!CMT_49_1! "Server Operators"
 		goto :49_PRINT
 	)
 
-  REM Guest (ì·¨ì•½)
+  REM Guest (Ãë¾à)
 	echo !NOW_49_group! 2>NUL |findstr /i "Guest" >NUL
 	IF NOT ERRORLEVEL 1 (
-		SET CMT_49=ì›ê²© ì‹œìŠ¤í…œì—ì„œ ê°•ì œ ì‹œìŠ¤í…œì¢…ë£Œë¥¼ Administratorsë§Œ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"&SET RESULT_49=ì·¨ì•½
+		SET CMT_49=¿ø°İ ½Ã½ºÅÛ¿¡¼­ °­Á¦ ½Ã½ºÅÛÁ¾·á¸¦ Administrators¸¸ "¼³Á¤µÇÁö ¾ÊÀ½"&SET RESULT_49=Ãë¾à
 		SET CMT_49_1=!CMT_49_1! "Guest"
 		goto :49_PRINT
 	)
 
-	REM ì‚¬ìš©ìê·¸ë£¹ S-1-5-32-545 (ì·¨ì•½)
+	REM »ç¿ëÀÚ±×·ì S-1-5-32-545 (Ãë¾à)
 	echo !NOW_49_group! 2>NUL |findstr /i "S-1-5-32-545" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_49_group=!NOW_49_group:S-1-5-32-545=Users!
-		SET CMT_49=ì›ê²© ì‹œìŠ¤í…œì—ì„œ ê°•ì œ ì‹œìŠ¤í…œì¢…ë£Œë¥¼ Administratorsë§Œ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"&SET RESULT_49=ì·¨ì•½
+		SET CMT_49=¿ø°İ ½Ã½ºÅÛ¿¡¼­ °­Á¦ ½Ã½ºÅÛÁ¾·á¸¦ Administrators¸¸ "¼³Á¤µÇÁö ¾ÊÀ½"&SET RESULT_49=Ãë¾à
 		SET CMT_49_1=!CMT_49_1! "Users"
 		goto :49_PRINT
 	)
 
-	REM ë„ë©”ì¸ê·¸ë£¹ (ì·¨ì•½)
+	REM µµ¸ŞÀÎ±×·ì (Ãë¾à)
 	echo !NOW_49_group! 2>NUL |findstr /i "S-1-5-21" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_49_group=!NOW_49_group:S-1-5-21=Domain !
-		SET CMT_49=ì›ê²© ì‹œìŠ¤í…œì—ì„œ ê°•ì œ ì‹œìŠ¤í…œì¢…ë£Œë¥¼ Administratorsë§Œ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"&SET RESULT_49=ì·¨ì•½
+		SET CMT_49=¿ø°İ ½Ã½ºÅÛ¿¡¼­ °­Á¦ ½Ã½ºÅÛÁ¾·á¸¦ Administrators¸¸ "¼³Á¤µÇÁö ¾ÊÀ½"&SET RESULT_49=Ãë¾à
 		SET CMT_49_1=!CMT_49_1! "Domain"
 		goto :49_PRINT
 	)
 
-	REM ë„ë©”ì¸ ì»¨íŠ¸ë¡¤ëŸ¬ ê·¸ë£¹ (ì·¨ì•½)
+	REM µµ¸ŞÀÎ ÄÁÆ®·Ñ·¯ ±×·ì (Ãë¾à)
 	echo !NOW_49_group! 2>NUL |findstr /i "S-1-5-32-548" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_49_group=!NOW_49_group:S-1-5-32-548=Account Operators!
-		SET CMT_49=ì›ê²© ì‹œìŠ¤í…œì—ì„œ ê°•ì œ ì‹œìŠ¤í…œì¢…ë£Œë¥¼ Administratorsë§Œ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"&SET RESULT_49=ì·¨ì•½
+		SET CMT_49=¿ø°İ ½Ã½ºÅÛ¿¡¼­ °­Á¦ ½Ã½ºÅÛÁ¾·á¸¦ Administrators¸¸ "¼³Á¤µÇÁö ¾ÊÀ½"&SET RESULT_49=Ãë¾à
 		SET CMT_49_1=!CMT_49_1! "Account Operators"
 		goto :49_PRINT
 	)
 
-	REM í”„ë¦°í„° ê·¸ë£¹ (ì·¨ì•½)
+	REM ÇÁ¸°ÅÍ ±×·ì (Ãë¾à)
 	echo !NOW_49_group! 2>NUL |findstr /i "S-1-5-32-550" >NUL
 	IF NOT ERRORLEVEL 1 (
 		SET NOW_49_group=!NOW_49_group:S-1-5-32-550=Print Operators!
-		SET CMT_49=ì›ê²© ì‹œìŠ¤í…œì—ì„œ ê°•ì œ ì‹œìŠ¤í…œì¢…ë£Œë¥¼ Administratorsë§Œ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"&SET RESULT_49=ì·¨ì•½
+		SET CMT_49=¿ø°İ ½Ã½ºÅÛ¿¡¼­ °­Á¦ ½Ã½ºÅÛÁ¾·á¸¦ Administrators¸¸ "¼³Á¤µÇÁö ¾ÊÀ½"&SET RESULT_49=Ãë¾à
 		SET CMT_49_1=!CMT_49_1! "Print Operators"
 		goto :49_PRINT
 	)
 )
-SET CMT_49=ì›ê²© ì‹œìŠ¤í…œì—ì„œ ê°•ì œ ì¢…ë£Œë¥¼ Administratorsë§Œ "ì„¤ì •"&SET RESULT_49=ì–‘í˜¸
+SET CMT_49=¿ø°İ ½Ã½ºÅÛ¿¡¼­ °­Á¦ Á¾·á¸¦ Administrators¸¸ "¼³Á¤"&SET RESULT_49=¾çÈ£
 
 :49_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_49% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ì›ê²© ì‹œìŠ¤í…œì—ì„œ ê°•ì œ ì¢…ë£Œ Administratorsë§Œ "ì„¤ì •" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_49% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_49_1% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_49% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ¿ø°İ ½Ã½ºÅÛ¿¡¼­ °­Á¦ Á¾·á Administrators¸¸ "¼³Á¤" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_49% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_49_1% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 IF ERRORLEVEL 1 (
-	echo     ì·¨ì•½ ê·¸ë£¹ ëª©ë¡ : ì—†ìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     Ãë¾à ±×·ì ¸ñ·Ï : ¾øÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) ELSE (
-	echo     ì·¨ì•½ ê·¸ë£¹ ëª©ë¡ : %CMT_49_1% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     Ãë¾à ±×·ì ¸ñ·Ï : %CMT_49_1% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "SeRemoteShutdownPrivilege" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* SIDê°€ ê·¸ëŒ€ë¡œ ë…¸ì¶œë˜ëŠ” í•­ëª©ì´ ì¡´ì¬í•  ê²½ìš° ì¸í„°ë·° í•„ìš” >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* SID°¡ ±×´ë·Î ³ëÃâµÇ´Â Ç×¸ñÀÌ Á¸ÀçÇÒ °æ¿ì ÀÎÅÍºä ÇÊ¿ä >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo SeRemoteShutdownPrivilege = "%NOW_49_group%" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [49.W-49] ì›ê²© ì‹œìŠ¤í…œì—ì„œ ê°•ì œë¡œ ì‹œìŠ¤í…œ ì¢…ë£Œ [%RESULT_49%]
+echo [49.W-49] ¿ø°İ ½Ã½ºÅÛ¿¡¼­ °­Á¦·Î ½Ã½ºÅÛ Á¾·á [%RESULT_49%]
 :49_END
 SET CMT_49=
 SET CMT_49_1=
@@ -3730,25 +3730,25 @@ SET NOW_49_group=
 
 REM ==================================================
 :50_START
-echo [50.W-50] ë³´ì•ˆ ê°ì‚¬ë¥¼ ë¡œê·¸í•  ìˆ˜ ì—†ëŠ” ê²½ìš° ì¦‰ì‹œ ì‹œìŠ¤í…œ ì¢…ë£Œ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [50.W-50] º¸¾È °¨»ç¸¦ ·Î±×ÇÒ ¼ö ¾ø´Â °æ¿ì Áï½Ã ½Ã½ºÅÛ Á¾·á >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :50_ROUTINE
-SET CMT_50=ì´ˆê¸°í™”&SET RESULT_50=ì¸í„°ë·°
+SET CMT_50=ÃÊ±âÈ­&SET RESULT_50=ÀÎÅÍºä
 
 type secpol.inf | findstr /i "crashonauditfail" | findstr "4,0" >NUL
 IF NOT ERRORLEVEL 1 (
-	SET CMT_50=ë³´ì•ˆ ê°ì‚¬ë¥¼ ë¡œê·¸í•  ìˆ˜ ì—†ëŠ” ê²½ìš° ì¦‰ì‹œ ì‹œìŠ¤í…œ ì¢…ë£Œ "ì‚¬ìš© ì•ˆ í•¨"
-	SET RESULT_50=ì–‘í˜¸
+	SET CMT_50=º¸¾È °¨»ç¸¦ ·Î±×ÇÒ ¼ö ¾ø´Â °æ¿ì Áï½Ã ½Ã½ºÅÛ Á¾·á "»ç¿ë ¾È ÇÔ"
+	SET RESULT_50=¾çÈ£
 ) ELSE (
-	SET CMT_50=ë³´ì•ˆ ê°ì‚¬ë¥¼ ë¡œê·¸í•  ìˆ˜ ì—†ëŠ” ê²½ìš° ì¦‰ì‹œ ì‹œìŠ¤í…œ ì¢…ë£Œ "ì‚¬ìš©"
-	SET RESULT_50=ì·¨ì•½
+	SET CMT_50=º¸¾È °¨»ç¸¦ ·Î±×ÇÒ ¼ö ¾ø´Â °æ¿ì Áï½Ã ½Ã½ºÅÛ Á¾·á "»ç¿ë"
+	SET RESULT_50=Ãë¾à
 )
 
 :50_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_50% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ê°ì‚¬: ë³´ì•ˆ ê°ì‚¬ë¥¼ ë¡œê·¸í•  ìˆ˜ ì—†ëŠ” ê²½ìš° ì¦‰ì‹œ ì‹œìŠ¤í…œ ì¢…ë£Œ "ì‚¬ìš© ì•ˆ í•¨" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_50% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : °¨»ç: º¸¾È °¨»ç¸¦ ·Î±×ÇÒ ¼ö ¾ø´Â °æ¿ì Áï½Ã ½Ã½ºÅÛ Á¾·á "»ç¿ë ¾È ÇÔ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo : %CMT_50% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "crashonauditfail" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
@@ -3756,12 +3756,12 @@ type secpol.inf | findstr /i "crashonauditfail" >> [RESULT]%COMPUTERNAME%_%OS_TY
 echo (CMD) reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa" /v "crashonauditfail" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa" /v "crashonauditfail" 2>NUL | findstr /i "crashonauditfail" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [50.W-50] ë³´ì•ˆ ê°ì‚¬ë¥¼ ë¡œê·¸í•  ìˆ˜ ì—†ëŠ” ê²½ìš° ì¦‰ì‹œ ì‹œìŠ¤í…œ ì¢…ë£Œ [%RESULT_50%]
+echo [50.W-50] º¸¾È °¨»ç¸¦ ·Î±×ÇÒ ¼ö ¾ø´Â °æ¿ì Áï½Ã ½Ã½ºÅÛ Á¾·á [%RESULT_50%]
 :50_END
 SET CMT_50=
 SET RESULT_50=
@@ -3770,101 +3770,101 @@ SET RESULT_50=
 
 REM ==================================================
 :51_START
-echo [51.W-51] SAM ê³„ì •ê³¼ ê³µìœ ì˜ ìµëª… ì—´ê±° í—ˆìš© ì•ˆ í•¨ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [51.W-51] SAM °èÁ¤°ú °øÀ¯ÀÇ ÀÍ¸í ¿­°Å Çã¿ë ¾È ÇÔ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :51_ROUTINE
-SET CMT_51=ì„¤ì • ë˜ì–´ìˆìŒ&SET RESULT_51=ì–‘í˜¸
-SET CMT_51_1=ì„¤ì • ë˜ì–´ìˆìŒ
+SET CMT_51=¼³Á¤ µÇ¾îÀÖÀ½&SET RESULT_51=¾çÈ£
+SET CMT_51_1=¼³Á¤ µÇ¾îÀÖÀ½
 
 type secpol.inf | findstr /i "restrictanonymous=" | findstr "4,1 4,2" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_51=ë„¤íŠ¸ì›Œí¬ ì•¡ì„¸ìŠ¤: SAM ê³„ì •ê³¼ ê³µìœ ì˜ ìµëª… ì—´ê±° í—ˆìš© ì•ˆ í•¨ "ì‚¬ìš© ì•ˆ í•¨"&SET RESULT_51=ì·¨ì•½
+	SET CMT_51=³×Æ®¿öÅ© ¾×¼¼½º: SAM °èÁ¤°ú °øÀ¯ÀÇ ÀÍ¸í ¿­°Å Çã¿ë ¾È ÇÔ "»ç¿ë ¾È ÇÔ"&SET RESULT_51=Ãë¾à
 )
 type secpol.inf | findstr /i "restrictanonymousSAM" | findstr "4,1">NUL
 IF ERRORLEVEL 1 (
-	SET CMT_51_1=ë„¤íŠ¸ì›Œí¬ ì•¡ì„¸ìŠ¤: SAM ê³„ì •ì˜ ìµëª… ì—´ê±° í—ˆìš© ì•ˆ í•¨ "ì‚¬ìš© ì•ˆ í•¨"&SET RESULT_51=ì·¨ì•½
+	SET CMT_51_1=³×Æ®¿öÅ© ¾×¼¼½º: SAM °èÁ¤ÀÇ ÀÍ¸í ¿­°Å Çã¿ë ¾È ÇÔ "»ç¿ë ¾È ÇÔ"&SET RESULT_51=Ãë¾à
 )
 
 :51_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_51% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë„¤íŠ¸ì›Œí¬ ì•¡ì„¸ìŠ¤: SAM ê³„ì •ê³¼ ê³µìœ ì˜ ìµëª… ì—´ê±° í—ˆìš© ì•ˆ í•¨ "ì‚¬ìš©", >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo        ë„¤íŠ¸ì›Œí¬ ì•¡ì„¸ìŠ¤: SAM ê³„ì •ì˜ ìµëª… ì—´ê±° í—ˆìš© ì•ˆ í•¨  "ì‚¬ìš©" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_51% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_51_1% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_51% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ³×Æ®¿öÅ© ¾×¼¼½º: SAM °èÁ¤°ú °øÀ¯ÀÇ ÀÍ¸í ¿­°Å Çã¿ë ¾È ÇÔ "»ç¿ë", >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo        ³×Æ®¿öÅ© ¾×¼¼½º: SAM °èÁ¤ÀÇ ÀÍ¸í ¿­°Å Çã¿ë ¾È ÇÔ  "»ç¿ë" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_51% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_51_1% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^*^*^*^* ì„¤ì • ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* restrictanonymous    : SAM ê³„ì •ê³¼ ê³µìœ ì˜ ìµëª… ì—´ê±° í—ˆìš© ì•ˆ í•¨ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* restrictanonymousSAM : SAM ê³„ì •ì˜ ìµëª… ì—´ê±° í—ˆìš© ì•ˆ í•¨ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^*^*^*^* ¼³Á¤ ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* restrictanonymous    : SAM °èÁ¤°ú °øÀ¯ÀÇ ÀÍ¸í ¿­°Å Çã¿ë ¾È ÇÔ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* restrictanonymousSAM : SAM °èÁ¤ÀÇ ÀÍ¸í ¿­°Å Çã¿ë ¾È ÇÔ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "restrictanonymous" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "restrictanonymous" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo (CMD) reg query "HKLM\System\CurrentControlSet\Control\Lsa" ^| findstr /i "restrictanonymous" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\System\CurrentControlSet\Control\Lsa" 2>NUL | findstr /i "restrictanonymous" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [51.W-51] SAM ê³„ì •ê³¼ ê³µìœ ì˜ ìµëª… ì—´ê±° í—ˆìš© ì•ˆ í•¨ [%RESULT_51%]
+echo [51.W-51] SAM °èÁ¤°ú °øÀ¯ÀÇ ÀÍ¸í ¿­°Å Çã¿ë ¾È ÇÔ [%RESULT_51%]
 :51_END
 SET CMT_51=
 SET CMT_51_1=
 SET RESULT_51=
 
 :51_ADD
-REM [ê¸°ì¤€] RestrictAnonymousê°’
+REM [±âÁØ] RestrictAnonymous°ª
 REM 1. Windows 2000
-REM HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\LSA\RestrictAnonymousê°’ì´ (DWORD: 2)ê°€ ì•„ë‹ ê²½ìš°
-REM 2. Windows 2003 ì´ìƒ
-REM HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\LSA\RestrictAnonymousê°’ì´ (DWORD: 1)ì´ ì•„ë‹ ê²½ìš°
+REM HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\LSA\RestrictAnonymous°ªÀÌ (DWORD: 2)°¡ ¾Æ´Ò °æ¿ì
+REM 2. Windows 2003 ÀÌ»ó
+REM HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\LSA\RestrictAnonymous°ªÀÌ (DWORD: 1)ÀÌ ¾Æ´Ò °æ¿ì
 REM ==================================================
 
 
 :52_START
-echo [52.W-52] AutoLogon ê¸°ëŠ¥ ì œì–´ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [52.W-52] AutoLogon ±â´É Á¦¾î >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :52_ROUTINE
-SET CMT_52=ì´ˆê¸°í™”&SET RESULT_52=ì¸í„°ë·°
+SET CMT_52=ÃÊ±âÈ­&SET RESULT_52=ÀÎÅÍºä
 
 reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "AutoAdminLogon" 2>NUL | findstr /i "AutoAdminLogon" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_52=Autologon ê¸°ëŠ¥ "ë¹„í™œì„±í™”"ë¨&SET RESULT_52=ì–‘í˜¸
+	SET CMT_52=Autologon ±â´É "ºñÈ°¼ºÈ­"µÊ&SET RESULT_52=¾çÈ£
 )
 IF NOT ERRORLEVEL 1 (
 	reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "AutoAdminLogon" 2>NUL | findstr /i "AutoAdminLogon" | findstr 1 >NUL
 	IF ERRORLEVEL 1 (
-		SET CMT_52=Autologon ê¸°ëŠ¥ "ë¹„í™œì„±í™”"ë¨&SET RESULT_52=ì–‘í˜¸
+		SET CMT_52=Autologon ±â´É "ºñÈ°¼ºÈ­"µÊ&SET RESULT_52=¾çÈ£
 	)
 	IF NOT ERRORLEVEL 1 (
-		SET CMT_52=Autologon ê¸°ëŠ¥ "í™œì„±í™”"ë¨&SET RESULT_52=ì·¨ì•½
+		SET CMT_52=Autologon ±â´É "È°¼ºÈ­"µÊ&SET RESULT_52=Ãë¾à
 	)
 )
 
 :52_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_52% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : Autologon ê¸°ëŠ¥ "ë¹„í™œì„±í™”" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_52% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_52% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : Autologon ±â´É "ºñÈ°¼ºÈ­" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_52% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "AutoAdminLogon" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "AutoAdminLogon" 2>NUL | findstr /i "AutoAdminLogon" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-IF ERRORLEVEL 1 (echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ^(ë¹„í™œì„±í™”^)) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-IF "%RESULT_52%" == "ì·¨ì•½" (
+IF ERRORLEVEL 1 (echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½^(ºñÈ°¼ºÈ­^)) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+IF "%RESULT_52%" == "Ãë¾à" (
 	echo ^(CMD^) reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Default*" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Default*" 2>NUL | findstr /i "Default*" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	IF ERRORLEVEL 1 (
-		echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+		echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	) 
 )
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [52.W-52] AutoLogon ê¸°ëŠ¥ ì œì–´ [%RESULT_52%]
+echo [52.W-52] AutoLogon ±â´É Á¦¾î [%RESULT_52%]
 :52_END
 SET CMT_52=
 SET RESULT_52=
@@ -3874,47 +3874,47 @@ SET RESULT_52=
 
 REM ==================================================
 :53_START
-echo [53.W-53] ì´ë™ì‹ ë¯¸ë””ì–´ í¬ë§· ë° êº¼ë‚´ê¸° í—ˆìš© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [53.W-53] ÀÌµ¿½Ä ¹Ìµğ¾î Æ÷¸Ë ¹× ²¨³»±â Çã¿ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :53_ROUTINE
-SET CMT_53=ì´ˆê¸°í™”&SET RESULT_53=ì¸í„°ë·°
+SET CMT_53=ÃÊ±âÈ­&SET RESULT_53=ÀÎÅÍºä
 
 type secpol.inf | findstr /i "AllocateDASD" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_53="Administratorsê·¸ë£¹"ë§Œ í—ˆìš©ë¨&SET RESULT_53=ì–‘í˜¸
+	SET CMT_53="Administrators±×·ì"¸¸ Çã¿ëµÊ&SET RESULT_53=¾çÈ£
 ) ELSE (
-	SET CMT_53="Administrators ë° Power Users ê·¸ë£¹"ì´ í—ˆìš©ë¨&SET RESULT_53=ì·¨ì•½
+	SET CMT_53="Administrators ¹× Power Users ±×·ì"ÀÌ Çã¿ëµÊ&SET RESULT_53=Ãë¾à
 	type secpol.inf | findstr /i "AllocateDASD" | findstr "0" >NUL
 	IF NOT ERRORLEVEL 1 (
-		SET CMT_53="Administratorsê·¸ë£¹"ë§Œ í—ˆìš©ë¨&SET RESULT_53=ì–‘í˜¸
+		SET CMT_53="Administrators±×·ì"¸¸ Çã¿ëµÊ&SET RESULT_53=¾çÈ£
 	)
 	type secpol.inf | findstr /i "AllocateDASD" | findstr "2" >NUL
 	IF NOT ERRORLEVEL 1 (
-		SET CMT_53="Administrators ë° Interactive Users ê·¸ë£¹"ì´ í—ˆìš©ë¨&SET RESULT_53=ì·¨ì•½
+		SET CMT_53="Administrators ¹× Interactive Users ±×·ì"ÀÌ Çã¿ëµÊ&SET RESULT_53=Ãë¾à
 	)
 )
 
 :53_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_53% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ì¥ì¹˜: ì´ë™ì‹ ë¯¸ë””ì–´ í¬ë§· ë° êº¼ë‚´ê¸° í—ˆìš© "Administrators ê·¸ë£¹" ì„¤ì •  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_53% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ÀåÄ¡: ÀÌµ¿½Ä ¹Ìµğ¾î Æ÷¸Ë ¹× ²¨³»±â Çã¿ë "Administrators ±×·ì" ¼³Á¤  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo : %CMT_53% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "AllocateDASD" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "AllocateDASD" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ^(Administratorsê·¸ë£¹ë§Œ í—ˆìš©^) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½^(Administrators±×·ì¸¸ Çã¿ë^) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo (CMD) reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "AllocateDASD" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "AllocateDASD" 2>NUL | findstr /i "AllocateDASD" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ^(Administratorsê·¸ë£¹ë§Œ í—ˆìš©^) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½^(Administrators±×·ì¸¸ Çã¿ë^) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [53.W-53] ì´ë™ì‹ ë¯¸ë””ì–´ í¬ë§· ë° êº¼ë‚´ê¸° í—ˆìš© [%RESULT_53%]
+echo [53.W-53] ÀÌµ¿½Ä ¹Ìµğ¾î Æ÷¸Ë ¹× ²¨³»±â Çã¿ë [%RESULT_53%]
 :53_END
 SET CMT_53=
 SET RESULT_53=
@@ -3924,240 +3924,240 @@ SET RESULT_53=
 
 REM ==================================================
 :54_START
-echo [54.W-54] Dosê³µê²© ë°©ì–´ ë ˆì§€ìŠ¤íŠ¸ë¦¬ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [54.W-54] Dos°ø°İ ¹æ¾î ·¹Áö½ºÆ®¸® ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :54_ROUTINE
-SET CMT_54=ìˆ˜ë™ì ê²€
-SET RESULT_54=ì¸í„°ë·°
+SET CMT_54=¼öµ¿Á¡°Ë
+SET RESULT_54=ÀÎÅÍºä
 SET CHECK_PASS=0
 
 :54_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_54% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : DoS ë°©ì–´ ë ˆì§€ìŠ¤íŠ¸ë¦¬ "ì„¤ì •" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_54% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_54% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : DoS ¹æ¾î ·¹Áö½ºÆ®¸® "¼³Á¤" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_54% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) reg query "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v "SynAttackProtect EnableDeadGWDetect KeepAliveTime NoNameReleaseOnDemand" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^*^*^*^* ì„¤ì • ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* SynAttackProtect = REG_DWORD 1 or 2 (ê¸°ë³¸ í™œì„±í™”) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* EnableDeadGWDetect = REG_DWORD 0 (ë¹„í™œì„±í™”) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* KeepAliveTime = REG_DWORD 300,000 (5ë¶„) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* NoNameReleaseOnDemand = REG_DWORD 1 (í™œì„±í™”) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^*^*^*^* ¼³Á¤ ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* SynAttackProtect = REG_DWORD 1 or 2 (±âº» È°¼ºÈ­) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* EnableDeadGWDetect = REG_DWORD 0 (ºñÈ°¼ºÈ­) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* KeepAliveTime = REG_DWORD 300,000 (5ºĞ) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* NoNameReleaseOnDemand = REG_DWORD 1 (È°¼ºÈ­) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v "SynAttackProtect" 2>NUL | findstr /i "SynAttackProtect" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ^(ê¸°ë³¸ í™œì„±í™”ë¨^) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½^(±âº» È°¼ºÈ­µÊ^) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 reg query "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v "EnableDeadGWDetect" 2>NUL | findstr /i "EnableDeadGWDetect" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 reg query "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v "KeepAliveTime" 2>NUL | findstr /i "KeepAliveTime" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 reg query "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v "NoNameReleaseOnDemand" 2>NUL | findstr /i "NoNameReleaseOnDemand" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [54.W-54] Dosê³µê²© ë°©ì–´ ë ˆì§€ìŠ¤íŠ¸ë¦¬ ì„¤ì • [%RESULT_54%]
+echo [54.W-54] Dos°ø°İ ¹æ¾î ·¹Áö½ºÆ®¸® ¼³Á¤ [%RESULT_54%]
 
 :54_END
 SET CMT_54=
 SET RESULT_54=
 
 :54_ADD
-REM [ê¸°ì¤€] ë ˆì§€ìŠ¤íŠ¸ë¦¬ ì„¤ì •
+REM [±âÁØ] ·¹Áö½ºÆ®¸® ¼³Á¤
 REM SynAttackProtect = REG_DWORD 1 or 2
 REM EnableDeadGWDetect = REG_DWORD 0
-REM KeepAliveTime = REG_DWORD 300,000(5ë¶„)
+REM KeepAliveTime = REG_DWORD 300,000(5ºĞ)
 REM NoNameReleaseOnDemand = REG_DWORD 1
 REM
-REM [ì°¸ê³ ]
+REM [Âü°í]
 REM 1. "syn attack protection" : mechanism was configurable via various registry keys (like SynAttackProtect, TcpMaxHalfOpen, TcpMaxHalfOpenRetried, TcpMaxPortsExhausted), Syn attack protection has been in place since Windows 2000 and is enabled by default since Windows 2003/SP1
 REM 2. "KeepAliveTime" : Default: 7,200,000 (two hours)
 
 
 REM ==================================================
 :55_START
-echo [55.W-55] ì‚¬ìš©ìê°€ í”„ë¦°í„° ë“œë¼ì´ë²„ë¥¼ ì„¤ì¹˜í•  ìˆ˜ ì—†ê²Œ í•¨ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [55.W-55] »ç¿ëÀÚ°¡ ÇÁ¸°ÅÍ µå¶óÀÌ¹ö¸¦ ¼³Ä¡ÇÒ ¼ö ¾ø°Ô ÇÔ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :55_ROUTINE
-SET CMT_55=ì´ˆê¸°í™”&SET RESULT_55=ì¸í„°ë·°
+SET CMT_55=ÃÊ±âÈ­&SET RESULT_55=ÀÎÅÍºä
 
 type secpol.inf | findstr /i "AddPrinterDrivers" | findstr "4,1" >NUL
 IF ERRORLEVEL 1 (
-    SET CMT_55=ì¼ë°˜ì‚¬ìš©ìê°€ í”„ë¦°í„° ë“œë¼ì´ë²„ë¥¼ ì„¤ì¹˜í•  ìˆ˜ ì—†ê²Œ í•¨ "ì‚¬ìš© ì•ˆ í•¨"
-    SET RESULT_55=ì·¨ì•½
+    SET CMT_55=ÀÏ¹İ»ç¿ëÀÚ°¡ ÇÁ¸°ÅÍ µå¶óÀÌ¹ö¸¦ ¼³Ä¡ÇÒ ¼ö ¾ø°Ô ÇÔ "»ç¿ë ¾È ÇÔ"
+    SET RESULT_55=Ãë¾à
 ) ELSE (
-    SET CMT_55=ì¼ë°˜ì‚¬ìš©ìê°€ í”„ë¦°í„° ë“œë¼ì´ë²„ë¥¼ ì„¤ì¹˜í•  ìˆ˜ ì—†ê²Œ í•¨ "ì‚¬ìš©"í•¨
-    SET RESULT_55=ì–‘í˜¸
+    SET CMT_55=ÀÏ¹İ»ç¿ëÀÚ°¡ ÇÁ¸°ÅÍ µå¶óÀÌ¹ö¸¦ ¼³Ä¡ÇÒ ¼ö ¾ø°Ô ÇÔ "»ç¿ë"ÇÔ
+    SET RESULT_55=¾çÈ£
 )
 
-REM ë ˆì§€ìŠ¤íŠ¸ë¦¬ í™•ì¸
+REM ·¹Áö½ºÆ®¸® È®ÀÎ
 reg query "HKLM\System\CurrentControlSet\Control\Print\Providers\LanMan Print Services\Servers" /v "AddPrinterDrivers" 2>NUL >NUL
 IF ERRORLEVEL 1 (
-    SET CMT_55=ì¼ë°˜ì‚¬ìš©ìê°€ í”„ë¦°í„° ë“œë¼ì´ë²„ ì„¤ì¹˜ ì„¤ì • ì—¬ë¶€ ìˆ˜ë™ ì§„ë‹¨
-    SET RESULT_55=ì¸í„°ë·°
+    SET CMT_55=ÀÏ¹İ»ç¿ëÀÚ°¡ ÇÁ¸°ÅÍ µå¶óÀÌ¹ö ¼³Ä¡ ¼³Á¤ ¿©ºÎ ¼öµ¿ Áø´Ü
+    SET RESULT_55=ÀÎÅÍºä
 )
 
 :55_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_55% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ì¥ì¹˜: ê³µìœ  í”„ë¦°í„°ì— ì—°ê²°í•  ë•Œ ì‚¬ìš©ìê°€ í”„ë¦°í„° ë“œë¼ì´ë²„ë¥¼ ì„¤ì¹˜í•  ìˆ˜ ì—†ê²Œ í•¨ "ì‚¬ìš©" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_55% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_55% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ÀåÄ¡: °øÀ¯ ÇÁ¸°ÅÍ¿¡ ¿¬°áÇÒ ¶§ »ç¿ëÀÚ°¡ ÇÁ¸°ÅÍ µå¶óÀÌ¹ö¸¦ ¼³Ä¡ÇÒ ¼ö ¾ø°Ô ÇÔ "»ç¿ë" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_55% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "AddPrinterDrivers" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "AddPrinterDrivers" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo (CMD) reg query "HKLM\System\CurrentControlSet\Control\Print\Providers\LanMan Print Services\Servers" /v "AddPrinterDrivers" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\System\CurrentControlSet\Control\Print\Providers\LanMan Print Services\Servers" /v "AddPrinterDrivers" 2>NUL | findstr /i "AddPrinterDrivers" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	SET CMT_55=ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ&SET RESULT_55=ì¸í„°ë·°
+	SET CMT_55=·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½&SET RESULT_55=ÀÎÅÍºä
 )
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [55.W-55] ì‚¬ìš©ìê°€ í”„ë¦°í„° ë“œë¼ì´ë²„ë¥¼ ì„¤ì¹˜í•  ìˆ˜ ì—†ê²Œ í•¨ [%RESULT_55%]
+echo [55.W-55] »ç¿ëÀÚ°¡ ÇÁ¸°ÅÍ µå¶óÀÌ¹ö¸¦ ¼³Ä¡ÇÒ ¼ö ¾ø°Ô ÇÔ [%RESULT_55%]
 :55_END
 SET CMT_55=
 SET RESULT_55=
 
 :55_ADD
-REM [ê¸°ì¤€] ì¥ì¹˜: ê³µìœ  í”„ë¦°í„°ì— ì—°ê²°í•  ë•Œ ì‚¬ìš©ìê°€ í”„ë¦°í„° ë“œë¼ì´ë²„ë¥¼ ì„¤ì¹˜í•  ìˆ˜ ì—†ê²Œ í•¨ ì •ì±… ê¸°ë³¸ê°’
-REM ì„œë²„ì˜ ê¸°ë³¸ê°’: ì‚¬ìš©
-REM ì›Œí¬ìŠ¤í…Œì´ì…˜ì˜ ê¸°ë³¸ê°’: ì‚¬ìš© ì•ˆ í•¨
+REM [±âÁØ] ÀåÄ¡: °øÀ¯ ÇÁ¸°ÅÍ¿¡ ¿¬°áÇÒ ¶§ »ç¿ëÀÚ°¡ ÇÁ¸°ÅÍ µå¶óÀÌ¹ö¸¦ ¼³Ä¡ÇÒ ¼ö ¾ø°Ô ÇÔ Á¤Ã¥ ±âº»°ª
+REM ¼­¹öÀÇ ±âº»°ª: »ç¿ë
+REM ¿öÅ©½ºÅ×ÀÌ¼ÇÀÇ ±âº»°ª: »ç¿ë ¾È ÇÔ
 
 REM ==================================================
 
 REM ==================================================
 :56_START
-echo [56.W-56] SMB ì„¸ì…˜ ì¤‘ë‹¨ ê´€ë¦¬ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [56.W-56] SMB ¼¼¼Ç Áß´Ü °ü¸® ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :56_ROUTINE
-SET CMT_56=ì´ˆê¸°í™”&SET RESULT_56=ì¸í„°ë·°
+SET CMT_56=ÃÊ±âÈ­&SET RESULT_56=ÀÎÅÍºä
 
 type secpol.inf | findstr /i "EnableForcedLogOff" | findstr "4,1" >NUL
 IF NOT ERRORLEVEL 1 (
-	SET CMT_56=ë¡œê·¸ì˜¨ ì‹œê°„ì´ ë§Œë£Œë˜ë©´ í´ë¼ì´ì–¸íŠ¸ ì—°ê²° ëŠê¸° "ì„¤ì •"&SET RESULT_56=ì–‘í˜¸
+	SET CMT_56=·Î±×¿Â ½Ã°£ÀÌ ¸¸·áµÇ¸é Å¬¶óÀÌ¾ğÆ® ¿¬°á ²÷±â "¼³Á¤"&SET RESULT_56=¾çÈ£
 )
 IF ERRORLEVEL 1 (
-	SET CMT_56=ë¡œê·¸ì˜¨ ì‹œê°„ì´ ë§Œë£Œë˜ë©´ í´ë¼ì´ì–¸íŠ¸ ì—°ê²° ëŠê¸° "ì„¤ì •ë˜ì§€ ì•ŠìŒ"&SET RESULT_56=ì·¨ì•½
+	SET CMT_56=·Î±×¿Â ½Ã°£ÀÌ ¸¸·áµÇ¸é Å¬¶óÀÌ¾ğÆ® ¿¬°á ²÷±â "¼³Á¤µÇÁö ¾ÊÀ½"&SET RESULT_56=Ãë¾à
 )
 type "%SECPOL%" | findstr /i "autodisconnect" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_56_1=ì„¸ì…˜ ì—°ê²°ì„ ì¤‘ë‹¨í•˜ê¸° ì „ì— í•„ìš”í•œ ìœ íœ´ ì‹œê°„ 15ë¶„ ì´í•˜ "ì„¤ì •"ë¨^(ê¸°ë³¸ê°’ 15ë¶„^)
+	SET CMT_56_1=¼¼¼Ç ¿¬°áÀ» Áß´ÜÇÏ±â Àü¿¡ ÇÊ¿äÇÑ À¯ÈŞ ½Ã°£ 15ºĞ ÀÌÇÏ "¼³Á¤"µÊ^(±âº»°ª 15ºĞ^)
 )
 IF NOT ERRORLEVEL 1 (
-	SET CMT_56_1=ì„¸ì…˜ ì—°ê²°ì„ ì¤‘ë‹¨í•˜ê¸° ì „ì— í•„ìš”í•œ ìœ íœ´ ì‹œê°„ 15ë¶„ ì´í•˜ "ì„¤ì •"ë¨
+	SET CMT_56_1=¼¼¼Ç ¿¬°áÀ» Áß´ÜÇÏ±â Àü¿¡ ÇÊ¿äÇÑ À¯ÈŞ ½Ã°£ 15ºĞ ÀÌÇÏ "¼³Á¤"µÊ
 	FOR /f "tokens=2 delims=," %%i IN ('type "%SECPOL%" ^| findstr /i "autodisconnect"') DO (
 		IF %%i GTR 15 (
-			SET CMT_56_1=ì„¸ì…˜ ì—°ê²°ì„ ì¤‘ë‹¨í•˜ê¸° ì „ì— í•„ìš”í•œ ìœ íœ´ ì‹œê°„ 15ë¶„ ì´í•˜ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"^(15ë¶„ ì´ìƒ^)&SET RESULT_56=ì·¨ì•½
+			SET CMT_56_1=¼¼¼Ç ¿¬°áÀ» Áß´ÜÇÏ±â Àü¿¡ ÇÊ¿äÇÑ À¯ÈŞ ½Ã°£ 15ºĞ ÀÌÇÏ "¼³Á¤µÇÁö ¾ÊÀ½"^(15ºĞ ÀÌ»ó^)&SET RESULT_56=Ãë¾à
 		)
 		IF %%i EQU 0 (
-			SET CMT_56_1=ì„¸ì…˜ ì—°ê²°ì„ ì¤‘ë‹¨í•˜ê¸° ì „ì— í•„ìš”í•œ ìœ íœ´ ì‹œê°„ 15ë¶„ ì´í•˜ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"^(ì œí•œ ì—†ìŒ^)&SET RESULT_56=ì·¨ì•½
+			SET CMT_56_1=¼¼¼Ç ¿¬°áÀ» Áß´ÜÇÏ±â Àü¿¡ ÇÊ¿äÇÑ À¯ÈŞ ½Ã°£ 15ºĞ ÀÌÇÏ "¼³Á¤µÇÁö ¾ÊÀ½"^(Á¦ÇÑ ¾øÀ½^)&SET RESULT_56=Ãë¾à
 		)
 		IF %%i EQU 7494967295 (
-			SET CMT_56_1=ì„¸ì…˜ ì—°ê²°ì„ ì¤‘ë‹¨í•˜ê¸° ì „ì— í•„ìš”í•œ ìœ íœ´ ì‹œê°„ 15ë¶„ ì´í•˜ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"^(ì œí•œ ì—†ìŒ^)&SET RESULT_56=ì·¨ì•½
+			SET CMT_56_1=¼¼¼Ç ¿¬°áÀ» Áß´ÜÇÏ±â Àü¿¡ ÇÊ¿äÇÑ À¯ÈŞ ½Ã°£ 15ºĞ ÀÌÇÏ "¼³Á¤µÇÁö ¾ÊÀ½"^(Á¦ÇÑ ¾øÀ½^)&SET RESULT_56=Ãë¾à
 		)
 	)
 )
 
 :56_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_56% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : Microsoft ë„¤íŠ¸ì›Œí¬ ì„œë²„: ë¡œê·¸ì˜¨ ì‹œê°„ì´ ë§Œë£Œë˜ë©´ í´ë¼ì´ì–¸íŠ¸ ì—°ê²° ëŠê¸° "ì„¤ì •", >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo        Microsoft ë„¤íŠ¸ì›Œí¬ ì„œë²„: ì„¸ì…˜ ì—°ê²°ì„ ì¤‘ë‹¨í•˜ê¸° ì „ì— í•„ìš”í•œ ìœ íœ´ ì‹œê°„ 15ë¶„ ì´í•˜ "ì„¤ì •" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_56% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_56_1% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_56% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : Microsoft ³×Æ®¿öÅ© ¼­¹ö: ·Î±×¿Â ½Ã°£ÀÌ ¸¸·áµÇ¸é Å¬¶óÀÌ¾ğÆ® ¿¬°á ²÷±â "¼³Á¤", >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo        Microsoft ³×Æ®¿öÅ© ¼­¹ö: ¼¼¼Ç ¿¬°áÀ» Áß´ÜÇÏ±â Àü¿¡ ÇÊ¿äÇÑ À¯ÈŞ ½Ã°£ 15ºĞ ÀÌÇÏ "¼³Á¤" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_56% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_56_1% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "EnableForcedLogOff" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "EnableForcedLogOff" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo (CMD) reg query "HKLM\System\CurrentControlSet\Services\LanManServer\Parameters" /v "EnableForcedLogOff" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\System\CurrentControlSet\Services\LanManServer\Parameters" /v "EnableForcedLogOff" 2>NUL | findstr /i "EnableForcedLogOff" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo (CMD) type secpol.inf ^| findstr /i "autodisconnect" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type "%SECPOL%" | findstr /i "autodisconnect" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ^(15ë¶„ ì„¤ì •ë¨^) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½^(15ºĞ ¼³Á¤µÊ^) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo (CMD) reg query "HKLM\System\CurrentControlSet\Services\LanManServer\Parameters" /v "AutoDisconnect" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\System\CurrentControlSet\Services\LanManServer\Parameters" /v "AutoDisconnect" 2>NUL | findstr /i "AutoDisconnect" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ^(15ë¶„ ì„¤ì •ë¨^) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½^(15ºĞ ¼³Á¤µÊ^) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [56.W-56] SMB ì„¸ì…˜ ì¤‘ë‹¨ ê´€ë¦¬ ì„¤ì • [%RESULT_56%]
+echo [56.W-56] SMB ¼¼¼Ç Áß´Ü °ü¸® ¼³Á¤ [%RESULT_56%]
 :56_END
 SET CMT_56=
 SET RESULT_56=
 
 :56_ADD
-REM [ì„¤ëª…] SMB(Server Message Block) ì‹œìŠ¤í…œ ê°„\ ë°ì´í„° ì†¡ìˆ˜ì‹  í”„ë¡œí† ì½œ
+REM [¼³¸í] SMB(Server Message Block) ½Ã½ºÅÛ °£\ µ¥ÀÌÅÍ ¼Û¼ö½Å ÇÁ·ÎÅäÄİ
 REM
-REM [í•­ëª©] Microsoft ë„¤íŠ¸ì›Œí¬ ì„œë²„: ë¡œê·¸ì˜¨ ì‹œê°„ì´ ë§Œë£Œë˜ë©´ í´ë¼ì´ì–¸íŠ¸ ì—°ê²° ëŠê¸°
-REM ì´ ì •ì±…ì„ ì‚¬ìš©í•˜ë©´ í´ë¼ì´ì–¸íŠ¸ì˜ ë¡œê·¸ì˜¨ ì‹œê°„ì´ ë§Œë£Œë  ë•Œ SMB ì„œë¹„ìŠ¤ì˜ í´ë¼ì´ì–¸íŠ¸ ì„¸ì…˜ ì—°ê²°ì´ ê°•ì œë¡œ ëŠì–´ì§
+REM [Ç×¸ñ] Microsoft ³×Æ®¿öÅ© ¼­¹ö: ·Î±×¿Â ½Ã°£ÀÌ ¸¸·áµÇ¸é Å¬¶óÀÌ¾ğÆ® ¿¬°á ²÷±â
+REM ÀÌ Á¤Ã¥À» »ç¿ëÇÏ¸é Å¬¶óÀÌ¾ğÆ®ÀÇ ·Î±×¿Â ½Ã°£ÀÌ ¸¸·áµÉ ¶§ SMB ¼­ºñ½ºÀÇ Å¬¶óÀÌ¾ğÆ® ¼¼¼Ç ¿¬°áÀÌ °­Á¦·Î ²÷¾îÁü
 REM
-REM [í•­ëª©] Microsoft ë„¤íŠ¸ì›Œí¬ ì„œë²„: ì„¸ì…˜ ì—°ê²°ì„ ì¤‘ë‹¨í•˜ê¸° ì „ì— í•„ìš”í•œ ìœ íœ´ ì‹œê°„
-REM ì»´í“¨í„°ì—ì„œ ë¹„í™œì„± SMB ì„¸ì…˜ì„ ì¤‘ë‹¨ì‹œí‚¤ëŠ” ì‹œê°„ì„ ì œì–´ (ì„¤ì • ì•ˆ í•¨ì´ ê¸°ë³¸ê°’ìœ¼ë¡œ ì„œë²„ëŠ” 15ë¶„ìœ¼ë¡œ ì¸ì‹)
+REM [Ç×¸ñ] Microsoft ³×Æ®¿öÅ© ¼­¹ö: ¼¼¼Ç ¿¬°áÀ» Áß´ÜÇÏ±â Àü¿¡ ÇÊ¿äÇÑ À¯ÈŞ ½Ã°£
+REM ÄÄÇ»ÅÍ¿¡¼­ ºñÈ°¼º SMB ¼¼¼ÇÀ» Áß´Ü½ÃÅ°´Â ½Ã°£À» Á¦¾î (¼³Á¤ ¾È ÇÔÀÌ ±âº»°ªÀ¸·Î ¼­¹ö´Â 15ºĞÀ¸·Î ÀÎ½Ä)
 
 
 REM ==================================================
 :57_START
-echo [57.W-57] ë¡œê·¸ì˜¨ ì‹œ ê²½ê³  ë©”ì‹œì§€ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [57.W-57] ·Î±×¿Â ½Ã °æ°í ¸Ş½ÃÁö ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :57_ROUTINE
-SET CMT_57=ì´ˆê¸°í™”&SET RESULT_57=ì¸í„°ë·°
+SET CMT_57=ÃÊ±âÈ­&SET RESULT_57=ÀÎÅÍºä
 
 SET count=0
 FOR /f "tokens=2 delims=," %%i IN ('type "%SECPOL%" ^| findstr /i "LegalNoticeCaption LegalNoticeText"') DO (
 	SET /a count+=1
 )
-IF !count! EQU 1 (SET CMT_57=ë¡œê·¸ì˜¨ ì‹œë„í•˜ëŠ” ì‚¬ìš©ìì— ëŒ€í•œ ë©”ì‹œì§€ ì œëª©, í…ìŠ¤íŠ¸ê°€ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"&SET RESULT_57=ì·¨ì•½)&goto :57_PRINT
+IF !count! EQU 1 (SET CMT_57=·Î±×¿Â ½ÃµµÇÏ´Â »ç¿ëÀÚ¿¡ ´ëÇÑ ¸Ş½ÃÁö Á¦¸ñ, ÅØ½ºÆ®°¡ "¼³Á¤µÇÁö ¾ÊÀ½"&SET RESULT_57=Ãë¾à)&goto :57_PRINT
 
-SET CMT_57=ì œëª© ë° í…ìŠ¤íŠ¸ ì„¤ì •&SET RESULT_57=ì–‘í˜¸
+SET CMT_57=Á¦¸ñ ¹× ÅØ½ºÆ® ¼³Á¤&SET RESULT_57=¾çÈ£
 :57_PRINT
 
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_57% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ëŒ€í™”í˜• ë¡œê·¸ì˜¨: ë¡œê·¸ì˜¨ ì‹œë„í•˜ëŠ” ì‚¬ìš©ìì— ëŒ€í•œ ë©”ì‹œì§€ ì œëª©, í…ìŠ¤íŠ¸ "ì„¤ì •" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_57% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ´ëÈ­Çü ·Î±×¿Â: ·Î±×¿Â ½ÃµµÇÏ´Â »ç¿ëÀÚ¿¡ ´ëÇÑ ¸Ş½ÃÁö Á¦¸ñ, ÅØ½ºÆ® "¼³Á¤" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo : %CMT_57% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "LegalNoticeCaption LegalNoticeText" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 FOR /f "tokens=2 delims=," %%i IN ('type "%SECPOL%" ^| findstr /i "LegalNoticeCaption"') DO (
-	echo - ì œëª© - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo - Á¦¸ñ - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	echo : %%i >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 FOR /f "tokens=2 delims=," %%i IN ('type "%SECPOL%" ^| findstr /i "LegalNoticeText"') DO (
-	echo - ë‚´ìš© - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo - ³»¿ë - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 	echo : %%i >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
 echo (CMD) reg query "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "LegalNoticeCaption LegalNoticeText" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "LegalNoticeCaption" 2>NUL | findstr /i "LegalNoticeCaption" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 reg query "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "LegalNoticeText" 2>NUL | findstr /i "LegalNoticeText" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [57.W-57] ë¡œê·¸ì˜¨ ì‹œ ê²½ê³  ë©”ì‹œì§€ ì„¤ì • [%RESULT_57%]
+echo [57.W-57] ·Î±×¿Â ½Ã °æ°í ¸Ş½ÃÁö ¼³Á¤ [%RESULT_57%]
 :57_END
 SET CMT_57=
 SET RESULT_57=
@@ -4168,38 +4168,38 @@ SET count=
 
 REM ==================================================
 :58_START
-echo [58.W-58] ì‚¬ìš©ìë³„ í™ˆ ë””ë ‰í„°ë¦¬ ê¶Œí•œ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [58.W-58] »ç¿ëÀÚº° È¨ µğ·ºÅÍ¸® ±ÇÇÑ ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :58_ROUTINE
-SET CMT_58=ì´ˆê¸°í™”&SET RESULT_58=ì¸í„°ë·°
+SET CMT_58=ÃÊ±âÈ­&SET RESULT_58=ÀÎÅÍºä
 
 IF "%OS_VER%" EQU "5." (
 	FOR /f "tokens=*" %%i IN ('dir /b "C:\Documents and Settings" ^| findstr /i /v "public default"') DO (
 		cacls "C:\Documents and Settings\%%i" 2>NUL | findstr /i "Everyone" >NUL
 		IF NOT ERRORLEVEL 1 (
-			SET CMT_58=ì‚¬ìš©ì í™ˆ ë””ë ‰í„°ë¦¬ì— Everyone ê¶Œí•œì´ "ì¡´ì¬"í•¨&SET RESULT_58=ì·¨ì•½& GOTO 58_PRINT
+			SET CMT_58=»ç¿ëÀÚ È¨ µğ·ºÅÍ¸®¿¡ Everyone ±ÇÇÑÀÌ "Á¸Àç"ÇÔ&SET RESULT_58=Ãë¾à& GOTO 58_PRINT
 		)
 	)
 ) ELSE (
 	FOR /f "tokens=*" %%i IN ('dir /b "C:\Users" ^| findstr /i /v "public default"') DO (
 		cacls "C:\Users\%%i" 2>NUL | findstr /i "Everyone" >NUL
 		IF NOT ERRORLEVEL 1 (
-			SET CMT_58=ì‚¬ìš©ì í™ˆ ë””ë ‰í„°ë¦¬ì— Everyone ê¶Œí•œì´ "ì¡´ì¬"í•¨&SET RESULT_58=ì·¨ì•½& GOTO :58_PRINT
+			SET CMT_58=»ç¿ëÀÚ È¨ µğ·ºÅÍ¸®¿¡ Everyone ±ÇÇÑÀÌ "Á¸Àç"ÇÔ&SET RESULT_58=Ãë¾à& GOTO :58_PRINT
 		)
 	)
 )
 
-SET CMT_58=ì‚¬ìš©ì í™ˆ ë””ë ‰í„°ë¦¬ì— Everyone ê¶Œí•œ ì—†ìŒ&SET RESULT_58=ì–‘í˜¸
+SET CMT_58=»ç¿ëÀÚ È¨ µğ·ºÅÍ¸®¿¡ Everyone ±ÇÇÑ ¾øÀ½&SET RESULT_58=¾çÈ£
 
 :58_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_58% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ì‚¬ìš©ì í™ˆ ë””ë ‰í„°ë¦¬ì— Everyone ê¶Œí•œ "ì¡´ì¬í•˜ì§€ ì•ŠìŒ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_58% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : »ç¿ëÀÚ È¨ µğ·ºÅÍ¸®¿¡ Everyone ±ÇÇÑ "Á¸ÀçÇÏÁö ¾ÊÀ½" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo : %CMT_58% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo (CMD) cacls "ì‚¬ìš©ì í™ˆ ë””ë ‰í„°ë¦¬" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* ë””ë ‰í„°ë¦¬ 5ê°œ ì´ìƒì¼ ê²½ìš°, 5ê°œë¥¼ ì œì™¸í•œ ë‚˜ë¨¸ì§€ëŠ” ìƒëµ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo (CMD) cacls "»ç¿ëÀÚ È¨ µğ·ºÅÍ¸®" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* µğ·ºÅÍ¸® 5°³ ÀÌ»óÀÏ °æ¿ì, 5°³¸¦ Á¦¿ÜÇÑ ³ª¸ÓÁö´Â »ı·« >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 SET count=0
 IF "%OS_VER%" EQU "5." (
 	FOR /f "tokens=*" %%i IN ('dir /b "C:\Documents and Settings" ^| findstr /i /v "public default"') DO (
@@ -4226,7 +4226,7 @@ IF "%OS_VER%" EQU "5." (
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [58.W-58] ì‚¬ìš©ìë³„ í™ˆ ë””ë ‰í„°ë¦¬ ê¶Œí•œ ì„¤ì • [%RESULT_58%]
+echo [58.W-58] »ç¿ëÀÚº° È¨ µğ·ºÅÍ¸® ±ÇÇÑ ¼³Á¤ [%RESULT_58%]
 :58_END
 SET CMT_58=
 SET RESULT_58=
@@ -4237,138 +4237,138 @@ SET count=
 
 REM ==================================================
 :59_START
-echo [59.W-59] LAN Manager ì¸ì¦ ìˆ˜ì¤€ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [59.W-59] LAN Manager ÀÎÁõ ¼öÁØ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :59_ROUTINE
-SET CMT_59=ì´ˆê¸°í™”&SET RESULT_59=ì¸í„°ë·°
+SET CMT_59=ÃÊ±âÈ­&SET RESULT_59=ÀÎÅÍºä
 
 type secpol.inf | findstr /i "Lmcompatibilitylevel" >NUL
 IF ERRORLEVEL 1 (
 	echo %OS_VER% 2>NUL | findstr "6.0 6.1 6.2 6.3 10.0" >NUL
 	IF NOT ERRORLEVEL 1 (
-		SET CMT_59=NTLMv2 ì‘ë‹µë§Œ ë³´ëƒ„ìœ¼ë¡œ "ì„¤ì •"ë¨^(Default^)&SET RESULT_59=ì–‘í˜¸
+		SET CMT_59=NTLMv2 ÀÀ´ä¸¸ º¸³¿À¸·Î "¼³Á¤"µÊ^(Default^)&SET RESULT_59=¾çÈ£
 	)
 	IF ERRORLEVEL 1 (
-		SET CMT_59=NTLMv2 ì‘ë‹µë§Œ ë³´ëƒ„ìœ¼ë¡œ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"^(Default^)&SET RESULT_59=ì·¨ì•½
+		SET CMT_59=NTLMv2 ÀÀ´ä¸¸ º¸³¿À¸·Î "¼³Á¤µÇÁö ¾ÊÀ½"^(Default^)&SET RESULT_59=Ãë¾à
 	)
 ) ELSE (
 	type secpol.inf | findstr /i "Lmcompatibilitylevel" | findstr "4,3 4,4 4,5" >NUL
 	IF NOT ERRORLEVEL 1 (
-		SET CMT_59=NTLMv2 ì‘ë‹µë§Œ ë³´ëƒ„ìœ¼ë¡œ "ì„¤ì •"ë¨&SET RESULT_59=ì–‘í˜¸
+		SET CMT_59=NTLMv2 ÀÀ´ä¸¸ º¸³¿À¸·Î "¼³Á¤"µÊ&SET RESULT_59=¾çÈ£
 	)
 	IF ERRORLEVEL 1 (
-		SET CMT_59=NTLMv2 ì‘ë‹µë§Œ ë³´ëƒ„ìœ¼ë¡œ "ì„¤ì •ë˜ì§€ ì•ŠìŒ"&SET RESULT_59=ì·¨ì•½
+		SET CMT_59=NTLMv2 ÀÀ´ä¸¸ º¸³¿À¸·Î "¼³Á¤µÇÁö ¾ÊÀ½"&SET RESULT_59=Ãë¾à
 	)
 )
 
 :59_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_59% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : NTLMv2 ì‘ë‹µë§Œ ë³´ëƒ„ "ì„¤ì •" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_59% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_59% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : NTLMv2 ÀÀ´ä¸¸ º¸³¿ "¼³Á¤" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_59% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^*^*^*^* ì„¤ì • ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^*^*^*^* ¼³Á¤ ^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ^*^* [lmcompatibilitylevel] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* 0 (ì·¨ì•½) : (LM and NTLM ì‘ë‹µ ë³´ëƒ„) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* 1 (ì·¨ì•½) : (LM and NTLM - NTLMv2 ì„¸ì…˜ ë³´ì•ˆ ì‚¬ìš©(í˜‘ìƒëœ ê²½ìš°)) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* 2 (ì·¨ì•½) : (NTLM ì‘ë‹µ ë³´ëƒ„) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* 3 (ì–‘í˜¸) : (NTLMv2 ì‘ë‹µë§Œ ë³´ëƒ„) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* 4 (ì–‘í˜¸) : (NTLMv2 ì‘ë‹µë§Œ ë³´ëƒ„\LM ê±°ë¶€) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ^*^* 5 (ì–‘í˜¸) : (NTLMv2 ì‘ë‹µë§Œ ë³´ëƒ„\LM and NTLM ê±°ë¶€) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* 0 (Ãë¾à) : (LM and NTLM ÀÀ´ä º¸³¿) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* 1 (Ãë¾à) : (LM and NTLM - NTLMv2 ¼¼¼Ç º¸¾È »ç¿ë(Çù»óµÈ °æ¿ì)) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* 2 (Ãë¾à) : (NTLM ÀÀ´ä º¸³¿) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* 3 (¾çÈ£) : (NTLMv2 ÀÀ´ä¸¸ º¸³¿) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* 4 (¾çÈ£) : (NTLMv2 ÀÀ´ä¸¸ º¸³¿\LM °ÅºÎ) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ^*^* 5 (¾çÈ£) : (NTLMv2 ÀÀ´ä¸¸ º¸³¿\LM and NTLM °ÅºÎ) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^* >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "Lmcompatibilitylevel" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "Lmcompatibilitylevel" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo (CMD) reg query "HKLM\System\CurrentControlSet\Control\Lsa" /v "LmCompatibilityLevel" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\System\CurrentControlSet\Control\Lsa" /v "LmCompatibilityLevel" 2>NUL | findstr /i "LmCompatibilityLevel" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [59.W-59] LAN Manager ì¸ì¦ ìˆ˜ì¤€ [%RESULT_59%]
+echo [59.W-59] LAN Manager ÀÎÁõ ¼öÁØ [%RESULT_59%]
 :59_END
 SET CMT_59=
 SET RESULT_59=
 
 :59_ADD
-REM [ê¸°ì¤€] LAN Manager ì¸ì¦ ìˆ˜ì¤€ (3ì´ìƒ ì–‘í˜¸ ë¯¸ë§Œì€ ì·¨ì•½)
-REM **Windows 2008 ì´ìƒì€ í‚¤ê°€ ì—†ì–´ë„ ì–‘í˜¸, 2003 ì´í•˜ëŠ” í‚¤ ì—†ìœ¼ë©´ ì·¨ì•½
-REM lmcompatibilitylevel  =  0 (LM and NTLM ì‘ë‹µ ë³´ëƒ„)
-REM lmcompatibilitylevel  =  1 (LM and NTLM - NTLMv2 ì„¸ì…˜ ë³´ì•ˆ ì‚¬ìš©(í˜‘ìƒëœ ê²½ìš°))
-REM lmcompatibilitylevel  =  2 (NTLM ì‘ë‹µ ë³´ëƒ„)
-REM lmcompatibilitylevel  =  3 (NTLMv2 ì‘ë‹µë§Œ ë³´ëƒ„)
-REM lmcompatibilitylevel  =  4 (NTLMv2 ì‘ë‹µë§Œ ë³´ëƒ„\LM ê±°ë¶€)
-REM lmcompatibilitylevel  =  5 (NTLMv2 ì‘ë‹µë§Œ ë³´ëƒ„\LM and NTLM ê±°ë¶€)
+REM [±âÁØ] LAN Manager ÀÎÁõ ¼öÁØ (3ÀÌ»ó ¾çÈ£ ¹Ì¸¸Àº Ãë¾à)
+REM **Windows 2008 ÀÌ»óÀº Å°°¡ ¾ø¾îµµ ¾çÈ£, 2003 ÀÌÇÏ´Â Å° ¾øÀ¸¸é Ãë¾à
+REM lmcompatibilitylevel  =  0 (LM and NTLM ÀÀ´ä º¸³¿)
+REM lmcompatibilitylevel  =  1 (LM and NTLM - NTLMv2 ¼¼¼Ç º¸¾È »ç¿ë(Çù»óµÈ °æ¿ì))
+REM lmcompatibilitylevel  =  2 (NTLM ÀÀ´ä º¸³¿)
+REM lmcompatibilitylevel  =  3 (NTLMv2 ÀÀ´ä¸¸ º¸³¿)
+REM lmcompatibilitylevel  =  4 (NTLMv2 ÀÀ´ä¸¸ º¸³¿\LM °ÅºÎ)
+REM lmcompatibilitylevel  =  5 (NTLMv2 ÀÀ´ä¸¸ º¸³¿\LM and NTLM °ÅºÎ)
 
 REM ==================================================
 :60_START
-echo [60.W-60] ë³´ì•ˆ ì±„ë„ ë°ì´í„° ë””ì§€í„¸ ì•”í˜¸í™” ë˜ëŠ” ì„œëª… >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [60.W-60] º¸¾È Ã¤³Î µ¥ÀÌÅÍ µğÁöÅĞ ¾ÏÈ£È­ ¶Ç´Â ¼­¸í >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :60_ROUTINE
-SET CMT_60=&SET RESULT_60=ì¸í„°ë·°
+SET CMT_60=&SET RESULT_60=ÀÎÅÍºä
 SET CMT_60_1=
 SET CMT_60_2=
 
 type secpol.inf | findstr /i "signsecurechannel" | findstr "4,1" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_60=ë„ë©”ì¸ êµ¬ì„±ì›: ë³´ì•ˆ ì±„ë„ ë°ì´í„°ë¥¼ ë””ì§€í„¸ ì„œëª…^(ê°€ëŠ¥í•œ ê²½ìš°^) "ì‚¬ìš© ì•ˆ í•¨"&SET RESULT_60=ì·¨ì•½&goto :60_PRINT
+	SET CMT_60=µµ¸ŞÀÎ ±¸¼º¿ø: º¸¾È Ã¤³Î µ¥ÀÌÅÍ¸¦ µğÁöÅĞ ¼­¸í^(°¡´ÉÇÑ °æ¿ì^) "»ç¿ë ¾È ÇÔ"&SET RESULT_60=Ãë¾à&goto :60_PRINT
 )
 type secpol.inf | findstr /i "requiresignorseal" | findstr "4,1" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_60_1=ë„ë©”ì¸ êµ¬ì„±ì›: ë³´ì•ˆ ì±„ë„ ë°ì´í„°ë¥¼ ë””ì§€í„¸ ì•”í˜¸í™” ë˜ëŠ” ì„œëª…^(í•­ìƒ^) "ì‚¬ìš© ì•ˆ í•¨"&SET RESULT_60=ì·¨ì•½&goto :60_PRINT
+	SET CMT_60_1=µµ¸ŞÀÎ ±¸¼º¿ø: º¸¾È Ã¤³Î µ¥ÀÌÅÍ¸¦ µğÁöÅĞ ¾ÏÈ£È­ ¶Ç´Â ¼­¸í^(Ç×»ó^) "»ç¿ë ¾È ÇÔ"&SET RESULT_60=Ãë¾à&goto :60_PRINT
 )
 type secpol.inf | findstr /i "sealsecurechannel" | findstr "4,1" >NUL
 IF ERRORLEVEL 1 (
-	SET CMT_60_2=ë„ë©”ì¸ êµ¬ì„±ì›: ë³´ì•ˆ ì±„ë„ ë°ì´í„°ë¥¼ ë””ì§€í„¸ ì•”í˜¸í™”^(ê°€ëŠ¥í•œ ê²½ìš°^) "ì‚¬ìš© ì•ˆ í•¨"&SET RESULT_60=ì·¨ì•½&goto :60_PRINT
+	SET CMT_60_2=µµ¸ŞÀÎ ±¸¼º¿ø: º¸¾È Ã¤³Î µ¥ÀÌÅÍ¸¦ µğÁöÅĞ ¾ÏÈ£È­^(°¡´ÉÇÑ °æ¿ì^) "»ç¿ë ¾È ÇÔ"&SET RESULT_60=Ãë¾à&goto :60_PRINT
 )
-SET CMT_60=ì‚¬ìš© ì„¤ì •&SET CMT_60_1=ì‚¬ìš© ì„¤ì •&SET CMT_60_2=ì‚¬ìš© ì„¤ì •&SET RESULT_60=ì–‘í˜¸
+SET CMT_60=»ç¿ë ¼³Á¤&SET CMT_60_1=»ç¿ë ¼³Á¤&SET CMT_60_2=»ç¿ë ¼³Á¤&SET RESULT_60=¾çÈ£
 
 :60_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_60% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë„ë©”ì¸ êµ¬ì„±ì›: ë³´ì•ˆ ì±„ë„ ë°ì´í„°ë¥¼ ë””ì§€í„¸ ì„œëª…(ê°€ëŠ¥í•œ ê²½ìš°) "ì‚¬ìš©" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo       ë„ë©”ì¸ êµ¬ì„±ì›: ë³´ì•ˆ ì±„ë„ ë°ì´í„°ë¥¼ ë””ì§€í„¸ ì•”í˜¸í™” ë˜ëŠ” ì„œëª…(í•­ìƒ) "ì‚¬ìš©" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo       ë„ë©”ì¸ êµ¬ì„±ì›: ë³´ì•ˆ ì±„ë„ ë°ì´í„°ë¥¼ ë””ì§€í„¸ ì•”í˜¸í™”(ê°€ëŠ¥í•œ ê²½ìš°) "ì‚¬ìš©" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_60% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_60_1% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_60_2% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_60% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : µµ¸ŞÀÎ ±¸¼º¿ø: º¸¾È Ã¤³Î µ¥ÀÌÅÍ¸¦ µğÁöÅĞ ¼­¸í(°¡´ÉÇÑ °æ¿ì) "»ç¿ë" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo       µµ¸ŞÀÎ ±¸¼º¿ø: º¸¾È Ã¤³Î µ¥ÀÌÅÍ¸¦ µğÁöÅĞ ¾ÏÈ£È­ ¶Ç´Â ¼­¸í(Ç×»ó) "»ç¿ë" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo       µµ¸ŞÀÎ ±¸¼º¿ø: º¸¾È Ã¤³Î µ¥ÀÌÅÍ¸¦ µğÁöÅĞ ¾ÏÈ£È­(°¡´ÉÇÑ °æ¿ì) "»ç¿ë" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_60% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_60_1% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_60_2% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) type secpol.inf ^| findstr /i "signsecurechannel requiresignorseal sealsecurechannel" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf | findstr /i "signsecurechannel" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 type secpol.inf | findstr /i "requiresignorseal" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 type secpol.inf | findstr /i "sealsecurechannel" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ì„¤ì •ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ¼³Á¤°ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo (CMD) reg query "HKLM\System\CurrentControlSet\Services\Netlogon\Parameters" /v "SignSecureChannel" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\System\CurrentControlSet\Services\Netlogon\Parameters" /v "SignSecureChannel" 2>NUL | findstr /i "SignSecureChannel" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo (CMD) reg query "HKLM\System\CurrentControlSet\Services\Netlogon\Parameters" /v "RequireSignOrSeal" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\System\CurrentControlSet\Services\Netlogon\Parameters" /v "RequireSignOrSeal" 2>NUL | findstr /i "RequireSignOrSeal" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo (CMD) reg query "HKLM\System\CurrentControlSet\Services\Netlogon\Parameters" /v "SealSecureChannel" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\System\CurrentControlSet\Services\Netlogon\Parameters" /v "SealSecureChannel" 2>NUL | findstr /i "SealSecureChannel" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [60.W-60] ë³´ì•ˆ ì±„ë„ ë°ì´í„° ë””ì§€í„¸ ì•”í˜¸í™” ë˜ëŠ” ì„œëª… [%RESULT_60%]
+echo [60.W-60] º¸¾È Ã¤³Î µ¥ÀÌÅÍ µğÁöÅĞ ¾ÏÈ£È­ ¶Ç´Â ¼­¸í [%RESULT_60%]
 :60_END
 SET CMT_60=
 SET CMT_60_1=
@@ -4380,24 +4380,24 @@ SET RESULT_60=
 
 REM ==================================================
 :61_START
-echo [61.W-61] íŒŒì¼ ë° ë””ë ‰í† ë¦¬ ë³´í˜¸ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [61.W-61] ÆÄÀÏ ¹× µğ·ºÅä¸® º¸È£ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :61_ROUTINE
-SET CMT_61=ì´ˆê¸°í™”&SET RESULT_61=ì¸í„°ë·°
+SET CMT_61=ÃÊ±âÈ­&SET RESULT_61=ÀÎÅÍºä
 
-FOR /f %%i IN ('wmic logicaldisk get description^, filesystem ^| findstr /i "ê³ ì • fixed" ^| find /c /v "NTFS"') DO (
+FOR /f %%i IN ('wmic logicaldisk get description^, filesystem ^| findstr /i "°íÁ¤ fixed" ^| find /c /v "NTFS"') DO (
 	IF %%i EQU 0 (
-		SET CMT_61=ëª¨ë“  ë””ìŠ¤í¬ ë³¼ë¥¨ì˜ íŒŒì¼ì‹œìŠ¤í…œì´ "NTFS"ë¡œ ì„¤ì •ë¨&SET RESULT_61=ì–‘í˜¸
+		SET CMT_61=¸ğµç µğ½ºÅ© º¼·ıÀÇ ÆÄÀÏ½Ã½ºÅÛÀÌ "NTFS"·Î ¼³Á¤µÊ&SET RESULT_61=¾çÈ£
 	) ELSE (
-		SET CMT_61=íŒŒì¼ì‹œìŠ¤í…œì´ "NTFSê°€ ì•„ë‹Œ" ë””ìŠ¤í¬ ë³¼ë¥¨ì´ ì¡´ì¬í•¨&SET RESULT_61=ì·¨ì•½
+		SET CMT_61=ÆÄÀÏ½Ã½ºÅÛÀÌ "NTFS°¡ ¾Æ´Ñ" µğ½ºÅ© º¼·ıÀÌ Á¸ÀçÇÔ&SET RESULT_61=Ãë¾à
 	)
 )
 
 :61_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_61% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ëª¨ë“  ë””ìŠ¤í¬ ë³¼ë¥¨ì˜ íŒŒì¼ì‹œìŠ¤í…œ "NTFS" ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_61% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_61% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ¸ğµç µğ½ºÅ© º¼·ıÀÇ ÆÄÀÏ½Ã½ºÅÛ "NTFS" ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_61% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) wmic logicaldisk get description, filesystem, name >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 wmic logicaldisk get description, filesystem, name > wmic.inf
@@ -4405,7 +4405,7 @@ type wmic.inf >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [61.W-61] íŒŒì¼ ë° ë””ë ‰í† ë¦¬ ë³´í˜¸ [%RESULT_61%]
+echo [61.W-61] ÆÄÀÏ ¹× µğ·ºÅä¸® º¸È£ [%RESULT_61%]
 :61_END
 SET CMT_61=
 SET RESULT_61=
@@ -4415,108 +4415,108 @@ SET RESULT_61=
 
 REM ==================================================
 :62_START
-echo [62.W-62] ì‹œì‘í”„ë¡œê·¸ë¨ ëª©ë¡ ë¶„ì„ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [62.W-62] ½ÃÀÛÇÁ·Î±×·¥ ¸ñ·Ï ºĞ¼® >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :62_ROUTINE
-SET CMT_62=ìˆ˜ë™ì ê²€&SET RESULT_62=ì¸í„°ë·°
+SET CMT_62=¼öµ¿Á¡°Ë&SET RESULT_62=ÀÎÅÍºä
 
 reg query "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" 2>NUL >NUL
 IF NOT ERRORLEVEL 1 (
-    SET RESULT_62=ì¸í„°ë·°
-    SET CMT_62=ë¶ˆí•„ìš”í•œ ì‹œì‘í”„ë¡œê·¸ë¨ ì¡´ì¬ ì—¬ë¶€ í™•ì¸
+    SET RESULT_62=ÀÎÅÍºä
+    SET CMT_62=ºÒÇÊ¿äÇÑ ½ÃÀÛÇÁ·Î±×·¥ Á¸Àç ¿©ºÎ È®ÀÎ
 )
 reg query "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run" 2>NUL >NUL
 IF NOT ERRORLEVEL 1 (
-    SET RESULT_62=ì¸í„°ë·°
-    SET CMT_62=ë¶ˆí•„ìš”í•œ ì‹œì‘í”„ë¡œê·¸ë¨ ì¡´ì¬ ì—¬ë¶€ í™•ì¸
+    SET RESULT_62=ÀÎÅÍºä
+    SET CMT_62=ºÒÇÊ¿äÇÑ ½ÃÀÛÇÁ·Î±×·¥ Á¸Àç ¿©ºÎ È®ÀÎ
 )
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" 2>NUL >NUL
 IF NOT ERRORLEVEL 1 (
-    SET RESULT_62=ì¸í„°ë·°
-    SET CMT_62=ë¶ˆí•„ìš”í•œ ì‹œì‘í”„ë¡œê·¸ë¨ ì¡´ì¬ ì—¬ë¶€ í™•ì¸
+    SET RESULT_62=ÀÎÅÍºä
+    SET CMT_62=ºÒÇÊ¿äÇÑ ½ÃÀÛÇÁ·Î±×·¥ Á¸Àç ¿©ºÎ È®ÀÎ
 )
 reg query "HKCU\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run" 2>NUL >NUL
 IF NOT ERRORLEVEL 1 (
-    SET RESULT_62=ì¸í„°ë·°
-    SET CMT_62=ë¶ˆí•„ìš”í•œ ì‹œì‘í”„ë¡œê·¸ë¨ ì¡´ì¬ ì—¬ë¶€ í™•ì¸
+    SET RESULT_62=ÀÎÅÍºä
+    SET CMT_62=ºÒÇÊ¿äÇÑ ½ÃÀÛÇÁ·Î±×·¥ Á¸Àç ¿©ºÎ È®ÀÎ
 )
 dir /b /a "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp" 2>NUL | findstr /i /v "desktop.ini" >NUL
 IF NOT ERRORLEVEL 1 (
-    SET RESULT_62=ì¸í„°ë·°
-    SET CMT_62=ë¶ˆí•„ìš”í•œ ì‹œì‘í”„ë¡œê·¸ë¨ ì¡´ì¬ ì—¬ë¶€ í™•ì¸
+    SET RESULT_62=ÀÎÅÍºä
+    SET CMT_62=ºÒÇÊ¿äÇÑ ½ÃÀÛÇÁ·Î±×·¥ Á¸Àç ¿©ºÎ È®ÀÎ
 )
 :62_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_62% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë¶ˆí•„ìš”í•œ ì‹œì‘í”„ë¡œê·¸ë¨ "ì¡´ì¬í•˜ì§€ ì•ŠìŒ" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_62% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_62% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ºÒÇÊ¿äÇÑ ½ÃÀÛÇÁ·Î±×·¥ "Á¸ÀçÇÏÁö ¾ÊÀ½" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_62% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo (CMD) reg query "ì‹œì‘í”„ë¡œê·¸ë¨" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo (CMD) reg query "½ÃÀÛÇÁ·Î±×·¥" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo - HKLM\Software\Microsoft\Windows\CurrentVersion\Run - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" 2>NUL | findstr /v "^$ HKEY_LOCAL_MACHINE" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo - HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run" 2>NUL | findstr /v "^$ HKEY_LOCAL_MACHINE" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo - HKCU\Software\Microsoft\Windows\CurrentVersion\Run - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" 2>NUL | findstr /v "^$ HKEY_CURRENT_USER" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo - HKCU\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run - >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKCU\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run" 2>NUL | findstr /v "^$ HKEY_CURRENT_USER" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo (CMD) dir /b /a "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 dir /b /a "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp" 2>NUL | findstr /v "^$" | findstr /i /v "desktop.ini" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [62.W-62] ì‹œì‘í”„ë¡œê·¸ë¨ ëª©ë¡ ë¶„ì„ [%RESULT_62%]
+echo [62.W-62] ½ÃÀÛÇÁ·Î±×·¥ ¸ñ·Ï ºĞ¼® [%RESULT_62%]
 :62_END
 SET CMT_62=
 SET RESULT_62=
 
 
 :63_START
-echo [63.W-63] ë„ë©”ì¸ ì»¨íŠ¸ë¡¤ëŸ¬-ì‚¬ìš©ìì˜ ì‹œê°„ ë™ê¸°í™” >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [63.W-63] µµ¸ŞÀÎ ÄÁÆ®·Ñ·¯-»ç¿ëÀÚÀÇ ½Ã°£ µ¿±âÈ­ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :63_ROUTINE
-SET CMT_63=ìˆ˜ë™ ì ê²€&SET RESULT_63=ì¸í„°ë·°
+SET CMT_63=¼öµ¿ Á¡°Ë&SET RESULT_63=ÀÎÅÍºä
 
 echo %OS_VER% 2>NUL | findstr "6.2 6.3 10.0" >NUL
 IF ERRORLEVEL 1 (
-	REM Windows 2008 ì´í•˜
-	SET CMT_63=Windows 2008 ì´í•˜ ë²„ì „ì€ "í•´ë‹¹ì—†ìŒ"&SET RESULT_63=ì–‘í˜¸
+	REM Windows 2008 ÀÌÇÏ
+	SET CMT_63=Windows 2008 ÀÌÇÏ ¹öÀüÀº "ÇØ´ç¾øÀ½"&SET RESULT_63=¾çÈ£
 ) ELSE (
-	REM Windows 2012 ì´ìƒ (6.2 6.3 10.0)
-	SET CMT_63=ìˆ˜ë™ ì ê²€&SET RESULT_63=ì¸í„°ë·°
+	REM Windows 2012 ÀÌ»ó (6.2 6.3 10.0)
+	SET CMT_63=¼öµ¿ Á¡°Ë&SET RESULT_63=ÀÎÅÍºä
 )
 
 :63_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_63% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ì»´í“¨í„° ì‹œê³„ ë™ê¸°í™” ìµœëŒ€ í—ˆìš© ì˜¤ì°¨ê°’ 5ë¶„ ì´í•˜ë¡œ ì„¤ì •  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_63% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_63% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ÄÄÇ»ÅÍ ½Ã°è µ¿±âÈ­ ÃÖ´ë Çã¿ë ¿ÀÂ÷°ª 5ºĞ ÀÌÇÏ·Î ¼³Á¤  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_63% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo 1. ë„ë©”ì¸ ê°€ì… ì—¬ë¶€ ì ê²€ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo 1. µµ¸ŞÀÎ °¡ÀÔ ¿©ºÎ Á¡°Ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) wmic computersystem get Name,Domain,PartOfDomain >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 wmic computersystem get Name,Domain,PartOfDomain > temp_wmic.txt
 type temp_wmic.txt >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 del temp_wmic.txt
 
-echo 2. kerberos ì‹œê°„ ì˜¤ì°¨ ì ê²€ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo 2. kerberos ½Ã°£ ¿ÀÂ÷ Á¡°Ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKLM\SYSTEM\CurrentControlSet\Control\Lsa\Kerberos\Parameters" /v MaxClockSkew 2>NUL
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) ELSE (
 	reg query "HKLM\SYSTEM\CurrentControlSet\Control\Lsa\Kerberos\Parameters" /v MaxClockSkew 2>NUL >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 )
@@ -4525,7 +4525,7 @@ IF ERRORLEVEL 1 (
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [63.W-63] ë„ë©”ì¸ ì»¨íŠ¸ë¡¤ëŸ¬-ì‚¬ìš©ìì˜ ì‹œê°„ ë™ê¸°í™” [%RESULT_63%]
+echo [63.W-63] µµ¸ŞÀÎ ÄÁÆ®·Ñ·¯-»ç¿ëÀÚÀÇ ½Ã°£ µ¿±âÈ­ [%RESULT_63%]
 :63_END
 SET CMT_63=
 SET RESULT_63=
@@ -4535,33 +4535,33 @@ SET RESULT_63=
 
 REM ==================================================
 :64_START
-echo [64.W-64] ìœˆë„ìš° ë°©í™”ë²½ ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [64.W-64] À©µµ¿ì ¹æÈ­º® ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :64_ROUTINE
-SET CMT_64=ìˆ˜ë™ ì ê²€&SET RESULT_64=ì¸í„°ë·°
+SET CMT_64=¼öµ¿ Á¡°Ë&SET RESULT_64=ÀÎÅÍºä
 
 echo %OS_VER% 2>NUL | findstr "5.0 5.2 6.0 6.1 6.2 6.3 10.0" >NUL
 IF ERRORLEVEL 1 (
 	REM Windows NT
-	SET CMT_64=Windows NT ë²„ì „ì€ í•´ë‹¹ì—†ìŒ&SET RESULT_64=ì–‘í˜¸
+	SET CMT_64=Windows NT ¹öÀüÀº ÇØ´ç¾øÀ½&SET RESULT_64=¾çÈ£
 ) ELSE (
-	REM Windows 200 ì´ìƒ (6.2 6.3 10.0)
-	SET CMT_64=ìˆ˜ë™ ì ê²€&SET RESULT_64=ì¸í„°ë·°
+	REM Windows 200 ÀÌ»ó (6.2 6.3 10.0)
+	SET CMT_64=¼öµ¿ Á¡°Ë&SET RESULT_64=ÀÎÅÍºä
 )
 
 :64_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_64% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ìœˆë„ìš° ë°©í™”ë²½ ì‚¬ìš©ìœ¼ë¡œ ì„¤ì •  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© : %CMT_64% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_64% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : À©µµ¿ì ¹æÈ­º® »ç¿ëÀ¸·Î ¼³Á¤  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² : %CMT_64% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ìœˆë„ìš° ë°©í™”ë²½ ì„¤ì • í™•ì¸ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo À©µµ¿ì ¹æÈ­º® ¼³Á¤ È®ÀÎ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) netsh advfirewall show allprofiles >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 netsh advfirewall show allprofiles >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [64.W-64] ìœˆë„ìš° ë°©í™”ë²½ ì„¤ì • [%RESULT_64%]
+echo [64.W-64] À©µµ¿ì ¹æÈ­º® ¼³Á¤ [%RESULT_64%]
 :64_END
 SET CMT_64=
 SET RESULT_64=
@@ -4571,44 +4571,44 @@ SET RESULT_64=
 
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ----------------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo  ì¶”ê°€ ì§„ë‹¨  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo  Ãß°¡ Áø´Ü  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ----------------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo.
 echo.
-echo ì¶”ê°€ ì§„ë‹¨
+echo Ãß°¡ Áø´Ü
 echo --------------
 :83_ADD
-REM ì¶”ê°€ ì§„ë‹¨1
+REM Ãß°¡ Áø´Ü1
 
 :83_START
-echo [ì¶”ê°€ì§„ë‹¨ 1] ê´€ë¦¬ì ê¶Œí•œì˜ ì‚¬ìš©ì ì™¸ì— CMD íŒŒì¼ì— ëŒ€í•œ ì‹¤í–‰ ê¶Œí•œ ì œê±° >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [Ãß°¡Áø´Ü 1] °ü¸®ÀÚ ±ÇÇÑÀÇ »ç¿ëÀÚ ¿Ü¿¡ CMD ÆÄÀÏ¿¡ ´ëÇÑ ½ÇÇà ±ÇÇÑ Á¦°Å >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :83_ROUTINE
 cacls %systemroot%\system32\cmd.exe 2>NUL | findstr /i "APPLICATION" >NUL
 
 IF ERRORLEVEL 1 (
-	SET CMT_83=CMD íŒŒì¼ì˜ ì‹¤í–‰ ê¶Œí•œì´ SYSTEM, Administrator, TrustedInstaller ê·¸ë£¹ì—ê²Œë§Œ ë¶€ì—¬&SET RESULT_83=ì–‘í˜¸
+	SET CMT_83=CMD ÆÄÀÏÀÇ ½ÇÇà ±ÇÇÑÀÌ SYSTEM, Administrator, TrustedInstaller ±×·ì¿¡°Ô¸¸ ºÎ¿©&SET RESULT_83=¾çÈ£
 )
 IF NOT ERRORLEVEL 1 (
-	SET CMT_83=CMD íŒŒì¼ì˜ ì‹¤í–‰ ê¶Œí•œì´ SYSTEM, Administrator, TrustedInstaller ê·¸ë£¹ì—ê²Œë§Œ ë¶€ì—¬ë˜ì§€ì•ŠìŒ&SET RESULT_83=ì·¨ì•½& GOTO :83_PRINT
+	SET CMT_83=CMD ÆÄÀÏÀÇ ½ÇÇà ±ÇÇÑÀÌ SYSTEM, Administrator, TrustedInstaller ±×·ì¿¡°Ô¸¸ ºÎ¿©µÇÁö¾ÊÀ½&SET RESULT_83=Ãë¾à& GOTO :83_PRINT
 )
 
 cacls %systemroot%\system32\cmd.exe 2>NUL | findstr /i "BUILTIN\Users" >NUL
 
 IF ERRORLEVEL 1 (
-	SET CMT_83=CMD íŒŒì¼ì˜ ì‹¤í–‰ ê¶Œí•œì´ SYSTEM, Administrator, TrustedInstaller ê·¸ë£¹ì—ê²Œë§Œ ë¶€ì—¬&SET RESULT_83=ì–‘í˜¸
+	SET CMT_83=CMD ÆÄÀÏÀÇ ½ÇÇà ±ÇÇÑÀÌ SYSTEM, Administrator, TrustedInstaller ±×·ì¿¡°Ô¸¸ ºÎ¿©&SET RESULT_83=¾çÈ£
 )
 IF NOT ERRORLEVEL 1 (
-	SET CMT_83=CMD íŒŒì¼ì˜ ì‹¤í–‰ ê¶Œí•œì´ SYSTEM, Administrator, TrustedInstaller ê·¸ë£¹ì—ê²Œë§Œ ë¶€ì—¬ë˜ì§€ì•ŠìŒ&SET RESULT_83=ì·¨ì•½& GOTO :83_PRINT
+	SET CMT_83=CMD ÆÄÀÏÀÇ ½ÇÇà ±ÇÇÑÀÌ SYSTEM, Administrator, TrustedInstaller ±×·ì¿¡°Ô¸¸ ºÎ¿©µÇÁö¾ÊÀ½&SET RESULT_83=Ãë¾à& GOTO :83_PRINT
 )
 
 
 :83_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_83% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : CMD íŒŒì¼ ì ‘ê·¼ ê¶Œí•œì„ SYSTEM, Administrator, TrustedInstaller ê·¸ë£¹ì—ê²Œë§Œ "ë¶€ì—¬" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_83% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : CMD ÆÄÀÏ Á¢±Ù ±ÇÇÑÀ» SYSTEM, Administrator, TrustedInstaller ±×·ì¿¡°Ô¸¸ "ºÎ¿©" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo : %CMT_83% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo (CMD) cacls %systemroot%\system32\cmd.exe >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
@@ -4618,42 +4618,42 @@ cacls %systemroot%\system32\cmd.exe >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [ì¶”ê°€ì§„ë‹¨ 1] ê´€ë¦¬ì ê¶Œí•œì˜ ì‚¬ìš©ì ì™¸ì— CMD íŒŒì¼ì— ëŒ€í•œ ì‹¤í–‰ ê¶Œí•œ ì œê±° [%RESULT_83%]
+echo [Ãß°¡Áø´Ü 1] °ü¸®ÀÚ ±ÇÇÑÀÇ »ç¿ëÀÚ ¿Ü¿¡ CMD ÆÄÀÏ¿¡ ´ëÇÑ ½ÇÇà ±ÇÇÑ Á¦°Å [%RESULT_83%]
 :83_END
 SET CMT_83=
 SET RESULT_83=
 SET count=
 
 :84_ADD
-REM ì¶”ê°€ ì§„ë‹¨1
+REM Ãß°¡ Áø´Ü1
 
 :84_START
-echo [ì¶”ê°€ì§„ë‹¨ 2] ìœˆë„ìš° ë°©í™”ë²½ ì„¤ì •ì„ í†µí•˜ì—¬ í—ˆê°€ë°›ì§€ ì•Šì€ í¬íŠ¸ ì‚¬ìš© ê¸ˆì§€ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [Ãß°¡Áø´Ü 2] À©µµ¿ì ¹æÈ­º® ¼³Á¤À» ÅëÇÏ¿© Çã°¡¹ŞÁö ¾ÊÀº Æ÷Æ® »ç¿ë ±İÁö >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :84_ROUTINE
-SET cmt_84=ìˆ˜ë™ì ê²€&SET RESULT_84=ì¸í„°ë·°
+SET cmt_84=¼öµ¿Á¡°Ë&SET RESULT_84=ÀÎÅÍºä
 
 :84_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_84% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : ë¹„ì¸ê°€ëœ í¬íŠ¸ ì‚¬ìš©ì´ ì—†ëŠ” ê²½ìš° ì–‘í˜¸ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_84% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : ºñÀÎ°¡µÈ Æ÷Æ® »ç¿ëÀÌ ¾ø´Â °æ¿ì ¾çÈ£ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo : %cmt_84% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ë°ì´í„°ë¥¼ ì—‘ì…€ë¡œ ì˜®ê²¨ì„œ ë³´ë©´ ë¶„ì„ ì‰¬ì›€, í…ìŠ¤íŠ¸ ë‚˜ëˆ„ê¸° - êµ¬ë¶„ ê¸°í˜¸ë¡œ ë¶„ë¦¬ë¨ - ê¸°íƒ€ (^|) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo µ¥ÀÌÅÍ¸¦ ¿¢¼¿·Î ¿Å°Ü¼­ º¸¸é ºĞ¼® ½¬¿ò, ÅØ½ºÆ® ³ª´©±â - ±¸ºĞ ±âÈ£·Î ºĞ¸®µÊ - ±âÅ¸ (^|) >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
-echo ë°©í™”ë²½ ì¸ë°”ìš´ë“œ í¬íŠ¸ ì ê²€ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ¹æÈ­º® ÀÎ¹Ù¿îµå Æ÷Æ® Á¡°Ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules" | findstr Dir=In | findstr Active=TRUE >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ë°©í™”ë²½ ì•„ì›ƒë°”ìš´ë“œ í¬íŠ¸ ì ê²€ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ¹æÈ­º® ¾Æ¿ô¹Ù¿îµå Æ÷Æ® Á¡°Ë >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules" | findstr Dir=Out | findstr Active=TRUE >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :84_PRINT_1
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [ì¶”ê°€ì§„ë‹¨ 2] ìœˆë„ìš° ë°©í™”ë²½ ì„¤ì •ì„ í†µí•˜ì—¬ í—ˆê°€ë°›ì§€ ì•Šì€ í¬íŠ¸ ì‚¬ìš© ê¸ˆì§€ [%RESULT_84%]
+echo [Ãß°¡Áø´Ü 2] À©µµ¿ì ¹æÈ­º® ¼³Á¤À» ÅëÇÏ¿© Çã°¡¹ŞÁö ¾ÊÀº Æ÷Æ® »ç¿ë ±İÁö [%RESULT_84%]
 :84_END
 SET cmt_84=
 SET RESULT_84=
@@ -4663,45 +4663,45 @@ SET count=
 REM APPLICATION PACKAGE AUTHORITY : Windows sandboxing packages
 
 :85_ADD
-REM ì¶”ê°€ ì§„ë‹¨3
+REM Ãß°¡ Áø´Ü3
 
 
 :85_START
-echo [ì¶”ê°€ì§„ë‹¨ 3] Kerberos í”„ë¡œí† ì½œì— ëŒ€í•œ ì¬ì „ì†¡ ê³µê²©ë°©ì§€ë¥¼ ìœ„í•œ NTP ì„œë²„ ì‚¬ìš© ì„¤ì • >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo [Ãß°¡Áø´Ü 3] Kerberos ÇÁ·ÎÅäÄİ¿¡ ´ëÇÑ ÀçÀü¼Û °ø°İ¹æÁö¸¦ À§ÇÑ NTP ¼­¹ö »ç¿ë ¼³Á¤ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 :85_ROUTINE
 type services.inf 2>NUL | findstr /i "Time" | findstr /i "Windows" >NUL
 IF ERRORLEVEL 1 (
-	SET RESULT_85=ì·¨ì•½&SET CMT_85=Windows Time ì„œë¹„ìŠ¤ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŒ& GOTO :85_PRINT
+	SET RESULT_85=Ãë¾à&SET CMT_85=Windows Time ¼­ºñ½º°¡ Á¸ÀçÇÏÁö ¾ÊÀ½& GOTO :85_PRINT
 )
 
 type services.inf 2>NUL | findstr /i "Time" | findstr /i "Windows" | findstr /i "Running" >NUL
 IF ERRORLEVEL 1 (
-	SET RESULT_85=ì·¨ì•½&SET CMT_85=Windows Time ì„œë¹„ìŠ¤ê°€ ë¹„í™œì„±í™” ë˜ì–´ìˆìŒ& GOTO :85_PRINT
+	SET RESULT_85=Ãë¾à&SET CMT_85=Windows Time ¼­ºñ½º°¡ ºñÈ°¼ºÈ­ µÇ¾îÀÖÀ½& GOTO :85_PRINT
 )
 IF NOT ERRORLEVEL 1 (
-	SET RESULT_85=ì–‘í˜¸&SET CMT_85=Windows Time ì„œë¹„ìŠ¤ê°€ í™œì„±í™” ë˜ì–´ìˆìŒ
+	SET RESULT_85=¾çÈ£&SET CMT_85=Windows Time ¼­ºñ½º°¡ È°¼ºÈ­ µÇ¾îÀÖÀ½
 )
 
 :85_PRINT
 echo [START] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê²°ê³¼ : %RESULT_85% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ê¶Œê³  : Windows Time ì„œë¹„ìŠ¤ë¥¼ í™œì„±í™” >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo í˜„í™© >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo °á°ú : %RESULT_85% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ±Ç°í : Windows Time ¼­ºñ½º¸¦ È°¼ºÈ­ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ÇöÈ² >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo : %cmt_85% >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo type services.inf 2>NUL | findstr /i "Time" | findstr /i "Windows" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type services.inf 2>NUL | findstr /i "Time" | findstr /i "Windows" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo ì—°ë™ëœ ì‹œê°„ ì„œë²„ í™•ì¸ : >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo ¿¬µ¿µÈ ½Ã°£ ¼­¹ö È®ÀÎ : >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\NtpClient" /s /v "SpecialPollTimeRemaining" | findstr SpecialPollTimeRemaining >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 IF ERRORLEVEL 1 (
-	echo     ë ˆì§€ìŠ¤íŠ¸ë¦¬ í‚¤ ë˜ëŠ” ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+	echo     ·¹Áö½ºÆ®¸® Å° ¶Ç´Â °ªÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½ >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ) 
 
 echo [END] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo [ì¶”ê°€ì§„ë‹¨ 3] Kerberos í”„ë¡œí† ì½œì— ëŒ€í•œ ì¬ì „ì†¡ ê³µê²©ë°©ì§€ë¥¼ ìœ„í•œ NTP ì„œë²„ ì‚¬ìš© ì„¤ì • [%RESULT_85%]
+echo [Ãß°¡Áø´Ü 3] Kerberos ÇÁ·ÎÅäÄİ¿¡ ´ëÇÑ ÀçÀü¼Û °ø°İ¹æÁö¸¦ À§ÇÑ NTP ¼­¹ö »ç¿ë ¼³Á¤ [%RESULT_85%]
 :85_END
 SET cmt_85=
 SET RESULT_85=
@@ -4734,41 +4734,41 @@ REM ==================================================
 :SYSTEM_DETAILS
 REM type system_information.txt >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo.
-echo. ^*^* ì‹œìŠ¤í…œ ì •ë³´ë¥¼ ìˆ˜ì§‘ ì¤‘ ì…ë‹ˆë‹¤.
+echo. ^*^* ½Ã½ºÅÛ Á¤º¸¸¦ ¼öÁı Áß ÀÔ´Ï´Ù.
 echo ---------------------------------------------------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo                      SYSTEM Detail >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------------------------------------------------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo                 [ì‹œìŠ¤í…œ ì •ë³´] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo                 [½Ã½ºÅÛ Á¤º¸] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 systeminfo 2>NUL >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo                 [IP ì •ë³´] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo                 [IP Á¤º¸] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 ipconfig /all 2>NUL >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo                 [OPEN PORT ì •ë³´] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo                 [OPEN PORT Á¤º¸] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 netstat -abno | findstr 0.0.0.0 2>NUL | findstr /i "LISTENING" | findstr /v 127.0.0.1 >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo                 [í¬íŠ¸ ìŠ¤ìº”ìš© PORT ì •ë³´] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo                 [Æ÷Æ® ½ºÄµ¿ë PORT Á¤º¸] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 netstat -abno 2>NUL  >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo                 [í”„ë¡œì„¸ìŠ¤ ì •ë³´] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo                 [ÇÁ·Î¼¼½º Á¤º¸] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 tasklist /svc >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo                 [í”„ë¡œì„¸ìŠ¤ ì •ë³´-powershell] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo                 [ÇÁ·Î¼¼½º Á¤º¸-powershell] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 powershell -Command "Get-Process | Sort-Object Id | Select-Object Id, Name, Description, Path" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo                 [ë°©í™”ë²½ ì¸ë°”ìš´ë“œ ì •ì±… ì°¨ë‹¨] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo                 [¹æÈ­º® ÀÎ¹Ù¿îµå Á¤Ã¥ Â÷´Ü] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 powershell -Command "Get-NetFirewallRule -Direction Inbound | Where-Object { $_.Enabled -eq 'True' -and $_.Action -eq 'BLOCK'} | ForEach-Object { $r=$_;$pf=Get-NetFirewallPortFilter -AssociatedNetFirewallRule $r; $af=Get-NetFirewallAddressFilter -AssociatedNetFirewallRule $r; [pscustomobject]@{Name=$r.DisplayName; Protocol=$pf.Protocol; LocalPort=$pf.LocalPort; RemotePort=$pf.RemotePort; RemoteAddress=$af.RemoteAddress;} } | Format-Table -AutoSize" >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo                 [ì„œë¹„ìŠ¤ ì •ë³´] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo                 [¼­ºñ½º Á¤º¸] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type services.inf 2>NUL >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 del services.inf 2>NUL
@@ -4780,17 +4780,17 @@ echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 
 
 
-echo                 [í™˜ê²½ë³€ìˆ˜ ì •ë³´] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo                 [È¯°æº¯¼ö Á¤º¸] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 set 2>NUL >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo                 [ë³´ì•ˆì •ì±… ì •ë³´] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo                 [º¸¾ÈÁ¤Ã¥ Á¤º¸] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 type secpol.inf 2>NUL >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 del secpol.inf 2>NUL
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo                 [ì„¤ì¹˜í”„ë¡œê·¸ë¨ ì •ë³´] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo                 [¼³Ä¡ÇÁ·Î±×·¥ Á¤º¸] >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 FOR /f "tokens=3,* delims= " %%i IN ('reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" /s /v "DisplayName" ^| findstr /v "HKEY_LOCAL" ^| findstr DisplayName') DO (
 	echo %%i%%j >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
@@ -4800,11 +4800,11 @@ REM ==================================================
 REM ==================================================
 :QUIT
 echo ---------------------------------------------------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
-echo            ìŠ¤í¬ë¦½íŠ¸ê°€ ì •ìƒ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
+echo            ½ºÅ©¸³Æ®°¡ Á¤»ó Á¾·áµÇ¾ú½À´Ï´Ù. >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo ---------------------------------------------------- >> [RESULT]%COMPUTERNAME%_%OS_TYPE%_%ipaddr%_%START_DATE%.txt
 echo.
 echo ----------------------------------------------------
-echo            ìŠ¤í¬ë¦½íŠ¸ê°€ ì •ìƒ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.
+echo            ½ºÅ©¸³Æ®°¡ Á¤»ó Á¾·áµÇ¾ú½À´Ï´Ù.
 echo ----------------------------------------------------
 echo.
 REM ==================================================
