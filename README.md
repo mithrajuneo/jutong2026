@@ -7,8 +7,8 @@
 ## Environment
 CentOS 7, Ubuntu 20.04, Rocky 8, Windows Server 2019 및 AWS, NHN Cloud 환경의 서버 OS 인스턴스에서 구동 테스트 했습니다.
 
-## Error
-빠른 대답은 안할거지만 스크립트 구동간 발생한 에러는 텔레그램 @mithrajune으로 연락 주세요.
+## etc
+telegram @mithrajune
 
 ## Copyright
 MIT License
